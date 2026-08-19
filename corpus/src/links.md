@@ -11,6 +11,7 @@ kind: profile
 |---|---|
 | GitHub | https://github.com/Darrenus |
 | LinkedIn | https://www.linkedin.com/in/herong |
+| 个人网站 | https://rong.bio |
 | NUS 邮箱 | mailto:hanserong@u.nus.edu |
 | 备用邮箱 | mailto:hanserong@163.com |
 

@@ -26,4 +26,4 @@ kind: profile
 
 ## 技能
 
-Python、C++、Java、Go、TypeScript、LLM 应用、Agent 编排、MCP、SQL 安全、异步任务、工业视觉、目标检测、姿态识别、模型预测控制、Web 前端和 IoT 集成。
+精通 Python、C++，熟悉 Java，了解 Go；另使用 TypeScript、React、SQL、MySQL、MinIO 和消息队列。技术方向包括 LLM 应用、Agent 编排、MCP、SQL 安全、异步任务、工业视觉、目标检测、姿态识别、模型预测控制、Web 前端和 IoT 集成。工具能力还包括 Figma、Blender 建模、FDM 3D 打印、达芬奇轻度视频剪辑和剪映短视频制作。
