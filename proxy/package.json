@@ -1,0 +1,17 @@
+{
+  "name": "rong-agent-proxy",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Key holder for RONG Agent. Three edge functions: chat, search, fetch.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "vercel dev",
+    "deploy": "vercel deploy --prod",
+    "logs": "vercel logs rong-agent-proxy.vercel.app --follow",
+    "asks": "vercel logs rong-agent-proxy.vercel.app --follow | grep --line-buffered '\"tag\":\"ask\"'"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
