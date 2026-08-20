@@ -1,13 +1,8 @@
 {
-  "builtAt": "2026-08-19",
+  "builtAt": "2026-08-20",
   "sources": {
-    "corpus/src/about.md": "0768177ca3548415",
-    "corpus/src/achievements.md": "b17f73927d6240d6",
-    "corpus/src/contact.md": "8e14b3d1d264bf6a",
-    "corpus/src/education.md": "5bce9cacedd8945a",
-    "corpus/src/experience.md": "1e6484d41bab8969",
-    "corpus/src/links.md": "6397da6622f2c4fa",
-    "corpus/src/projects.md": "225170f8c7db2048",
+    "content/profile.json": "30e4669324f9725a",
+    "content/resume.json": "f42a21c9fc8c7d10",
     "corpus/src/this-site.md": "a68da09ca8bb9f86"
   }
 }

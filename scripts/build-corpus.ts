@@ -4,10 +4,17 @@ import path from "node:path";
 import matter from "gray-matter";
 import MiniSearch from "minisearch";
 import { processTerm, tokenize } from "../src/rag/tokenize";
+import profileJson from "../content/profile.json";
+import resumeJson from "../content/resume.json";
+import { validateContent, type ProfileContent, type ResumeContent, type SiteContent } from "../src/content";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SOURCE_DIR = path.join(ROOT, "corpus", "src");
 const OUTPUT_DIR = path.join(ROOT, "public", "corpus");
+const siteContent = validateContent({
+  profile: profileJson as ProfileContent,
+  resume: resumeJson as ResumeContent,
+});
 
 type Kind = "resume" | "paper" | "repo" | "profile" | "project";
 
@@ -62,36 +69,159 @@ function splitSections(body: string): Section[] {
   return sections;
 }
 
+function section(heading: string, paragraphs: string[] | string): Section {
+  const text = Array.isArray(paragraphs) ? paragraphs.filter(Boolean).join("\n\n") : paragraphs;
+  return { heading, text };
+}
+
+function bulletLines(items: string[]): string {
+  return items.filter(Boolean).map((item) => `- ${item}`).join("\n");
+}
+
+function period(entry: { start: string; end: string }): string {
+  return `${entry.start} - ${entry.end}`;
+}
+
+function entryHeading(entry: { organization?: string; institution?: string; name?: string; role: string; period: { start: string; end: string } }): string {
+  const title = entry.organization ?? entry.institution ?? entry.name ?? "";
+  return `${title}｜${entry.role}｜${period(entry.period)}`;
+}
+
+function canonicalDocs(): Doc[] {
+  const { profile, resume } = siteContent;
+  const timeline = [
+    ...resume.education.map((entry) => `| ${period(entry.period)} | ${entry.institution}，${entry.field} · ${entry.degree} |`),
+    ...resume.experience.map((entry) => `| ${period(entry.period)} | ${entry.organization}，${entry.role} |`),
+  ].join("\n");
+
+  const about: Doc = {
+    id: "about-about",
+    title: "贺融是谁",
+    kind: "profile",
+    lang: "zh",
+    sections: [
+      section("简介", resume.overview.bio),
+      section("当前方向", resume.overview.focus.join("、")),
+      section("时间线", `| 时间 | 经历 |\n|---|---|\n${timeline}`),
+      section("技能", resume.skillGroups.map((group) => `${group.label}：${group.text}`).join("\n\n")),
+    ],
+  };
+
+  const education: Doc = {
+    id: "about-education",
+    title: "教育背景与语言能力",
+    kind: "profile",
+    lang: "zh",
+    sections: [
+      ...resume.education.map((entry) => section(entry.institution, [
+        entry.summary,
+        entry.highlights.length ? bulletLines(entry.highlights) : "",
+      ])),
+      section("语言与考试", resume.skillGroups.find((group) => group.id === "languages")?.text ?? ""),
+    ],
+  };
+
+  const experience: Doc = {
+    id: "about-experience",
+    title: "实习与工程经历",
+    kind: "profile",
+    lang: "zh",
+    sections: resume.experience.map((entry) => section(entryHeading(entry), [
+      entry.summary,
+      ...entry.highlights,
+    ])),
+  };
+
+  const projects: Doc = {
+    id: "about-projects",
+    title: "项目经历",
+    kind: "project",
+    lang: "zh",
+    sections: resume.projects.map((entry) => section(`${entry.name}${entry.subtitle ? ` · ${entry.subtitle}` : ""}｜${entry.role}｜${period(entry.period)}`, [
+      entry.summary,
+      ...entry.highlights,
+      entry.links.some((link) => link.status === "pending") ? "公开代码仓库尚未发布。" : "",
+    ])),
+  };
+
+  const achievements: Doc = {
+    id: "about-achievements",
+    title: "专利申请与获奖",
+    kind: "profile",
+    lang: "zh",
+    sections: [
+      section("发明专利申请", [
+        "以下三项均为发明专利申请，当前处于审查阶段，不表示已经授权：",
+        bulletLines(resume.patents.map((patent) => `${patent.title}，${patent.submittedAt} 提交，${patent.statusLabel}`)),
+      ]),
+      section("获奖与项目成果", bulletLines(resume.awards.map((award) => `${award.title}，${award.date}`))),
+    ],
+  };
+
+  const contactLinks = profile.links.filter((link) =>
+    ["email", "github", "linkedin", "website"].includes(link.kind),
+  );
+  const contact: Doc = {
+    id: "about-contact",
+    title: "联系方式",
+    kind: "profile",
+    lang: "zh",
+    sections: [
+      section("主要联系方式", [
+        bulletLines(contactLinks.map((link) => `${link.label}：[${link.display}](${link.url})`)),
+        "所在地：新加坡",
+        "网站不公开手机号或其他私人联系方式。",
+      ]),
+    ],
+  };
+
+  const officialLinks = [
+    ...profile.links.filter((link) => link.kind !== "image" && link.kind !== "document"),
+    ...resume.education.flatMap((entry) => entry.links),
+    ...resume.experience.flatMap((entry) => entry.links),
+  ].filter((link, index, links) => link.url && links.findIndex((candidate) => candidate.url === link.url) === index);
+  const links: Doc = {
+    id: "about-links",
+    title: "官方链接",
+    kind: "profile",
+    lang: "zh",
+    sections: [
+      section("公开链接", officialLinks.map((link) => `${link.label}：[${link.url}](${link.url})`).join("\n")),
+      section("代码仓库", [
+        ...profile.links
+          .filter((link) => link.kind === "repository" && link.url)
+          .map((link) => `${link.label}：[${link.url}](${link.url})`),
+        "Coding Agent 的公开仓库尚未发布。在链接可用前，只介绍项目，不虚构仓库地址。",
+      ].join("\n\n")),
+    ],
+  };
+
+  const websitePath = path.join(SOURCE_DIR, "this-site.md");
+  const websiteRaw = fs.readFileSync(websitePath, "utf8");
+  const websiteMatter = matter(websiteRaw);
+  const website: Doc = {
+    id: "about-this-site",
+    title: typeof websiteMatter.data.title === "string" ? websiteMatter.data.title : "这个网站如何工作",
+    kind: "profile",
+    lang: "zh",
+    sections: splitSections(websiteMatter.content),
+  };
+
+  return [about, achievements, contact, education, experience, links, projects, website];
+}
+
 function readDocs(): { docs: Doc[]; hashes: Record<string, string> } {
   if (!fs.existsSync(SOURCE_DIR)) {
     throw new Error(`Missing corpus source directory: ${SOURCE_DIR}`);
   }
 
   const hashes: Record<string, string> = {};
-  const docs = fs
-    .readdirSync(SOURCE_DIR)
-    .filter((name) => name.endsWith(".md"))
-    .sort()
-    .map((name): Doc => {
-      const file = path.join(SOURCE_DIR, name);
-      const raw = fs.readFileSync(file, "utf8");
-      hashes[path.relative(ROOT, file)] = createHash("sha256")
-        .update(raw)
-        .digest("hex")
-        .slice(0, 16);
+  for (const source of ["content/profile.json", "content/resume.json", "corpus/src/this-site.md"]) {
+    const raw = fs.readFileSync(path.join(ROOT, source), "utf8");
+    hashes[source] = createHash("sha256").update(raw).digest("hex").slice(0, 16);
+  }
 
-      const { data, content } = matter(raw);
-      const lang = /[\u3400-\u9fff]/u.test(content) ? "zh" : "en";
-      return {
-        id: `about-${name.replace(/\.md$/, "")}`,
-        title: typeof data.title === "string" ? data.title : name,
-        kind: (typeof data.kind === "string" ? data.kind : "profile") as Kind,
-        lang,
-        url: typeof data.url === "string" ? data.url : undefined,
-        date: typeof data.date === "string" ? data.date : undefined,
-        sections: splitSections(content),
-      };
-    });
+  const docs = canonicalDocs().sort((a, b) => a.id.localeCompare(b.id));
 
   return { docs, hashes };
 }
@@ -132,29 +262,11 @@ function chunkDocs(docs: Doc[]): Chunk[] {
 }
 
 function writeKeywords(): void {
-  const keywords = [
-    "Python",
-    "C++",
-    "Java",
-    "Go",
-    "TypeScript",
-    "LLM 应用",
-    "Coding Agent",
-    "ReAct",
-    "Plan Mode",
-    "MCP",
-    "Planner-Executor",
-    "SQL 安全",
-    "MinIO",
-    "MySQL",
-    "异步任务",
-    "跨会话记忆",
-    "工业视觉",
-    "目标检测",
-    "姿态识别",
-    "模型预测控制",
-    "IoT",
-  ];
+  const keywords = [...new Set([
+    ...siteContent.resume.skillGroups.flatMap((group) => group.keywords),
+    ...siteContent.resume.projects.flatMap((project) => project.tags),
+    ...siteContent.resume.experience.flatMap((entry) => entry.tags),
+  ])];
 
   fs.writeFileSync(
     path.join(ROOT, "src", "ui", "keywords.generated.ts"),

@@ -529,8 +529,8 @@ export default function RongAgent({
         </div>
         <div className="hdr-right">
           <nav className="nav">
-            {PROFILE.links.resume && (
-              <a href={PROFILE.links.resume} target="_blank" rel="noreferrer">
+            {PROFILE.site.routes.resume && (
+              <a href={PROFILE.site.routes.resume}>
                 简历
               </a>
             )}

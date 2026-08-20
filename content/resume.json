@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "title": "贺融 - 中文简历（公开版）",
+    "subject": "AI 应用开发与 Agent 工程",
+    "updatedAt": "2026.08",
+    "versionLabel": "公开版"
+  },
+  "overview": {
+    "tagline": "AI 应用开发  |  Agent 工程  |  新加坡",
+    "summary": [
+      "面向 AI 应用开发与 Agent 工程的软件工程师，现于新加坡国立大学攻读软件工程技术硕士。经历覆盖大模型应用、工业视觉与控制算法、Web 与自动化开发，关注把模型能力转化为可控、可执行、可验证的软件系统。"
+    ],
+    "bio": [
+      "贺融（Allen）是一名面向 AI 应用开发与 Agent 工程的软件工程师，目前在新加坡国立大学攻读软件工程技术硕士。他本科毕业于韩国科学技术院计算机科学专业，现居新加坡。",
+      "他的经历横跨三类工作：大模型应用工程、工业视觉与控制算法、传统软件与自动化开发。主线是把模型能力转化为可控、可执行、可验证的软件系统。"
+    ],
+    "focus": [
+      "LLM 应用",
+      "Agent 编排",
+      "数据处理工作流",
+      "权限与安全控制",
+      "跨会话记忆",
+      "真实业务场景的工程化落地"
+    ],
+    "careerNarrative": "工程经历从 Java Web 和自动化开发开始，随后转向工业视觉算法，再进入 AI 应用开发。"
+  },
+  "education": [
+    {
+      "id": "nus-master",
+      "institution": "新加坡国立大学",
+      "rankLabel": "QS 10",
+      "degree": "硕士",
+      "field": "软件工程技术",
+      "period": { "start": "2026.08", "end": "2027.10" },
+      "summary": "贺融于新加坡国立大学攻读软件工程技术硕士，2026 年 8 月入学，预计 2027 年 10 月完成学业。",
+      "highlights": [],
+      "links": [
+        {
+          "kind": "official",
+          "label": "学校官网",
+          "url": "https://nus.edu.sg/",
+          "status": "active"
+        }
+      ],
+      "tags": ["软件工程", "NUS"],
+      "visibility": "public"
+    },
+    {
+      "id": "kaist-bachelor",
+      "institution": "韩国科学技术院",
+      "rankLabel": "QS 65",
+      "degree": "本科",
+      "field": "计算机科学",
+      "period": { "start": "2021.09", "end": "2025.08" },
+      "summary": "贺融于韩国科学技术院攻读计算机科学本科，学习时间为 2021 年 9 月至 2025 年 8 月。",
+      "highlights": ["平均绩点 86，专业排名前 5%"],
+      "links": [
+        {
+          "kind": "official",
+          "label": "学校官网",
+          "url": "https://www.kaist.ac.kr/en/",
+          "status": "active"
+        }
+      ],
+      "tags": ["计算机科学", "KAIST"],
+      "visibility": "public"
+    }
+  ],
+  "experience": [
+    {
+      "id": "saic-im-ai",
+      "organization": "上汽集团（智己汽车）前瞻研发中心",
+      "role": "AI 应用开发",
+      "period": { "start": "2026.02", "end": "2026.07" },
+      "summary": "贺融于 2026 年 2 月至 7 月从事 AI 应用开发，参与内部表格问答平台从 Demo 到业务试用的落地。",
+      "highlights": [
+        "参与内部表格问答平台从 Demo 到业务试用的落地，覆盖 FFL/FSL/ICD、信号查询及整车实验数据等分析场景。我负责集成文件问答、表格合并/导出等能力，并服务 20+ 内部用户完成版本迭代。经评估，单用户日均节省约 2h 人工处理时间。",
+        "设计文件库与异步任务链路，基于 MinIO 存储原始文件、MySQL 存储结构化元数据，通过 MQ 拆分上传、元数据抽取、Schema 画像、数据入库与图表生成等队列，提升大文件处理与多任务并发稳定性。",
+        "将固定 workflow 重构为 Planner-Executor 模式，拆分 Schema 检查、SQL 生成/校验、查询执行与图表渲染等白名单动作，实现模型规划与后端执行解耦，提升复杂问答与多轮追问的可控性。",
+        "设计 SQL 安全执行层，仅允许只读查询并校验表名/字段/权限；构建短期/长期记忆系统，持久化会话上下文、SQL 及图表配置，保障多轮追问与图表切换的连续性。"
+      ],
+      "metrics": [
+        { "value": "20+", "label": "内部试用用户", "qualifier": "业务试用" },
+        { "value": "约 2 小时/天", "label": "单用户节省时间", "qualifier": "内部评估" }
+      ],
+      "links": [
+        { "kind": "official", "label": "上汽集团官网", "url": "https://www.saicmotor.com/", "status": "active" },
+        { "kind": "official", "label": "智己汽车官网", "url": "https://www.immotors.com/", "status": "active" }
+      ],
+      "tags": ["LLM 应用", "Planner-Executor", "SQL 安全", "MinIO", "MySQL", "异步任务", "跨会话记忆"],
+      "visibility": "public"
+    },
+    {
+      "id": "jantech-industrial-ai",
+      "organization": "郑州捷安高科股份有限公司",
+      "role": "算法工程师 · 工业智能实训",
+      "period": { "start": "2025.09", "end": "2025.12" },
+      "summary": "贺融于 2025 年 9 月至 12 月担任算法工程师，方向为工业智能实训。",
+      "highlights": [
+        "面向特定的工业实训场景，完成原始传感/视频数据的清洗、标注与统计分析，并基于处理后的数据集开展深度学习模型的训练与精度验证工作，为后续算法部署提供可靠数据基础。",
+        "参与仿真平台智能评价系统的核心算法设计，围绕学员实训操作过程，构建目标检测与姿态识别算法流程，利用机器学习/深度学习模型实现对操作规范性与流程完整性的自动化评分与评价。",
+        "负责算法在多设备、多实训场景下的适配与调试，参与平台算法库的持续维护与版本迭代，定位并解决模型推理稳定性、输入分辨率差异等实际部署中的技术问题，提升算法在复杂工业环境下的鲁棒性。",
+        "编写并维护算法设计文档，系统性整理需求分析、模型结构说明、核心数学公式以及伪代码实现，为算法复现、团队协作与后续产品迭代提供技术支撑。"
+      ],
+      "metrics": [],
+      "links": [
+        { "kind": "official", "label": "公司官网", "url": "https://www.jantech.cn/", "status": "active" }
+      ],
+      "tags": ["工业视觉", "目标检测", "姿态识别", "深度学习"],
+      "visibility": "public"
+    },
+    {
+      "id": "gweee-automation",
+      "organization": "上海广为电器集团",
+      "role": "软件开发助理 · 智能系统与自动化",
+      "period": { "start": "2024.01", "end": "2024.02" },
+      "summary": "贺融于 2024 年 1 月至 2 月担任软件开发助理，方向为智能系统与自动化。",
+      "highlights": [
+        "参与“化学元素周期表元素智能展示柜”研发工作，围绕工业级科普展示场景，协同完成可视化展示界面、交互控制逻辑与硬件执行单元之间的整体技术链路设计与调试。",
+        "结合实体展品与控制系统，实现基础化学科普与安全教育内容的数字化呈现，支持多元素展示状态切换与交互响应，提升展陈系统的可理解性与教学友好性。",
+        "参与研学与教学活动设计与实施，面向来访学生开展机械臂基础编程教学，并指导完成赛车套件的装配、调试与功能验证，将自动化与工程实践融入教学场景。",
+        "独立完成 FDM 3D 打印原型的建模、打印与多轮迭代优化，用于展示柜及配套结构件的快速验证；同时掌握雅马哈工业机器人示教编程及 I/O 控制，参与自动化设备的基础调试与运行测试。"
+      ],
+      "metrics": [],
+      "links": [],
+      "tags": ["自动化", "IoT", "FDM 3D 打印", "工业机器人"],
+      "visibility": "public"
+    },
+    {
+      "id": "apt-java-web",
+      "organization": "上海亚太神通计算机有限公司",
+      "role": "软件开发工程师 · Java Web",
+      "period": { "start": "2023.07", "end": "2023.08" },
+      "summary": "贺融于 2023 年 7 月至 8 月担任软件开发工程师，方向为 Java Web。",
+      "highlights": [
+        "参与企业级 Java Web 系统的功能开发与日常维护，基于既有系统架构完成业务逻辑实现、接口联调及缺陷修复，保障系统在实际业务场景下的稳定运行。",
+        "针对高并发访问场景，对数据库访问层进行性能优化，包括合理配置数据库连接池、引入批量读写操作及精简与重构 SQL 查询，有效降低数据库访问开销并提升系统在峰值负载下的稳定性。",
+        "负责系统前端相关功能开发，使用 HTML5、CSS3、JavaScript 实现页面布局与交互逻辑，并参与微信小程序的功能实现与页面开发，完成前后端接口对接与联调。"
+      ],
+      "metrics": [],
+      "links": [],
+      "tags": ["Java", "Web", "SQL", "微信小程序"],
+      "visibility": "public"
+    }
+  ],
+  "projects": [
+    {
+      "id": "coding-agent",
+      "slug": "coding-agent",
+      "name": "Coding Agent",
+      "subtitle": "终端 AI 编程助手",
+      "role": "个人项目",
+      "period": { "start": "2026.03", "end": "2026.06" },
+      "summary": "贺融独立构建的轻量级终端 AI 编程助手，使用 ReAct 与 Plan Mode 驱动 LLM 自主完成编程任务。",
+      "highlights": [
+        "构建轻量级终端 Coding Agent，基于 ReAct 与 Plan Mode 双模式驱动 LLM 自主完成编程任务，支持交互、引擎、工具、记忆、安全五层架构，并兼容 Anthropic/OpenAI 双协议、MCP 工具扩展、Skill 技能包、跨会话记忆和多 Agent 并行协作。",
+        "独立负责五层架构设计与核心技术决策，设计多 LLM 协议适配、MCP 工具延迟加载、两层上下文压缩、JSONL 会话记忆、五层权限拦截和多 Agent 文件级隔离等核心方案。",
+        "通过 MCP 工具延迟加载，在百级工具场景下使工具描述 Token 占用减少 85%；通过跨会话自动记忆提取，使项目指令、错误修正经验和关键上下文可在新会话中自动继承。"
+      ],
+      "metrics": [
+        { "value": "85%", "label": "工具描述 Token 占用降幅", "qualifier": "自建百级工具测试" }
+      ],
+      "links": [
+        { "kind": "internal", "label": "项目详情", "url": "/projects/coding-agent", "status": "planned" },
+        { "kind": "repository", "label": "GitHub", "url": null, "status": "pending" }
+      ],
+      "tags": ["ReAct", "Plan Mode", "MCP", "上下文压缩", "跨会话记忆", "多 Agent"],
+      "visibility": "public"
+    },
+    {
+      "id": "hybrid-uav",
+      "slug": "hybrid-uav",
+      "name": "混合动力无人机能源管理系统",
+      "subtitle": null,
+      "role": "算法开发负责人",
+      "period": { "start": "2023.06", "end": "2025.06" },
+      "summary": "贺融独立负责混合动力无人机能源管理系统的核心算法设计与实现。",
+      "highlights": [
+        "独立负责能源管理系统的核心算法设计与实现，围绕多能源输入的协同工作需求，构建基于规则控制与模型预测控制相结合的功率分配策略，为飞行任务下的实时能量调度提供决策逻辑。",
+        "建立并维护系统级仿真与实验分析流程，对飞行工况下的功率输出、能耗分布及控制响应进行系统性数据分析，定位能源分配与控制策略中的性能瓶颈，持续驱动控制算法的参数调优与策略迭代。",
+        "通过多轮算法优化与策略验证，有效提升混合动力系统在典型任务工况下的整体功率利用效率与运行稳定性，为无人机续航能力与能源使用效率的提升提供技术支撑。",
+        "项目成果入选国家级大学生创新创业训练计划，获得专项经费支持，项目周期覆盖需求分析、算法设计、仿真验证与阶段性成果评估等完整研发流程。"
+      ],
+      "metrics": [],
+      "links": [
+        { "kind": "internal", "label": "项目详情", "url": "/projects/hybrid-uav", "status": "planned" }
+      ],
+      "tags": ["模型预测控制", "规则控制", "能源管理", "仿真"],
+      "visibility": "public"
+    },
+    {
+      "id": "breadify",
+      "slug": "breadify",
+      "name": "Breadify",
+      "subtitle": "面包爱好者移动应用",
+      "role": "产品设计负责人",
+      "period": { "start": "2024.03", "end": "2024.06" },
+      "summary": "贺融担任面包爱好者移动应用 Breadify 的产品设计负责人。",
+      "highlights": [
+        "全程参与面向垂直兴趣用户的移动应用产品设计，围绕面包爱好者的内容获取、互动与记录需求，完成从用户需求调研、问题定义、创意发散到产品原型验证与用户测试的完整 UX 设计流程。",
+        "负责高保真交互原型的设计与制作，系统性组织并参与 10 余场用户测试，通过定性反馈与可用性观察识别关键体验痛点，并主导 5 次核心设计迭代，持续优化信息架构与交互流程。",
+        "设计成果在课程评选中获得 People's Choice 荣誉，得到同学以及授课教授的高度认可。"
+      ],
+      "metrics": [],
+      "links": [
+        { "kind": "internal", "label": "项目详情", "url": "/projects/breadify", "status": "planned" }
+      ],
+      "tags": ["UX", "Figma", "用户研究", "交互原型"],
+      "visibility": "public"
+    },
+    {
+      "id": "kaist-smart-canteen",
+      "slug": "kaist-smart-canteen",
+      "name": "KAIST 校园智慧食堂系统",
+      "subtitle": null,
+      "role": "原型设计负责人",
+      "period": { "start": "2024.03", "end": "2024.06" },
+      "summary": "贺融担任 KAIST 校园智慧食堂系统的原型设计负责人。",
+      "highlights": [
+        "作为项目负责人，主导智慧食堂系统的需求分析、系统设计与整体实现，围绕校园就餐场景抽象并构建 5 个核心使用情景，系统性引入情景感知和上下文建模方法，提升系统对用户状态与环境变化的响应能力。",
+        "负责 Web 前端交互界面的设计与开发，实现用户侧信息展示与交互逻辑，并与 IoT 平台进行集成，完成多源实时数据的接入、同步与可视化，支持系统级的数据共享与交互闭环。",
+        "使用 Figma 设计并实现移动端应用高保真原型，基于实时数据动态展示食堂空间分布、人流密度与餐饮结构信息，为用户提供智能化就餐决策支持，同时为管理侧提供数据驱动的运营分析与决策参考。"
+      ],
+      "metrics": [],
+      "links": [
+        { "kind": "internal", "label": "项目详情", "url": "/projects/kaist-smart-canteen", "status": "planned" }
+      ],
+      "tags": ["IoT", "Figma", "情景感知", "Web 前端"],
+      "visibility": "public"
+    }
+  ],
+  "patents": [
+    {
+      "id": "patent-scaffold-perception",
+      "title": "基于 YOLOv8-OBB 与图卷积神经网络的双排钢管跨越架搭设部件感知方法",
+      "submittedAt": "2025.12",
+      "status": "under-examination",
+      "statusLabel": "审查中",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "patent-pantograph-contact",
+      "title": "基于点云与二维图像融合的受电弓检修作业接触识别方法",
+      "submittedAt": "2025.10",
+      "status": "under-examination",
+      "statusLabel": "审查中",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "patent-auditable-spreadsheet-qa",
+      "title": "一种面向电子表格自然语言问答的可审计规划执行方法及系统",
+      "submittedAt": "2026.06.08",
+      "status": "under-examination",
+      "statusLabel": "审查中",
+      "links": [],
+      "visibility": "public"
+    }
+  ],
+  "awards": [
+    { "id": "nowcoder-ai-coding-top10", "title": "牛客 AI Coding 笔试挑战杯决赛 Top 10", "date": "2026.06", "links": [], "visibility": "public" },
+    { "id": "sinomach-industrial-agent", "title": "“国机杯”首届工业智能体大赛优秀奖", "date": "2026.04", "links": [], "visibility": "public" },
+    { "id": "national-innovation-project", "title": "大学生创新创业训练计划项目结题证书（国家级项目）", "date": "2025.06", "links": [], "visibility": "public" },
+    { "id": "mcm-honorable-mention", "title": "美国大学生数学建模竞赛 H 奖", "date": "2024.05", "links": [], "visibility": "public" }
+  ],
+  "skillGroups": [
+    {
+      "id": "development",
+      "label": "开发",
+      "text": "精通 Python、C++，熟悉 Java，了解 Go；另使用 TypeScript、React、SQL、MySQL、MinIO 与消息队列",
+      "keywords": ["Python", "C++", "Java", "Go", "TypeScript", "React", "SQL", "MySQL", "MinIO", "消息队列"]
+    },
+    {
+      "id": "ai-agent",
+      "label": "AI / Agent",
+      "text": "LLM 应用、Agent 编排、ReAct、Planner-Executor、MCP、上下文压缩、跨会话记忆、SQL 安全",
+      "keywords": ["LLM 应用", "Agent 编排", "ReAct", "Plan Mode", "Coding Agent", "Planner-Executor", "MCP", "上下文压缩", "跨会话记忆", "SQL 安全", "异步任务"]
+    },
+    {
+      "id": "algorithms-tools",
+      "label": "算法与工具",
+      "text": "工业视觉、目标检测、姿态识别、模型预测控制、Figma、Blender 建模、FDM 3D 打印、达芬奇轻度视频剪辑、剪映短视频制作",
+      "keywords": ["工业视觉", "目标检测", "姿态识别", "模型预测控制", "Figma", "Blender", "FDM 3D 打印", "IoT"]
+    },
+    {
+      "id": "languages",
+      "label": "语言",
+      "text": "托福 90 分，GRE 320 分（数理满分）；韩语 TOPIK 2 级，具备日常生活场景下的基本沟通能力",
+      "keywords": ["托福 90", "GRE 320", "TOPIK 2"]
+    }
+  ],
+  "customSections": []
+}

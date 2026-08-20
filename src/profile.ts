@@ -1,31 +1,28 @@
+import { CONTENT, profileLink, requiredUrl } from "./content";
+
+/**
+ * Compatibility adapter for the existing UI and agent tools.
+ * New content should be edited in `content/profile.json`, not here.
+ */
 export const PROFILE = {
   site: {
-    title: "RONG Agent",
-    wordmark: "RONG",
-    language: "zh-CN",
-    desiredDomain: "rong.bio",
-    description:
-      "关于贺融的个人 AI 助手，介绍他的 AI 应用开发、Agent 工程和工业算法经历。",
+    title: CONTENT.profile.site.title,
+    wordmark: CONTENT.profile.site.wordmark,
+    language: CONTENT.profile.site.language,
+    desiredDomain: CONTENT.profile.site.domain,
+    description: CONTENT.profile.site.description,
+    routes: CONTENT.profile.site.routes,
   },
-  person: {
-    name: "贺融",
-    preferredName: "Allen",
-    location: "新加坡",
-    headline: "AI 应用开发",
-    current: "新加坡国立大学软件工程技术硕士在读",
-  },
+  person: CONTENT.profile.person,
   links: {
-    github: "https://github.com/Darrenus",
-    linkedin: "https://www.linkedin.com/in/herong",
-    primaryEmail: "hanserong@u.nus.edu",
-    secondaryEmail: "hanserong@163.com",
-    avatar: "https://avatars.githubusercontent.com/u/145118468?v=4",
-    resume: "/resume-zh.pdf" as string | null,
+    github: requiredUrl(profileLink("github")),
+    linkedin: requiredUrl(profileLink("linkedin")),
+    primaryEmail: profileLink("primary-email").display,
+    secondaryEmail: profileLink("secondary-email").display,
+    avatar: requiredUrl(profileLink("avatar")),
+    resume: profileLink("resume-pdf").url,
   },
-  github: {
-    username: "Darrenus",
-    accounts: ["Darrenus"] as const,
-  },
+  github: CONTENT.profile.github,
 } as const;
 
 export type Profile = typeof PROFILE;

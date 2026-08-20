@@ -28,11 +28,12 @@ Key 只存储在当前浏览器的 localStorage，不应写入仓库。
 ## 目录
 
 ```text
-src/profile.ts     集中的身份、链接和站点配置
+content/           统一维护的公开身份、履历、项目、链接和自由文本
+src/profile.ts     兼容现有界面的内容适配层
 src/ui/            React 界面与 Markdown/图表渲染
 src/agent/         Agent 循环、模型适配、工具与离线回答
 src/rag/           MiniSearch BM25 运行时检索
-corpus/src/        审核后的公开资料源
+corpus/src/        不能从统一内容源自然生成的补充说明文档
 public/corpus/     npm run corpus 生成的静态索引
 proxy/             保存模型和搜索密钥的 Vercel Edge Functions
 ```

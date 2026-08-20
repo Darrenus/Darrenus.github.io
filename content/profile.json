@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "title": "RONG Agent",
+    "wordmark": "RONG",
+    "language": "zh-CN",
+    "domain": "rong.bio",
+    "description": "关于贺融的个人 AI 助手，介绍他的 AI 应用开发、Agent 工程和工业算法经历。",
+    "routes": {
+      "home": "/",
+      "resume": "/resume",
+      "resumePdf": "/resume-zh.pdf",
+      "projects": "/projects"
+    }
+  },
+  "person": {
+    "name": "贺融",
+    "preferredName": "Allen",
+    "englishName": "ALLEN HE",
+    "location": "新加坡",
+    "headline": "AI 应用开发",
+    "current": "新加坡国立大学软件工程技术硕士在读"
+  },
+  "links": [
+    {
+      "id": "primary-email",
+      "kind": "email",
+      "label": "主邮箱",
+      "display": "hanserong@u.nus.edu",
+      "url": "mailto:hanserong@u.nus.edu",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "secondary-email",
+      "kind": "email",
+      "label": "备用邮箱",
+      "display": "hanserong@163.com",
+      "url": "mailto:hanserong@163.com",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "github",
+      "kind": "github",
+      "label": "GitHub",
+      "display": "github.com/Darrenus",
+      "url": "https://github.com/Darrenus",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "linkedin",
+      "kind": "linkedin",
+      "label": "LinkedIn",
+      "display": "linkedin.com/in/herong",
+      "url": "https://www.linkedin.com/in/herong",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "website",
+      "kind": "website",
+      "label": "个人网站",
+      "display": "rong.bio",
+      "url": "https://rong.bio",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "avatar",
+      "kind": "image",
+      "label": "GitHub 头像",
+      "display": "GitHub 头像",
+      "url": "https://avatars.githubusercontent.com/u/145118468?v=4",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "resume-pdf",
+      "kind": "document",
+      "label": "中文简历 PDF",
+      "display": "中文简历 PDF",
+      "url": "/resume-zh.pdf",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "image-defender-repository",
+      "kind": "repository",
+      "label": "Image Defender",
+      "display": "Image Defender",
+      "url": "https://github.com/Darrenus/Image-Defender-Revised-by-Rong",
+      "status": "active",
+      "visibility": "public"
+    }
+  ],
+  "github": {
+    "username": "Darrenus",
+    "accounts": ["Darrenus"]
+  },
+  "privacy": {
+    "internalProjectPublicNameZh": "内部表格问答平台",
+    "internalProjectPublicNameEn": "the internal spreadsheet Q&A platform",
+    "restrictedCategories": [
+      "手机号码",
+      "家庭住址",
+      "内部项目原名",
+      "内部文档",
+      "客户数据",
+      "未发布代码"
+    ],
+    "publicClaims": [
+      "20+ 内部用户",
+      "经内部评估，单用户日均节省约 2 小时人工处理时间",
+      "在自建百级工具测试中，工具描述 Token 占用减少 85%"
+    ],
+    "patentStatusRule": "三项专利均为申请且处于审查阶段，不得表述为已授权。",
+    "unpublishedRepositoryRule": "Coding Agent 公开仓库尚未发布，不得猜测或虚构链接。"
+  }
+}

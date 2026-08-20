@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import RongAgent from "./ui/RongAgent";
+import ResumePage from "./ui/ResumePage";
 import { createTransport } from "./agent/transport";
 import { hasModel, setByokKey } from "./agent/config";
 import "./ui/agent.css";
@@ -34,8 +35,14 @@ try {
 const root = document.getElementById("root");
 if (!root) throw new Error("no #root element");
 
+const path = window.location.pathname.replace(/\/+$/, "") || "/";
+
 createRoot(root).render(
   <StrictMode>
-    <RongAgent transport={createTransport()} live={hasModel()} />
+    {path === "/resume" ? (
+      <ResumePage />
+    ) : (
+      <RongAgent transport={createTransport()} live={hasModel()} />
+    )}
   </StrictMode>,
 );
