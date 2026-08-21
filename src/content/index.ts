@@ -54,11 +54,24 @@ export function validateContent(value: SiteContent): SiteContent {
     assert(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug), `invalid project slug "${project.slug}"`);
     assert(!slugs.has(project.slug), `duplicate project slug "${project.slug}"`);
     slugs.add(project.slug);
+    const detailSections = project.detail?.sections ?? [];
+    assertUniqueIds(detailSections, `project ${project.slug} detail.sections`);
+    for (const section of detailSections) {
+      assert(section.title.trim(), `project ${project.slug} detail section has an empty title`);
+      assert(section.paragraphs?.length || section.items?.length, `project ${project.slug} detail section "${section.id}" has no content`);
+    }
   }
 
   for (const link of allLinks(value)) {
     assert(link.kind.trim() && link.label.trim(), "link kind and label are required");
     assert(link.status !== "active" || Boolean(link.url), `active link "${link.label}" has no URL`);
+  }
+
+  for (const project of value.resume.projects) {
+    for (const link of project.links) {
+      if (link.kind !== "internal" || link.status !== "active") continue;
+      assert(link.url === `/projects/${project.slug}`, `project ${project.slug} has an invalid active internal link`);
+    }
   }
 
   const serialized = JSON.stringify(value);

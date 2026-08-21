@@ -534,6 +534,11 @@ export default function RongAgent({
                 简历
               </a>
             )}
+            {PROFILE.site.routes.projects && (
+              <a href={PROFILE.site.routes.projects}>
+                项目
+              </a>
+            )}
             <a
               href={PROFILE.links.github}
               target="_blank"

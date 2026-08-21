@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "corpus": "tsx scripts/build-corpus.ts",
     "typecheck": "tsc -b --noEmit",
-    "test": "tsx --tsconfig tsconfig.app.json scripts/markdown.test.mjs && tsx scripts/content.test.ts && tsx scripts/query-corpus.ts --self-test"
+    "test": "tsx --tsconfig tsconfig.app.json scripts/markdown.test.mjs && tsx scripts/content.test.ts && tsx scripts/routes.test.ts && tsx scripts/query-corpus.ts --self-test"
   },
   "dependencies": {
     "minisearch": "^7.1.2",

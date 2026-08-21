@@ -162,7 +162,7 @@
         { "value": "85%", "label": "工具描述 Token 占用降幅", "qualifier": "自建百级工具测试" }
       ],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/coding-agent", "status": "planned" },
+        { "kind": "internal", "label": "项目详情", "url": "/projects/coding-agent", "status": "active" },
         { "kind": "repository", "label": "GitHub", "url": null, "status": "pending" }
       ],
       "tags": ["ReAct", "Plan Mode", "MCP", "上下文压缩", "跨会话记忆", "多 Agent"],
@@ -184,7 +184,7 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/hybrid-uav", "status": "planned" }
+        { "kind": "internal", "label": "项目详情", "url": "/projects/hybrid-uav", "status": "active" }
       ],
       "tags": ["模型预测控制", "规则控制", "能源管理", "仿真"],
       "visibility": "public"
@@ -204,7 +204,7 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/breadify", "status": "planned" }
+        { "kind": "internal", "label": "项目详情", "url": "/projects/breadify", "status": "active" }
       ],
       "tags": ["UX", "Figma", "用户研究", "交互原型"],
       "visibility": "public"
@@ -224,7 +224,7 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/kaist-smart-canteen", "status": "planned" }
+        { "kind": "internal", "label": "项目详情", "url": "/projects/kaist-smart-canteen", "status": "active" }
       ],
       "tags": ["IoT", "Figma", "情景感知", "Web 前端"],
       "visibility": "public"

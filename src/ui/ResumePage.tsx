@@ -96,6 +96,7 @@ export default function ResumePage() {
           <nav className="resume-nav" aria-label="主导航">
             <a className="resume-nav-current" href="/resume" aria-current="page">简历</a>
             <a href="/">Agent</a>
+            <a href="/projects">项目</a>
             {publicProfileLinks.map((link) => (
               <a
                 href={link.url ?? "#"}

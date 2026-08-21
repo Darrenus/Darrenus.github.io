@@ -64,6 +64,17 @@ export interface ProjectEntry {
   metrics: Metric[];
   links: ContentLink[];
   tags: string[];
+  detail?: {
+    intro?: string;
+    sections?: Array<{
+      id: string;
+      order: number;
+      title: string;
+      paragraphs?: string[];
+      items?: string[];
+    }>;
+    confidentialityNote?: string;
+  };
   visibility: Visibility;
 }
 

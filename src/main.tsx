@@ -2,6 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import RongAgent from "./ui/RongAgent";
 import ResumePage from "./ui/ResumePage";
+import ProjectsPage from "./ui/ProjectsPage";
+import ProjectPage from "./ui/ProjectPage";
+import NotFoundPage from "./ui/NotFoundPage";
+import { CONTENT } from "./content";
+import { parseRoute } from "./routes";
 import { createTransport } from "./agent/transport";
 import { hasModel, setByokKey } from "./agent/config";
 import "./ui/agent.css";
@@ -35,14 +40,21 @@ try {
 const root = document.getElementById("root");
 if (!root) throw new Error("no #root element");
 
-const path = window.location.pathname.replace(/\/+$/, "") || "/";
+const route = parseRoute(window.location.pathname);
+const project = route.kind === "project"
+  ? CONTENT.resume.projects.find((candidate) => candidate.slug === route.slug)
+  : undefined;
+
+const page = (() => {
+  if (route.kind === "home") return <RongAgent transport={createTransport()} live={hasModel()} />;
+  if (route.kind === "resume") return <ResumePage />;
+  if (route.kind === "projects") return <ProjectsPage />;
+  if (route.kind === "project" && project) return <ProjectPage project={project} />;
+  return <NotFoundPage />;
+})();
 
 createRoot(root).render(
   <StrictMode>
-    {path === "/resume" ? (
-      <ResumePage />
-    ) : (
-      <RongAgent transport={createTransport()} live={hasModel()} />
-    )}
+    {page}
   </StrictMode>,
 );

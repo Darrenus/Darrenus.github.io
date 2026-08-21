@@ -16,10 +16,11 @@ assert.equal(content.profile.links.find((link) => link.id === "primary-email")?.
 assert.equal(content.resume.projects.length, 4);
 assert.equal(content.resume.projects.find((project) => project.slug === "coding-agent")?.links.find((link) => link.kind === "repository")?.url, null);
 assert.ok(content.resume.projects.every((project) => project.slug));
+assert.ok(content.resume.projects.every((project) => project.links.some((link) => link.kind === "internal" && link.url === `/projects/${project.slug}` && link.status === "active")));
+assert.equal(content.resume.projects.find((project) => project.slug === "coding-agent")?.links.find((link) => link.kind === "repository")?.status, "pending");
 assert.ok(content.resume.experience.some((entry) => entry.highlights.length >= 4));
 assert.ok(content.resume.experience.flatMap((entry) => entry.links).some((link) => link.label === "智己汽车官网" && link.status === "active"));
 assert.ok(content.resume.education.flatMap((entry) => entry.links).every((link) => link.status === "active" ? Boolean(link.url) : true));
-assert.ok(content.resume.projects.flatMap((project) => project.links).some((link) => link.status === "planned"));
 
 const serialized = JSON.stringify(content);
 assert.doesNotMatch(serialized, /1[3-9][0-9]{9}/);
