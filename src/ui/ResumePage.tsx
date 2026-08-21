@@ -99,6 +99,7 @@ export default function ResumePage() {
             <a href="/projects">项目</a>
             {publicProfileLinks.map((link) => (
               <a
+                className="resume-nav-external"
                 href={link.url ?? "#"}
                 key={link.id}
                 target={link.url && isExternalUrl(link.url) ? "_blank" : undefined}

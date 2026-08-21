@@ -23,7 +23,7 @@ export function ProjectSiteHeader({ current }: { current?: "resume" | "projects"
           <a href="/resume" aria-current={current === "resume" ? "page" : undefined}>简历</a>
           <a href="/projects" aria-current={current === "projects" ? "page" : undefined}>项目</a>
           {profile.links.filter((link) => ["github", "linkedin"].includes(link.kind)).map((link) => (
-            <a href={link.url ?? "#"} key={link.id} target="_blank" rel="noreferrer">{link.label}</a>
+            <a className="projects-nav-external" href={link.url ?? "#"} key={link.id} target="_blank" rel="noreferrer">{link.label}</a>
           ))}
           {avatar?.url && <img className="projects-avatar" src={avatar.url} alt="贺融 GitHub 头像" />}
         </nav>

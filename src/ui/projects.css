@@ -120,7 +120,7 @@
   .projects-container, .projects-header-inner { width: min(100% - 36px, 1120px); }
   .projects-header-inner { min-height: 64px; }
   .projects-nav { gap: 14px; font-size: 12px; }
-  .projects-nav a:nth-of-type(n + 4) { display: none; }
+  .projects-nav-external { display: none; }
   .projects-hero { padding: 54px 0 58px; }
   .projects-hero h1 { font-size: clamp(48px, 15vw, 72px); }
   .projects-list { padding-bottom: 66px; }
@@ -144,7 +144,6 @@
 }
 
 @media (max-width: 460px) {
-  .projects-nav a:nth-of-type(3) { display: none; }
   .projects-avatar { width: 28px; height: 28px; }
   .project-row { grid-template-columns: 1fr; gap: 13px; }
   .project-row-index { order: 2; }
