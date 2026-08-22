@@ -220,6 +220,22 @@
   }
 }
 
+@media (min-width: 1600px) {
+  .portal-stage {
+    width: min(1600px, calc(100% - 64px));
+  }
+
+  .portal-link--resume,
+  .portal-link--linkedin {
+    left: 24%;
+  }
+
+  .portal-link--github,
+  .portal-link--ragent {
+    right: 24%;
+  }
+}
+
 @media (max-width: 380px) {
   .portal-home {
     padding-inline: 16px;
