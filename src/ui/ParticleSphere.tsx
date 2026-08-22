@@ -182,10 +182,10 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     });
     const meshGeometry = createMeshGeometry(geometry);
     const meshMaterial = new THREE.LineBasicMaterial({
-      color: 0x2b9f53,
+      color: 0x3bbd63,
       transparent: true,
-      opacity: 0.23,
-      linewidth: 1.35,
+      opacity: 0.34,
+      linewidth: 1.7,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
