@@ -81,128 +81,119 @@
 }
 
 .portal-sphere .particle-sphere {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   margin: 0;
 }
 
-.portal-links {
+.portal-career-ring {
+  position: absolute;
+  inset: -8% -14%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.46;
+  transform: rotateX(68deg) rotateZ(-2deg);
+}
+
+.portal-career-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.portal-career-ring path {
+  fill: none;
+}
+
+.portal-career-ring text {
+  fill: rgba(139, 243, 155, 0.42);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 15px;
+  letter-spacing: 0.28em;
+}
+
+.particle-node-label {
+  position: absolute;
+  z-index: 2;
+  max-width: 160px;
+  overflow: hidden;
+  color: rgba(190, 255, 198, 0.9);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 12px rgba(62, 230, 103, 0.72);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -145%);
+  transition: opacity 180ms ease;
+}
+
+.portal-hud {
   position: absolute;
   inset: 0;
+  z-index: 4;
   pointer-events: none;
-}
-
-.portal-link {
-  --portal-line: 42px;
-  position: absolute;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 78px;
-  padding: 8px 0;
-  pointer-events: auto;
-  color: rgba(232, 228, 216, 0.68);
-  text-decoration: none;
-  transition: color 160ms ease, transform 160ms ease;
-}
-
-.portal-link::before {
-  content: "";
-  position: absolute;
-  top: calc(50% - 5px);
-  width: var(--portal-line);
-  height: 10px;
-  background: transparent;
-  border: 1px solid rgba(100, 214, 121, 0.18);
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
-  transition: width 160ms ease, border-color 160ms ease;
-}
-
-.portal-link span {
-  font-size: 16px;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-
-.portal-link small {
-  color: rgba(197, 192, 178, 0.48);
+  color: rgba(232, 228, 216, 0.54);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.portal-link:hover,
-.portal-link:focus-visible {
-  color: #baf8c2;
-  transform: translateY(-2px);
+.portal-hud-block {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  line-height: 1.2;
 }
 
-.portal-link--pending {
-  pointer-events: none;
-  color: rgba(232, 228, 216, 0.34);
+.portal-hud-block strong {
+  color: rgba(232, 228, 216, 0.64);
+  font-size: 10px;
+  font-weight: 500;
 }
 
-.portal-link--pending small {
-  color: rgba(197, 192, 178, 0.32);
+.portal-hud-block span {
+  color: rgba(197, 192, 178, 0.38);
+  font-size: 9px;
 }
 
-.portal-link:hover::before,
-.portal-link:focus-visible::before {
-  width: calc(var(--portal-line) + 12px);
-  border-color: rgba(121, 235, 143, 0.5);
+.portal-hud-block em {
+  color: rgba(139, 243, 155, 0.66);
+  font-style: normal;
 }
 
-.portal-link--resume,
-.portal-link--resume-en {
-  --portal-line: 76px;
-}
-
-.portal-link--github,
-.portal-link--linkedin {
-  --portal-line: 42px;
-}
-
-.portal-link--resume,
-.portal-link--github {
-  left: 0;
-  text-align: right;
-  align-items: flex-end;
-}
-
-.portal-link--resume {
-  top: 30%;
-}
-
-.portal-link--github {
-  top: auto;
-  bottom: 30%;
-}
-
-.portal-link--resume::before,
-.portal-link--github::before {
-  right: calc(var(--portal-line) * -1);
-}
-
-.portal-link--resume-en,
-.portal-link--linkedin {
-  right: 0;
-  text-align: left;
+.portal-hud-block--top-left {
+  top: 26px;
+  left: 28px;
   align-items: flex-start;
 }
 
-.portal-link--resume-en {
-  top: 30%;
+.portal-hud-block--top-right {
+  top: 26px;
+  right: 28px;
+  align-items: flex-end;
+  text-align: right;
 }
 
-.portal-link--linkedin {
-  bottom: 30%;
+.portal-hud-block--bottom-left {
+  bottom: 26px;
+  left: 28px;
+  align-items: flex-start;
 }
 
-.portal-link--resume-en::before,
-.portal-link--linkedin::before {
-  left: calc(var(--portal-line) * -1);
+.portal-hud-block--bottom-right {
+  right: 28px;
+  bottom: 26px;
+  align-items: flex-end;
+  text-align: right;
 }
 
 .portal-visually-hidden {
@@ -232,32 +223,56 @@
     transform: translateY(-56px);
   }
 
-  .portal-links {
-    top: auto;
-    bottom: 0;
-    height: 132px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 34px;
-    align-content: end;
+  .portal-career-ring {
+    inset: -8% -14%;
+    opacity: 0.34;
   }
 
-  .portal-link,
-  .portal-link--resume,
-  .portal-link--github,
-  .portal-link--resume-en,
-  .portal-link--linkedin {
-    position: relative;
-    inset: auto;
-    min-width: 0;
-    padding: 8px 0;
-    text-align: left;
-    align-items: flex-start;
-    transform: none;
+  .portal-career-ring text {
+    font-size: 12px;
+    letter-spacing: 0.2em;
   }
 
-  .portal-link::before {
-    display: none;
+  .particle-node-label {
+    max-width: 124px;
+    font-size: 9px;
+  }
+
+  .portal-hud {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .portal-hud-block {
+    gap: 4px;
+  }
+
+  .portal-hud-block strong {
+    font-size: 8px;
+  }
+
+  .portal-hud-block span {
+    font-size: 8px;
+  }
+
+  .portal-hud-block--top-left {
+    top: 16px;
+    left: 16px;
+  }
+
+  .portal-hud-block--top-right {
+    top: 16px;
+    right: 16px;
+  }
+
+  .portal-hud-block--bottom-left {
+    bottom: 16px;
+    left: 16px;
+  }
+
+  .portal-hud-block--bottom-right {
+    right: 16px;
+    bottom: 16px;
   }
 }
 
@@ -266,15 +281,6 @@
     width: min(1600px, calc(100% - 64px));
   }
 
-  .portal-link--resume,
-  .portal-link--github {
-    left: 24%;
-  }
-
-  .portal-link--resume-en,
-  .portal-link--linkedin {
-    right: 24%;
-  }
 }
 
 @media (max-width: 380px) {
@@ -287,7 +293,4 @@
     height: min(88vw, 330px);
   }
 
-  .portal-links {
-    gap: 8px 20px;
-  }
 }

@@ -3,8 +3,13 @@ import * as THREE from "three";
 
 export type SpherePhase = "sphere" | "expanding" | "expanded" | "collapsing";
 
+export interface KnowledgeNode {
+  label: string;
+}
+
 interface Props {
   phase: SpherePhase;
+  nodes?: KnowledgeNode[];
   onExpand?: () => void;
   onComplete?: () => void;
 }
@@ -16,6 +21,7 @@ const CLICK_DISTANCE = 6;
 const MAX_ROTATION_STEP = 0.12;
 const ROTATION_SENSITIVITY = 0.008;
 const AUTO_ROTATION_SPEED = 0.075;
+const HOVER_RADIUS = 48;
 
 const vertexShader = /* glsl */ `
   attribute float aDepth;
@@ -43,12 +49,44 @@ const fragmentShader = /* glsl */ `
   void main() {
     float distanceFromCenter = distance(gl_PointCoord, vec2(0.5));
     float alpha = 1.0 - smoothstep(0.2, 0.5, distanceFromCenter);
-    vec3 deepGreen = vec3(0.01, 0.18, 0.055);
-    vec3 brightGreen = vec3(0.16, 1.0, 0.34);
+    vec3 deepGreen = vec3(0.002, 0.035, 0.01);
+    vec3 brightGreen = vec3(0.025, 0.2, 0.055);
     vec3 coolHighlight = vec3(0.16, 0.64, 0.72);
     vec3 green = mix(deepGreen, brightGreen, vDepth);
     vec3 color = mix(green, coolHighlight, uActive * 0.16);
-    gl_FragColor = vec4(color, alpha * (0.58 + vDepth * 0.42));
+    gl_FragColor = vec4(color, alpha * (0.12 + vDepth * 0.18));
+  }
+`;
+
+const nodeVertexShader = /* glsl */ `
+  attribute float aGlow;
+  attribute float aSeed;
+  uniform float uTime;
+  varying float vGlow;
+
+  void main() {
+    vec3 direction = normalize(position);
+    float breathe = sin(aSeed * 31.0 + uTime * 1.4) * 0.004;
+    vec3 point = position + direction * (breathe + aGlow * 0.018);
+    vec4 mvPosition = modelViewMatrix * vec4(point, 1.0);
+    gl_Position = projectionMatrix * mvPosition;
+    vGlow = aGlow;
+    gl_PointSize = (1.05 + aGlow * 3.8) * (10.5 / -mvPosition.z);
+  }
+`;
+
+const nodeFragmentShader = /* glsl */ `
+  varying float vGlow;
+
+  void main() {
+    float distanceFromCenter = distance(gl_PointCoord, vec2(0.5));
+    float alpha = 1.0 - smoothstep(0.18, 0.5, distanceFromCenter);
+    vec3 dimNode = vec3(0.004, 0.045, 0.014);
+    vec3 brightNode = vec3(0.22, 1.0, 0.38);
+    vec3 coolHighlight = vec3(0.16, 0.64, 0.72);
+    vec3 color = mix(dimNode, brightNode, smoothstep(0.05, 1.0, vGlow));
+    color = mix(color, coolHighlight, smoothstep(0.78, 1.0, vGlow) * 0.28);
+    gl_FragColor = vec4(color, alpha * (0.16 + vGlow * 0.84));
   }
 `;
 
@@ -138,6 +176,37 @@ function createMeshGeometry(source: THREE.BufferGeometry): THREE.BufferGeometry 
   return geometry;
 }
 
+function createKnowledgeGeometry(nodes: KnowledgeNode[]): {
+  geometry: THREE.BufferGeometry;
+  positions: THREE.Vector3[];
+} {
+  const positions = nodes.map((_, index) => {
+    const y = 1 - ((index + 0.5) / Math.max(1, nodes.length)) * 2;
+    const ring = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = Math.PI * (3 - Math.sqrt(5)) * index + 0.42;
+    return new THREE.Vector3(
+      Math.cos(theta) * ring * RADIUS * 1.018,
+      y * RADIUS * 1.018,
+      Math.sin(theta) * ring * RADIUS * 1.018,
+    );
+  });
+  const values = new Float32Array(positions.length * 3);
+  const seeds = new Float32Array(positions.length);
+  const glow = new Float32Array(positions.length);
+  positions.forEach((position, index) => {
+    values[index * 3] = position.x;
+    values[index * 3 + 1] = position.y;
+    values[index * 3 + 2] = position.z;
+    seeds[index] = (index * 0.61803398875) % 1;
+    glow[index] = 0.06;
+  });
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(values, 3));
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+  geometry.setAttribute("aGlow", new THREE.BufferAttribute(glow, 1));
+  return { geometry, positions };
+}
+
 function nearestDirection(dx: number, dy: number): "horizontal" | "vertical" {
   const angle = Math.atan2(dy, dx);
   const normalized = angle < 0 ? angle + Math.PI * 2 : angle;
@@ -146,8 +215,9 @@ function nearestDirection(dx: number, dy: number): "horizontal" | "vertical" {
   return horizontalDistance <= verticalDistance ? "horizontal" : "vertical";
 }
 
-export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
+export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Props) {
   const host = useRef<HTMLDivElement | null>(null);
+  const labelRef = useRef<HTMLSpanElement | null>(null);
   const phaseRef = useRef(phase);
   const onCompleteRef = useRef<(() => void) | undefined>(onComplete);
   const onExpandRef = useRef<(() => void) | undefined>(onExpand);
@@ -192,8 +262,18 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     });
     const points = new THREE.Points(geometry, material);
     const mesh = new THREE.LineSegments(meshGeometry, meshMaterial);
+    const knowledge = createKnowledgeGeometry(nodes);
+    const nodeMaterial = new THREE.ShaderMaterial({
+      vertexShader: nodeVertexShader,
+      fragmentShader: nodeFragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uTime: { value: 0 } },
+    });
+    const knowledgePoints = new THREE.Points(knowledge.geometry, nodeMaterial);
     const sphereGroup = new THREE.Group();
-    sphereGroup.add(points, mesh);
+    sphereGroup.add(points, mesh, knowledgePoints);
     scene.add(sphereGroup);
 
     const resize = () => {
@@ -218,8 +298,58 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     let lastY = 0;
     let moved = false;
     let axis: "horizontal" | "vertical" = "horizontal";
+    let pointerX: number | null = null;
+    let pointerY: number | null = null;
     let raf = 0;
     let lastTime = performance.now();
+    const projected = new THREE.Vector3();
+
+    const updateKnowledge = (time: number) => {
+      if (nodes.length === 0) return;
+      const glow = knowledge.geometry.getAttribute("aGlow") as THREE.BufferAttribute;
+      const cycleLength = 3200;
+      const cyclePosition = (time % cycleLength) / cycleLength;
+      const sequenceIndex = Math.min(nodes.length - 1, Math.floor((time / cycleLength) % nodes.length));
+      const sequenceGlow = cyclePosition < 0.48
+        ? Math.sin((cyclePosition / 0.48) * Math.PI) * 0.88
+        : 0;
+      let hoveredIndex = -1;
+      let closestDistance = HOVER_RADIUS;
+      const screenPositions: Array<{ x: number; y: number }> = [];
+
+      for (let index = 0; index < nodes.length; index += 1) {
+        projected.copy(knowledge.positions[index]!);
+        projected.applyMatrix4(sphereGroup.matrixWorld).project(camera);
+        const screenX = (projected.x * 0.5 + 0.5) * node.clientWidth;
+        const screenY = (-projected.y * 0.5 + 0.5) * node.clientHeight;
+        screenPositions[index] = { x: screenX, y: screenY };
+        const distance = pointerX === null || pointerY === null
+          ? Number.POSITIVE_INFINITY
+          : Math.hypot(pointerX - screenX, pointerY - screenY);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          hoveredIndex = index;
+        }
+      }
+      for (let index = 0; index < nodes.length; index += 1) {
+        const nodeGlow = index === hoveredIndex ? 1 : index === sequenceIndex ? sequenceGlow : 0.06;
+        glow.setX(index, nodeGlow);
+      }
+      glow.needsUpdate = true;
+
+      const activeIndex = hoveredIndex >= 0 || sequenceGlow > 0 ? hoveredIndex >= 0 ? hoveredIndex : sequenceIndex : -1;
+      if (activeIndex < 0) {
+        if (labelRef.current) labelRef.current.style.opacity = "0";
+        return;
+      }
+      const labelPosition = screenPositions[activeIndex]!;
+      if (labelRef.current) {
+        labelRef.current.textContent = nodes[activeIndex]!.label;
+        labelRef.current.style.left = `${labelPosition.x}px`;
+        labelRef.current.style.top = `${labelPosition.y}px`;
+        labelRef.current.style.opacity = hoveredIndex >= 0 ? "1" : String(Math.min(1, sequenceGlow));
+      }
+    };
 
     const finishTransition = () => {
       if (completed) return;
@@ -243,6 +373,8 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       material.uniforms.uProgress.value = progress;
       material.uniforms.uTime.value = time / 1000;
       material.uniforms.uActive.value += ((active ? 1 : 0) - material.uniforms.uActive.value) * 0.16;
+      nodeMaterial.uniforms.uTime.value = time / 1000;
+      updateKnowledge(time);
       if (currentPhase === "sphere" && !active) {
         // Keep the portal alive with a slow clockwise turn; direct manipulation takes priority.
         sphereGroup.rotation.y += AUTO_ROTATION_SPEED * elapsed;
@@ -256,6 +388,10 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     const onPointerDown = (event: PointerEvent) => {
       if (phaseRef.current !== "sphere") return;
       if (event.pointerType === "touch" && event.isPrimary === false) return;
+      if (event.pointerType !== "touch") {
+        pointerX = event.clientX - node.getBoundingClientRect().left;
+        pointerY = event.clientY - node.getBoundingClientRect().top;
+      }
       pointerId = event.pointerId;
       startX = lastX = event.clientX;
       startY = lastY = event.clientY;
@@ -265,6 +401,11 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "touch") {
+        const bounds = node.getBoundingClientRect();
+        pointerX = event.clientX - bounds.left;
+        pointerY = event.clientY - bounds.top;
+      }
       if (event.pointerId !== pointerId || phaseRef.current !== "sphere") return;
       const totalX = event.clientX - startX;
       const totalY = event.clientY - startY;
@@ -292,6 +433,13 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       if (node.hasPointerCapture(event.pointerId)) node.releasePointerCapture(event.pointerId);
     };
 
+    const onPointerLeave = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) {
+        pointerX = null;
+        pointerY = null;
+      }
+    };
+
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.key === "Enter" || event.key === " ") && phaseRef.current === "sphere") {
         event.preventDefault();
@@ -303,6 +451,7 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     node.addEventListener("pointermove", onPointerMove);
     node.addEventListener("pointerup", endPointer);
     node.addEventListener("pointercancel", endPointer);
+    node.addEventListener("pointerleave", onPointerLeave);
     node.addEventListener("keydown", onKeyDown);
     return () => {
       cancelAnimationFrame(raf);
@@ -311,11 +460,14 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       node.removeEventListener("pointermove", onPointerMove);
       node.removeEventListener("pointerup", endPointer);
       node.removeEventListener("pointercancel", endPointer);
+      node.removeEventListener("pointerleave", onPointerLeave);
       node.removeEventListener("keydown", onKeyDown);
       geometry.dispose();
       meshGeometry.dispose();
+      knowledge.geometry.dispose();
       material.dispose();
       meshMaterial.dispose();
+      nodeMaterial.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };
@@ -328,6 +480,8 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       role="button"
       tabIndex={phase === "sphere" ? 0 : -1}
       aria-label={phase === "sphere" ? "拖动旋转粒子球" : "粒子球正在变化"}
-    />
+    >
+      <span ref={labelRef} className="particle-node-label" aria-hidden="true" />
+    </div>
   );
 }
