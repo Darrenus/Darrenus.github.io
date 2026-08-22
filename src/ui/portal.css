@@ -93,7 +93,7 @@
 }
 
 .portal-link {
-  --portal-line: 58px;
+  --portal-line: 42px;
   position: absolute;
   display: inline-flex;
   flex-direction: column;
@@ -109,11 +109,14 @@
 .portal-link::before {
   content: "";
   position: absolute;
-  top: 50%;
+  top: calc(50% - 5px);
   width: var(--portal-line);
-  height: 1px;
-  background: rgba(100, 214, 121, 0.18);
-  transition: width 160ms ease, background 160ms ease;
+  height: 10px;
+  background: transparent;
+  border: 1px solid rgba(100, 214, 121, 0.18);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
+  transition: width 160ms ease, border-color 160ms ease;
 }
 
 .portal-link span {
@@ -148,7 +151,17 @@
 .portal-link:hover::before,
 .portal-link:focus-visible::before {
   width: calc(var(--portal-line) + 12px);
-  background: rgba(121, 235, 143, 0.5);
+  border-color: rgba(121, 235, 143, 0.5);
+}
+
+.portal-link--resume,
+.portal-link--resume-en {
+  --portal-line: 76px;
+}
+
+.portal-link--github,
+.portal-link--linkedin {
+  --portal-line: 42px;
 }
 
 .portal-link--resume,
@@ -159,12 +172,12 @@
 }
 
 .portal-link--resume {
-  top: 31%;
+  top: 30%;
 }
 
 .portal-link--github {
   top: auto;
-  bottom: 29%;
+  bottom: 30%;
 }
 
 .portal-link--resume::before,
@@ -180,11 +193,11 @@
 }
 
 .portal-link--resume-en {
-  top: 31%;
+  top: 30%;
 }
 
 .portal-link--linkedin {
-  bottom: 29%;
+  bottom: 30%;
 }
 
 .portal-link--resume-en::before,
