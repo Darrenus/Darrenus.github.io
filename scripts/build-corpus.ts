@@ -191,7 +191,7 @@ function canonicalDocs(): Doc[] {
         ...profile.links
           .filter((link) => link.kind === "repository" && link.url)
           .map((link) => `${link.label}：[${link.url}](${link.url})`),
-        "Coding Agent 的公开仓库尚未发布。在链接可用前，只介绍项目，不虚构仓库地址。",
+        "codeloop 的公开仓库：[https://github.com/Darrenus/codeloop](https://github.com/Darrenus/codeloop)。",
       ].join("\n\n")),
     ],
   };

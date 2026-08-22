@@ -96,11 +96,11 @@ const SLOTS: Slot[] = [
  * every visit, and the interesting terms belong in the slots nearest the eye. */
 const ORDER = [
   "Python",
-  "Coding Agent",
+  "codeloop",
   "C++",
-  "MCP",
+  "工具调用协议",
   "Java",
-  "Planner-Executor",
+  "权限分层",
   "SQL 安全",
   "工业视觉",
   "目标检测",
@@ -108,7 +108,7 @@ const ORDER = [
   "Go",
   "IoT",
   "姿态识别",
-  "跨会话记忆",
+  "SWE-bench Verified",
   "TypeScript",
   "LLM 应用",
   "模型预测控制",

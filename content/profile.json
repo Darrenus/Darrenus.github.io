@@ -113,9 +113,9 @@
     "publicClaims": [
       "20+ 内部用户",
       "经内部评估，单用户日均节省约 2 小时人工处理时间",
-      "在自建百级工具测试中，工具描述 Token 占用减少 85%"
+      "codeloop 已公开发布于 GitHub，当前正在进行 SWE-bench Verified 自动评测"
     ],
     "patentStatusRule": "三项专利均为申请且处于审查阶段，不得表述为已授权。",
-    "unpublishedRepositoryRule": "Coding Agent 公开仓库尚未发布，不得猜测或虚构链接。"
+    "unpublishedRepositoryRule": "codeloop 的公开仓库地址为 https://github.com/Darrenus/codeloop；只引用该真实地址，不猜测其他仓库链接。"
   }
 }
