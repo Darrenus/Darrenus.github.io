@@ -16,15 +16,15 @@
 
 .portal-stage {
   position: relative;
-  width: min(820px, 100%);
+  width: min(1040px, 100%);
   height: min(640px, calc(100vh - 64px));
   display: grid;
   place-items: center;
 }
 
 .portal-sphere {
-  width: clamp(340px, 36vw, 440px);
-  height: clamp(340px, 36vw, 440px);
+  width: clamp(480px, 75vh, 620px);
+  height: clamp(480px, 75vh, 620px);
   display: grid;
   place-items: center;
 }
@@ -158,8 +158,8 @@
   }
 
   .portal-sphere {
-    width: 310px;
-    height: 310px;
+    width: min(92vw, 360px);
+    height: min(92vw, 360px);
     transform: translateY(-56px);
   }
 
@@ -197,8 +197,8 @@
   }
 
   .portal-sphere {
-    width: 290px;
-    height: 290px;
+    width: min(88vw, 330px);
+    height: min(88vw, 330px);
   }
 
   .portal-links {
