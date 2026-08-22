@@ -148,14 +148,19 @@ function surfacePoint(longitude: number, latitude: number, scale = 1.006): THREE
   );
 }
 
-// Simplified coast traces add geographic asymmetry without pretending to be a navigational map.
+// Simplified but deliberately detailed coast traces. They are visual reference data,
+// not a navigational map; the extra vertices preserve recognizable coast silhouettes.
 const COAST_TRACES: Array<Array<[number, number]>> = [
-  [[-168, 72], [-150, 68], [-136, 70], [-125, 58], [-112, 50], [-98, 30], [-84, 25], [-74, 34], [-62, 48], [-48, 60], [-45, 70], [-62, 80], [-100, 84], [-140, 78], [-168, 72]],
-  [[-80, 12], [-68, 8], [-58, -2], [-50, -16], [-54, -30], [-68, -55], [-78, -46], [-82, -24], [-78, 0], [-80, 12]],
-  [[-12, 36], [2, 50], [22, 56], [38, 68], [64, 72], [96, 76], [126, 64], [150, 52], [166, 46], [150, 34], [124, 26], [104, 18], [78, 8], [52, 10], [34, 22], [14, 32], [-12, 36]],
-  [[-17, 35], [4, 37], [28, 32], [44, 12], [38, -5], [30, -22], [18, -35], [0, -35], [-10, -20], [-16, 0], [-17, 35]],
-  [[112, -10], [130, -12], [150, -18], [153, -34], [140, -42], [120, -38], [112, -26], [112, -10]],
-  [[-52, 60], [-28, 70], [-20, 80], [-46, 83], [-60, 75], [-52, 60]],
+  [[-168, 72], [-160, 70], [-153, 63], [-145, 60], [-136, 58], [-130, 54], [-125, 49], [-123, 45], [-119, 38], [-114, 32], [-108, 30], [-103, 25], [-97, 26], [-92, 29], [-88, 30], [-85, 27], [-82, 24], [-80, 28], [-77, 33], [-75, 40], [-70, 44], [-63, 46], [-58, 50], [-53, 55], [-50, 60], [-46, 65], [-45, 71], [-55, 77], [-70, 80], [-90, 82], [-112, 83], [-135, 79], [-152, 76], [-168, 72]],
+  [[-81, 12], [-75, 10], [-70, 6], [-65, 4], [-60, 3], [-55, -2], [-50, -8], [-48, -16], [-50, -23], [-54, -30], [-58, -38], [-64, -48], [-70, -54], [-75, -51], [-78, -42], [-80, -30], [-79, -20], [-77, -10], [-80, 0], [-81, 12]],
+  [[-10, 36], [-5, 43], [0, 48], [8, 52], [14, 55], [20, 58], [27, 60], [34, 66], [45, 69], [55, 72], [70, 73], [85, 75], [100, 74], [115, 70], [130, 64], [142, 57], [153, 52], [162, 49], [170, 44], [160, 38], [150, 35], [142, 30], [132, 26], [120, 22], [110, 18], [100, 13], [90, 9], [82, 8], [74, 12], [66, 17], [58, 21], [50, 26], [42, 30], [34, 34], [26, 38], [18, 40], [10, 39], [2, 38], [-5, 36], [-10, 36]],
+  [[-17, 36], [-8, 37], [0, 36], [8, 35], [17, 32], [25, 31], [33, 27], [39, 20], [43, 12], [40, 4], [38, -4], [35, -12], [32, -20], [28, -28], [22, -34], [14, -35], [6, -34], [-1, -30], [-6, -23], [-10, -14], [-14, -5], [-16, 6], [-17, 18], [-17, 28], [-17, 36]],
+  [[68, 23], [76, 26], [82, 22], [88, 20], [87, 13], [82, 8], [77, 6], [73, 10], [70, 17], [68, 23]],
+  [[95, 20], [101, 17], [106, 15], [112, 12], [118, 8], [122, 4], [120, -2], [114, -5], [108, 0], [102, 5], [98, 12], [95, 20]],
+  [[112, -10], [118, -12], [124, -14], [132, -12], [139, -16], [147, -20], [153, -27], [153, -35], [148, -39], [141, -40], [134, -37], [128, -35], [123, -38], [116, -35], [113, -28], [112, -20], [112, -10]],
+  [[-72, 60], [-60, 65], [-48, 70], [-42, 77], [-45, 82], [-60, 84], [-72, 78], [-78, 70], [-72, 60]],
+  [[-6, 51], [-3, 55], [2, 58], [5, 55], [3, 51], [-1, 50], [-6, 51]],
+  [[138, 36], [142, 40], [145, 36], [143, 32], [138, 36]],
 ];
 
 function createCoastlineGeometry(): THREE.BufferGeometry {
@@ -169,6 +174,24 @@ function createCoastlineGeometry(): THREE.BufferGeometry {
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(edges, 3));
+  return geometry;
+}
+
+function createLandGeometry(): THREE.BufferGeometry {
+  const positions: number[] = [];
+  for (const trace of COAST_TRACES) {
+    const contour = trace.map(([longitude, latitude]) => new THREE.Vector2(longitude, latitude));
+    const triangles = THREE.ShapeUtils.triangulateShape(contour, []);
+    for (const triangle of triangles) {
+      for (const index of triangle) {
+        const point = contour[index]!;
+        const vertex = surfacePoint(point.x, point.y, 1.002);
+        positions.push(vertex.x, vertex.y, vertex.z);
+      }
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
   return geometry;
 }
 
@@ -285,6 +308,15 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
+    const landGeometry = createLandGeometry();
+    const landMaterial = new THREE.MeshBasicMaterial({
+      color: 0x2f8b58,
+      transparent: true,
+      opacity: 0.18,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      blending: THREE.NormalBlending,
+    });
     const coastlineGeometry = createCoastlineGeometry();
     const coastlineMaterial = new THREE.LineBasicMaterial({
       color: 0x70d69a,
@@ -305,6 +337,7 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
     });
     const points = new THREE.Points(geometry, material);
     const mesh = new THREE.LineSegments(meshGeometry, meshMaterial);
+    const landMass = new THREE.Mesh(landGeometry, landMaterial);
     const coastlines = new THREE.LineSegments(coastlineGeometry, coastlineMaterial);
     const coastlineDots = new THREE.Points(coastlineGeometry, coastlineDotsMaterial);
     const knowledge = createKnowledgeGeometry(nodes);
@@ -320,7 +353,7 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
     const sphereGroup = new THREE.Group();
     // A subtle axial tilt makes the rotating surface read as Earth rather than a perfect grid orb.
     sphereGroup.rotation.z = THREE.MathUtils.degToRad(-23.5);
-    sphereGroup.add(points, mesh, coastlines, coastlineDots, knowledgePoints);
+    sphereGroup.add(points, landMass, mesh, coastlines, coastlineDots, knowledgePoints);
     scene.add(sphereGroup);
 
     const resize = () => {
@@ -524,10 +557,12 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
       node.removeEventListener("keydown", onKeyDown);
       geometry.dispose();
       meshGeometry.dispose();
+      landGeometry.dispose();
       coastlineGeometry.dispose();
       knowledge.geometry.dispose();
       material.dispose();
       meshMaterial.dispose();
+      landMaterial.dispose();
       coastlineMaterial.dispose();
       coastlineDotsMaterial.dispose();
       nodeMaterial.dispose();
