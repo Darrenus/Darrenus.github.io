@@ -23,12 +23,6 @@ const ROTATION_SENSITIVITY = 0.008;
 const AUTO_ROTATION_SPEED = 0.075;
 const HOVER_RADIUS = 48;
 
-interface GlobeSurface {
-  geometry: THREE.BufferGeometry;
-  rows: number;
-  columns: number;
-}
-
 const vertexShader = /* glsl */ `
   attribute float aDepth;
   attribute float aSeed;
@@ -102,39 +96,31 @@ function particleCount(): number {
     : DESKTOP_PARTICLES;
 }
 
-function createSphereGeometry(count: number): GlobeSurface {
-  const columns = count >= 900 ? 40 : 28;
-  const rows = Math.max(1, Math.floor(count / columns));
-  const actualCount = rows * columns;
-  const positions = new Float32Array(actualCount * 3);
-  const depths = new Float32Array(actualCount);
-  const seeds = new Float32Array(actualCount);
+function createSphereGeometry(count: number): THREE.BufferGeometry {
+  const positions = new Float32Array(count * 3);
+  const depths = new Float32Array(count);
+  const seeds = new Float32Array(count);
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
-  // A latitude/longitude lattice gives the surface an immediate globe silhouette.
-  // Half-step latitude bands keep the poles from becoming unnaturally crowded.
-  for (let row = 0; row < rows; row += 1) {
-    const latitude = Math.PI / 2 - ((row + 0.5) / rows) * Math.PI;
-    const ring = Math.cos(latitude);
-    const y = Math.sin(latitude);
-    for (let column = 0; column < columns; column += 1) {
-      const index = row * columns + column;
-      const longitude = (column / columns) * Math.PI * 2;
-      const x = Math.cos(longitude) * ring;
-      const z = Math.sin(longitude) * ring;
-      const offset = index * 3;
-      positions[offset] = x * RADIUS;
-      positions[offset + 1] = y * RADIUS;
-      positions[offset + 2] = z * RADIUS;
-      depths[index] = 0.35 + ((z + 1) / 2) * 0.65;
-      seeds[index] = (index * 0.61803398875) % 1;
-    }
+  for (let i = 0; i < count; i += 1) {
+    const y = 1 - (i / (count - 1)) * 2;
+    const ring = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = goldenAngle * i;
+    const x = Math.cos(theta) * ring;
+    const z = Math.sin(theta) * ring;
+    const offset = i * 3;
+    positions[offset] = x * RADIUS;
+    positions[offset + 1] = y * RADIUS;
+    positions[offset + 2] = z * RADIUS;
+    depths[i] = 0.35 + ((z / RADIUS + 1) / 2) * 0.65;
+    seeds[i] = (i * 0.61803398875) % 1;
   }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute("aDepth", new THREE.BufferAttribute(depths, 1));
   geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
-  return { geometry, rows, columns };
+  return geometry;
 }
 
 function surfacePoint(longitude: number, latitude: number, scale = 1.006): THREE.Vector3 {
@@ -210,26 +196,45 @@ function createLandGeometry(): THREE.BufferGeometry {
   return geometry;
 }
 
-function createMeshGeometry(surface: GlobeSurface): THREE.BufferGeometry {
-  const positions = surface.geometry.getAttribute("position");
+function createMeshGeometry(source: THREE.BufferGeometry): THREE.BufferGeometry {
+  const positions = source.getAttribute("position");
   const values = positions.array as Float32Array;
   const edges: number[] = [];
 
-  const addEdge = (first: number, second: number) => {
-    const firstOffset = first * 3;
-    const secondOffset = second * 3;
-    edges.push(
-      values[firstOffset]!, values[firstOffset + 1]!, values[firstOffset + 2]!,
-      values[secondOffset]!, values[secondOffset + 1]!, values[secondOffset + 2]!,
-    );
-  };
+  const neighborCount = 3;
+  for (let i = 0; i < positions.count; i += 1) {
+    const nearestIndices = Array.from({ length: neighborCount }, () => -1);
+    const nearestDistances = Array.from({ length: neighborCount }, () => Number.POSITIVE_INFINITY);
+    const offset = i * 3;
+    const x = values[offset]!;
+    const y = values[offset + 1]!;
+    const z = values[offset + 2]!;
 
-  for (let row = 0; row < surface.rows; row += 1) {
-    for (let column = 0; column < surface.columns; column += 1) {
-      const current = row * surface.columns + column;
-      const nextColumn = row * surface.columns + ((column + 1) % surface.columns);
-      addEdge(current, nextColumn);
-      if (row < surface.rows - 1) addEdge(current, current + surface.columns);
+    for (let j = 0; j < positions.count; j += 1) {
+      if (j === i) continue;
+      const candidateOffset = j * 3;
+      const dx = x - values[candidateOffset]!;
+      const dy = y - values[candidateOffset + 1]!;
+      const dz = z - values[candidateOffset + 2]!;
+      const distance = dx * dx + dy * dy + dz * dz;
+      const slot = nearestDistances.findIndex((current) => distance < current);
+      if (slot === -1) continue;
+
+      for (let k = neighborCount - 1; k > slot; k -= 1) {
+        nearestDistances[k] = nearestDistances[k - 1]!;
+        nearestIndices[k] = nearestIndices[k - 1]!;
+      }
+      nearestDistances[slot] = distance;
+      nearestIndices[slot] = j;
+    }
+
+    for (const neighbor of nearestIndices) {
+      if (neighbor === -1 || neighbor < i) continue;
+      const neighborOffset = neighbor * 3;
+      edges.push(
+        x, y, z,
+        values[neighborOffset]!, values[neighborOffset + 1]!, values[neighborOffset + 2]!,
+      );
     }
   }
 
@@ -300,8 +305,7 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
     renderer.domElement.setAttribute("aria-hidden", "true");
     node.appendChild(renderer.domElement);
 
-    const surface = createSphereGeometry(particleCount());
-    const geometry = surface.geometry;
+    const geometry = createSphereGeometry(particleCount());
     const material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
@@ -314,11 +318,11 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
         uActive: { value: 0 },
       },
     });
-    const meshGeometry = createMeshGeometry(surface);
+    const meshGeometry = createMeshGeometry(geometry);
     const meshMaterial = new THREE.LineBasicMaterial({
       color: 0x3bbd63,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.34,
       linewidth: 1.7,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -366,8 +370,6 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
     });
     const knowledgePoints = new THREE.Points(knowledge.geometry, nodeMaterial);
     const sphereGroup = new THREE.Group();
-    // A subtle axial tilt makes the rotating surface read as Earth rather than a perfect grid orb.
-    sphereGroup.rotation.z = THREE.MathUtils.degToRad(-23.5);
     sphereGroup.add(points, landMass, mesh, coastlines, coastlineDots, knowledgePoints);
     scene.add(sphereGroup);
 
