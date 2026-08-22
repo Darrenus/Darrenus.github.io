@@ -1,9 +1,22 @@
 .portal-page {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
-  background: #050706;
-  color: #eef8ef;
+  background: #0a0c0a;
+  color: #e8e4d8;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+.portal-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  mix-blend-mode: screen;
 }
 
 .portal-home {
@@ -37,7 +50,7 @@
   display: grid;
   place-items: center;
   pointer-events: none;
-  color: rgba(204, 244, 211, 0.84);
+  color: rgba(232, 228, 216, 0.9);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: clamp(16px, 1.6vw, 22px);
   letter-spacing: 0.16em;
@@ -66,7 +79,7 @@
   min-width: 78px;
   padding: 8px 0;
   pointer-events: auto;
-  color: rgba(197, 232, 202, 0.62);
+  color: rgba(232, 228, 216, 0.68);
   text-decoration: none;
   transition: color 160ms ease, transform 160ms ease;
 }
@@ -88,7 +101,7 @@
 }
 
 .portal-link small {
-  color: rgba(150, 184, 155, 0.42);
+  color: rgba(197, 192, 178, 0.48);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
@@ -149,7 +162,7 @@
 }
 
 .portal-link--ragent small {
-  color: rgba(139, 243, 155, 0.58);
+  color: rgba(139, 243, 155, 0.62);
 }
 
 .portal-visually-hidden {
