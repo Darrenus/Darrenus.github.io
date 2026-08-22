@@ -136,13 +136,23 @@
   transform: translateY(-2px);
 }
 
+.portal-link--pending {
+  pointer-events: none;
+  color: rgba(232, 228, 216, 0.34);
+}
+
+.portal-link--pending small {
+  color: rgba(197, 192, 178, 0.32);
+}
+
 .portal-link:hover::before,
 .portal-link:focus-visible::before {
   width: calc(var(--portal-line) + 12px);
   background: rgba(121, 235, 143, 0.5);
 }
 
-.portal-link--resume {
+.portal-link--resume,
+.portal-link--github {
   left: 0;
   text-align: right;
   align-items: flex-end;
@@ -152,49 +162,34 @@
   top: 31%;
 }
 
-.portal-link--resume::before {
+.portal-link--github {
+  top: auto;
+  bottom: 29%;
+}
+
+.portal-link--resume::before,
+.portal-link--github::before {
   right: calc(var(--portal-line) * -1);
 }
 
-.portal-link--github {
+.portal-link--resume-en,
+.portal-link--linkedin {
   right: 0;
   text-align: left;
   align-items: flex-start;
 }
 
-.portal-link--github {
+.portal-link--resume-en {
   top: 31%;
 }
 
-.portal-link--github::before {
-  left: calc(var(--portal-line) * -1);
-}
-
 .portal-link--linkedin {
-  bottom: 0;
-  left: 50%;
-  align-items: center;
-  text-align: center;
-  transform: translateX(-50%);
+  bottom: 29%;
 }
 
+.portal-link--resume-en::before,
 .portal-link--linkedin::before {
-  top: auto;
-  bottom: 100%;
-  left: 50%;
-  width: 1px;
-  height: 42px;
-}
-
-.portal-link--linkedin:hover,
-.portal-link--linkedin:focus-visible {
-  transform: translate(-50%, -2px);
-}
-
-.portal-link--linkedin:hover::before,
-.portal-link--linkedin:focus-visible::before {
-  width: 1px;
-  height: 54px;
+  left: calc(var(--portal-line) * -1);
 }
 
 .portal-visually-hidden {
@@ -236,8 +231,9 @@
 
   .portal-link,
   .portal-link--resume,
-  .portal-link--linkedin,
-  .portal-link--github {
+  .portal-link--github,
+  .portal-link--resume-en,
+  .portal-link--linkedin {
     position: relative;
     inset: auto;
     min-width: 0;
@@ -250,13 +246,6 @@
   .portal-link::before {
     display: none;
   }
-
-  .portal-link--linkedin {
-    grid-column: 1 / -1;
-    justify-self: center;
-    text-align: center;
-    align-items: center;
-  }
 }
 
 @media (min-width: 1600px) {
@@ -264,11 +253,13 @@
     width: min(1600px, calc(100% - 64px));
   }
 
-  .portal-link--resume {
+  .portal-link--resume,
+  .portal-link--github {
     left: 24%;
   }
 
-  .portal-link--github {
+  .portal-link--resume-en,
+  .portal-link--linkedin {
     right: 24%;
   }
 }

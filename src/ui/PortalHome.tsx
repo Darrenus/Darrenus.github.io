@@ -12,7 +12,7 @@ export default function PortalHome() {
     document.title = `${profile.site.wordmark} | ${profile.person.preferredName}`;
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
       "content",
-      "RONG 的个人主页：以 Ragent 为中心，连接简历、公开项目与社交链接。",
+      "RONG 的个人主页：以 Ragent 为中心，连接中英文简历、公开项目与社交链接。",
     );
     document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute(
       "href",
@@ -22,6 +22,7 @@ export default function PortalHome() {
 
   const github = profile.links.find((link) => link.kind === "github");
   const linkedin = profile.links.find((link) => link.kind === "linkedin");
+  const englishResume = profile.links.find((link) => link.id === "resume-en-pdf");
 
   return (
     <div className="portal-page">
@@ -55,6 +56,17 @@ export default function PortalHome() {
                 <span>GitHub</span>
                 <small>Code</small>
               </a>
+            )}
+            {englishResume?.url && englishResume.status === "active" ? (
+              <a className="portal-link portal-link--resume-en" href={englishResume.url} target="_blank" rel="noreferrer">
+                <span>Resume</span>
+                <small>English PDF</small>
+              </a>
+            ) : (
+              <span className="portal-link portal-link--resume-en portal-link--pending" aria-disabled="true">
+                <span>Resume</span>
+                <small>PDF pending</small>
+              </span>
             )}
             {linkedin?.url && (
               <a className="portal-link portal-link--linkedin" href={linkedin.url} target="_blank" rel="noreferrer">
