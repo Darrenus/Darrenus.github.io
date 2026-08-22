@@ -49,11 +49,14 @@ export function isDirect(): boolean {
 
 export const DEEPSEEK_DIRECT_URL = "https://api.deepseek.com/chat/completions";
 
+const configuredMainModel = import.meta.env.VITE_AGENT_MODEL?.trim();
+const configuredFastModel = import.meta.env.VITE_AGENT_FAST_MODEL?.trim();
+
 export const MODELS = {
-  /** Main loop. Thinking on. Cheap enough to leave running. */
-  main: "deepseek-v4-flash",
-  /** Sub-agents and the follow-up generator: read, summarise, return. */
-  fast: "deepseek-v4-flash",
+  /** Main loop. Set VITE_AGENT_MODEL when the account uses another DeepSeek model. */
+  main: configuredMainModel || "deepseek-v4-flash",
+  /** Sub-agents and the follow-up generator. Defaults to the main model. */
+  fast: configuredFastModel || configuredMainModel || "deepseek-v4-flash",
 } as const;
 
 /** Repositories that must not be exposed through live GitHub tools. */

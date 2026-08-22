@@ -10,20 +10,28 @@ npm run corpus
 npm run dev
 ```
 
-未配置模型时，页面使用明确标注的离线预设回答。配置在线模型有两种方式：
+未配置模型时，页面使用明确标注的离线预设回答。线上公开站点应使用独立代理，DeepSeek Key 只放在代理服务的密钥库中：
 
 ```sh
-# 推荐：连接独立部署的代理
-echo 'VITE_AGENT_PROXY_URL=https://your-proxy.vercel.app' > .env.local
+# 本地构建时只写代理地址（这是公开配置，不是 Key）
+cp .env.example .env.local
+# 编辑 .env.local，填写 VITE_AGENT_PROXY_URL=https://your-proxy.vercel.app
 ```
 
-或在本地浏览器控制台临时设置 DeepSeek Key：
+代理的 Key 不要写入这个仓库，也不要提交 `.env.local`。将它安全写入 Vercel：
 
-```js
-rongAgentKey("sk-...")
+```sh
+cd proxy
+npx vercel login
+npx vercel link
+npx vercel env add DEEPSEEK_API_KEY production
+npx vercel env add ALLOWED_ORIGINS production   # https://rong.bio
+npx vercel deploy --prod
 ```
 
-Key 只存储在当前浏览器的 localStorage，不应写入仓库。
+`vercel env add` 会在终端交互式接收密钥，不会把 Key 写进源码、Git 历史或浏览器构建产物。部署完成后，把代理 URL 配置到 GitHub 仓库变量 `AGENT_PROXY_URL`，再推送一次触发 Pages 构建。完整的代理部署与限流说明见 [`proxy/README.md`](proxy/README.md)。
+
+仅做本机临时测试时，也可以把 Key 写入被 Git 忽略的 `proxy/.env.local`，然后使用 `vercel dev`；不要把这个文件上传或复制到公开目录。浏览器 `localStorage` 直连方式仍保留，但只适合个人测试，不适合线上站点。
 
 ## 目录
 

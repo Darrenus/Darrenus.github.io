@@ -10,12 +10,16 @@ bundle is public and a key inside it would be extracted and drained.
 | `POST /api/search` | Web search via Tavily, normalised to `{results:[{title,url,content}]}` | `TAVILY_API_KEY` (optional) |
 | `POST /api/fetch` | One page as readable text | — |
 
+The DeepSeek key is never a frontend variable. Put it in Vercel's encrypted Environment
+Variables UI/CLI as `DEEPSEEK_API_KEY`. `DEEPSEEK_MODELS` is optional and lets the site
+accept a different model ID when DeepSeek changes the account's available models.
+
 ## Guards
 
 - **Origin allowlist.** A browser always sends `Origin` on a cross-origin POST; a missing
   or foreign one is a 403. Set `ALLOWED_ORIGINS`; `localhost:5173` is always allowed.
-- **Strict body schema on `/api/chat`.** Model must be one of two DeepSeek ids, tools must
-  be the six the site ships, `max_tokens` ≤ 2000, ≤ 48 messages, ≤ 220k characters total,
+- **Strict body schema on `/api/chat`.** Model must be in the configured DeepSeek allowlist,
+  tools must be the site-shipped tools, `max_tokens` ≤ 8000, ≤ 48 messages, ≤ 220k characters total,
   unknown top-level fields rejected. This is what stops the endpoint being a free DeepSeek
   relay for whoever finds the URL.
 - **Rate limits.** Per-IP per-minute and per-day, plus a daily ceiling across all visitors
@@ -35,6 +39,7 @@ vercel login
 vercel link                 # create a new project, root directory = this folder
 vercel env add DEEPSEEK_API_KEY production
 vercel env add ALLOWED_ORIGINS production      # https://rong.bio
+vercel env add DEEPSEEK_MODELS production       # optional, e.g. deepseek-chat,deepseek-reasoner
 vercel env add TAVILY_API_KEY production       # optional
 vercel deploy --prod
 ```

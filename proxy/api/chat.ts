@@ -14,7 +14,20 @@ export const config = { runtime: "edge" };
 
 const DEEPSEEK_URL = "https://api.deepseek.com/chat/completions";
 
-const ALLOWED_MODELS = new Set(["deepseek-v4-flash", "deepseek-v4-pro"]);
+const DEFAULT_MODELS = [
+  "deepseek-chat",
+  "deepseek-reasoner",
+  "deepseek-v4-flash",
+  "deepseek-v4-pro",
+];
+
+function allowedModels(): Set<string> {
+  const configured = (process.env.DEEPSEEK_MODELS ?? "")
+    .split(",")
+    .map((model) => model.trim())
+    .filter(Boolean);
+  return new Set(configured.length ? configured : DEFAULT_MODELS);
+}
 
 /** Must match src/agent/tools.ts. A tool the site does not ship is a tool nobody may ask for. */
 const ALLOWED_TOOLS = new Set([
@@ -56,8 +69,9 @@ function validate(body: Record<string, unknown>): string | null {
     if (!ALLOWED_TOP_LEVEL.has(key)) return `unexpected field "${key}"`;
   }
 
-  if (typeof body.model !== "string" || !ALLOWED_MODELS.has(body.model)) {
-    return `model must be one of: ${[...ALLOWED_MODELS].join(", ")}`;
+  const models = allowedModels();
+  if (typeof body.model !== "string" || !models.has(body.model)) {
+    return `model must be one of: ${[...models].join(", ")}`;
   }
 
   if (body.stream !== true) return "stream must be true";
