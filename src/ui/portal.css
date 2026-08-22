@@ -119,20 +119,17 @@
 
 .particle-node-label {
   position: absolute;
+  inset: 0;
   z-index: 2;
-  max-width: 160px;
-  overflow: hidden;
-  color: rgba(190, 255, 198, 0.9);
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
   line-height: 1.2;
   letter-spacing: 0.04em;
-  text-overflow: ellipsis;
-  text-shadow: 0 0 12px rgba(62, 230, 103, 0.72);
-  white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transform: translate(-50%, -145%);
   transition: opacity 180ms ease;
 }
 
@@ -247,7 +244,7 @@
   }
 
   .particle-node-label {
-    max-width: 124px;
+    max-width: none;
     font-size: 9px;
   }
 
