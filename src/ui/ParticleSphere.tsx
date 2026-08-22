@@ -184,7 +184,8 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
     const meshMaterial = new THREE.LineBasicMaterial({
       color: 0x2b9f53,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.23,
+      linewidth: 1.35,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
