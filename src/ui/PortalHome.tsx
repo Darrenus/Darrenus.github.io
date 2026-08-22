@@ -12,7 +12,7 @@ export default function PortalHome() {
     document.title = `${profile.site.wordmark} | ${profile.person.preferredName}`;
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
       "content",
-      "RONG 的个人主页：简历、公开项目、社交链接与 RAgent。",
+      "RONG 的个人主页：以 Ragent 为中心，连接简历、公开项目与社交链接。",
     );
     document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute(
       "href",
@@ -30,7 +30,15 @@ export default function PortalHome() {
         <div className="portal-stage">
           <div className="portal-sphere">
             <ParticleSphere phase="sphere" />
-            <div className="portal-core-label" aria-hidden="true">HE RONG</div>
+            <a
+              className="portal-core-link"
+              href={ragentPath}
+              aria-label="打开 Ragent"
+              onClick={() => playUiSound("navigate")}
+            >
+              <span>Ragent</span>
+              <small>Ask RONG</small>
+            </a>
           </div>
 
           <nav className="portal-links" aria-label="RONG 入口">
@@ -54,14 +62,6 @@ export default function PortalHome() {
                 <small>Network</small>
               </a>
             )}
-            <a
-              className="portal-link portal-link--ragent"
-              href={ragentPath}
-              onClick={() => playUiSound("navigate")}
-            >
-              <span>ragent</span>
-              <small>Ask RONG</small>
-            </a>
           </nav>
         </div>
       </main>

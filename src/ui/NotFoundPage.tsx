@@ -28,7 +28,7 @@ export default function NotFoundPage() {
           <p>这个地址不存在，或内容尚未公开。</p>
           <div className="not-found-actions">
             <a className="not-found-primary" href="/">返回 RONG 主页 <span aria-hidden="true">→</span></a>
-            <a href="/ragent">打开 RAgent</a>
+            <a href="/ragent">打开 Ragent</a>
             <a href="/projects">查看项目</a>
             <a href="/resume">查看简历</a>
           </div>

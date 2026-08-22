@@ -95,7 +95,7 @@ export default function ResumePage() {
           <a className="resume-wordmark" href="/" aria-label="返回 RONG 主页">{profile.site.wordmark}</a>
           <nav className="resume-nav" aria-label="主导航">
             <a className="resume-nav-current" href="/resume" aria-current="page">简历</a>
-            <a href="/ragent">Agent</a>
+            <a href="/ragent">Ragent</a>
             <a href="/projects">项目</a>
             {publicProfileLinks.map((link) => (
               <a
@@ -237,7 +237,7 @@ export default function ResumePage() {
       <footer className="resume-footer">
         <div className="resume-container">
           <span>{profile.site.wordmark} · {resume.meta.updatedAt}</span>
-          <a href="/ragent">打开 RAgent <span aria-hidden="true">↗</span></a>
+          <a href="/ragent">打开 Ragent <span aria-hidden="true">↗</span></a>
         </div>
       </footer>
     </div>

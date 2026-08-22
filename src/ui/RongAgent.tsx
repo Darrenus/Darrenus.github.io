@@ -409,7 +409,7 @@ export default function RongAgent({
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   useEffect(() => {
-    document.title = `${wordmark} Agent`;
+    document.title = `${wordmark} Ragent`;
   }, [wordmark]);
 
   /* Every turn takes a number, and stop/reset/a new question all bump it. A transport

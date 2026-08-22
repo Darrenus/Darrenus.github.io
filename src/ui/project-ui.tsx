@@ -19,7 +19,7 @@ export function ProjectSiteHeader({ current }: { current?: "resume" | "projects"
       <div className="projects-header-inner">
         <a className="projects-wordmark" href="/" aria-label="返回 RONG 主页">{profile.site.wordmark}</a>
         <nav className="projects-nav" aria-label="主导航">
-          <a href="/ragent" aria-current={current === undefined ? "page" : undefined}>Agent</a>
+          <a href="/ragent" aria-current={current === undefined ? "page" : undefined}>Ragent</a>
           <a href="/resume" aria-current={current === "resume" ? "page" : undefined}>简历</a>
           <a href="/projects" aria-current={current === "projects" ? "page" : undefined}>项目</a>
           {profile.links.filter((link) => ["github", "linkedin"].includes(link.kind)).map((link) => (

@@ -30,7 +30,7 @@
 .portal-stage {
   position: relative;
   width: min(1040px, 100%);
-  height: min(640px, calc(100vh - 64px));
+  height: min(720px, calc(100vh - 64px));
   display: grid;
   place-items: center;
 }
@@ -43,19 +43,41 @@
   place-items: center;
 }
 
-.portal-core-label {
+.portal-core-link {
   position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-  color: rgba(232, 228, 216, 0.9);
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  color: rgba(139, 243, 155, 0.9);
+  text-decoration: none;
+  transform: translate(-50%, -50%);
+  transition: color 160ms ease, text-shadow 160ms ease, transform 160ms ease;
+}
+
+.portal-core-link span {
+  font-size: clamp(18px, 1.8vw, 26px);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+.portal-core-link small {
+  color: rgba(139, 243, 155, 0.62);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: clamp(16px, 1.6vw, 22px);
-  letter-spacing: 0.16em;
-  text-shadow: 0 0 14px rgba(83, 221, 115, 0.24);
-  transform: translateX(0.08em);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.portal-core-link:hover,
+.portal-core-link:focus-visible {
+  color: #d0ffd5;
+  text-shadow: 0 0 18px rgba(83, 221, 115, 0.5);
+  transform: translate(-50%, calc(-50% - 2px));
 }
 
 .portal-sphere .particle-sphere {
@@ -120,8 +142,7 @@
   background: rgba(121, 235, 143, 0.5);
 }
 
-.portal-link--resume,
-.portal-link--linkedin {
+.portal-link--resume {
   left: 0;
   text-align: right;
   align-items: flex-end;
@@ -131,17 +152,11 @@
   top: 31%;
 }
 
-.portal-link--linkedin {
-  bottom: 29%;
-}
-
-.portal-link--resume::before,
-.portal-link--linkedin::before {
+.portal-link--resume::before {
   right: calc(var(--portal-line) * -1);
 }
 
-.portal-link--github,
-.portal-link--ragent {
+.portal-link--github {
   right: 0;
   text-align: left;
   align-items: flex-start;
@@ -151,18 +166,35 @@
   top: 31%;
 }
 
-.portal-link--ragent {
-  bottom: 29%;
-  color: rgba(139, 243, 155, 0.86);
-}
-
-.portal-link--github::before,
-.portal-link--ragent::before {
+.portal-link--github::before {
   left: calc(var(--portal-line) * -1);
 }
 
-.portal-link--ragent small {
-  color: rgba(139, 243, 155, 0.62);
+.portal-link--linkedin {
+  bottom: 0;
+  left: 50%;
+  align-items: center;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.portal-link--linkedin::before {
+  top: auto;
+  bottom: 100%;
+  left: 50%;
+  width: 1px;
+  height: 42px;
+}
+
+.portal-link--linkedin:hover,
+.portal-link--linkedin:focus-visible {
+  transform: translate(-50%, -2px);
+}
+
+.portal-link--linkedin:hover::before,
+.portal-link--linkedin:focus-visible::before {
+  width: 1px;
+  height: 54px;
 }
 
 .portal-visually-hidden {
@@ -205,18 +237,25 @@
   .portal-link,
   .portal-link--resume,
   .portal-link--linkedin,
-  .portal-link--github,
-  .portal-link--ragent {
+  .portal-link--github {
     position: relative;
     inset: auto;
     min-width: 0;
     padding: 8px 0;
     text-align: left;
     align-items: flex-start;
+    transform: none;
   }
 
   .portal-link::before {
     display: none;
+  }
+
+  .portal-link--linkedin {
+    grid-column: 1 / -1;
+    justify-self: center;
+    text-align: center;
+    align-items: center;
   }
 }
 
@@ -225,13 +264,11 @@
     width: min(1600px, calc(100% - 64px));
   }
 
-  .portal-link--resume,
-  .portal-link--linkedin {
+  .portal-link--resume {
     left: 24%;
   }
 
-  .portal-link--github,
-  .portal-link--ragent {
+  .portal-link--github {
     right: 24%;
   }
 }
