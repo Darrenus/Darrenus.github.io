@@ -50,8 +50,8 @@ function PortalCareerRing() {
         </defs>
         <text>
           <textPath href="#portal-career-ring-path" startOffset="0%">
-            AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER ·
-            <animate attributeName="startOffset" from="0%" to="-50%" dur="52s" repeatCount="indefinite" />
+            AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER · AI AGENT · ALGORITHM ENGINEER ·
+            <animate attributeName="startOffset" from="0%" to="-20%" dur="52s" repeatCount="indefinite" />
           </textPath>
         </text>
       </svg>
@@ -97,7 +97,7 @@ export default function PortalHome() {
               <small>Ask RONG</small>
             </a>
           </div>
-          <PortalTelemetry repository={repository} />
+          <PortalTelemetry repository={repository} version={profile.site.version} />
         </div>
       </main>
     </div>

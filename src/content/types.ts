@@ -85,6 +85,7 @@ export interface ProfileContent {
     wordmark: string;
     language: string;
     domain: string;
+    version: string;
     description: string;
     routes: Record<string, string>;
   };

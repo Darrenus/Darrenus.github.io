@@ -97,7 +97,7 @@ function compactLimit(tokens: number): string {
   return tokens >= 1000 ? `${Math.round(tokens / 1000)}k` : String(tokens);
 }
 
-export default function PortalTelemetry({ repository }: { repository: string }) {
+export default function PortalTelemetry({ repository, version }: { repository: string; version: string }) {
   const { commit, failed, now } = useLatestCommit(repository);
   const commitDate = commit?.commit?.committer?.date ?? commit?.commit?.author?.date;
   const commitAge = commit ? relativeTime(commitDate, now) : failed ? "UNAVAILABLE" : "SYNCING";
@@ -117,7 +117,7 @@ export default function PortalTelemetry({ repository }: { repository: string }) 
         <span>github/{repository}</span>
       </div>
       <div className="portal-hud-block portal-hud-block--bottom-right">
-        <strong>RAGENT {hasModel() ? "LIVE" : "READY"}</strong>
+        <strong>RAGENT {version} · {hasModel() ? "LIVE" : "READY"}</strong>
         <span>ctx {LIMITS.historyTurns} turns · {compactLimit(LIMITS.maxTokens)} max</span>
       </div>
     </aside>

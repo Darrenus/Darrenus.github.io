@@ -303,16 +303,18 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
     let raf = 0;
     let lastTime = performance.now();
     const projected = new THREE.Vector3();
+    const labelElements: HTMLSpanElement[] = [];
 
     const updateKnowledge = (time: number) => {
       if (nodes.length === 0) return;
       const glow = knowledge.geometry.getAttribute("aGlow") as THREE.BufferAttribute;
       const cycleLength = 3200;
-      const cyclePosition = (time % cycleLength) / cycleLength;
-      const sequenceIndex = Math.min(nodes.length - 1, Math.floor((time / cycleLength) % nodes.length));
-      const sequenceGlow = cyclePosition < 0.48
-        ? Math.sin((cyclePosition / 0.48) * Math.PI) * 0.88
-        : 0;
+      const batchSize = Math.min(5, nodes.length);
+      const batchStart = (Math.floor(time / cycleLength) * batchSize) % nodes.length;
+      const sequenceGlow = 0.82 + Math.sin((time / 1000) * 1.8) * 0.08;
+      const sequenceIndices = new Set(
+        Array.from({ length: batchSize }, (_, offset) => (batchStart + offset) % nodes.length),
+      );
       let hoveredIndex = -1;
       let closestDistance = HOVER_RADIUS;
       const screenPositions: Array<{ x: number; y: number }> = [];
@@ -332,22 +334,33 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
         }
       }
       for (let index = 0; index < nodes.length; index += 1) {
-        const nodeGlow = index === hoveredIndex ? 1 : index === sequenceIndex ? sequenceGlow : 0.06;
+        const nodeGlow = index === hoveredIndex ? 1 : sequenceIndices.has(index) ? sequenceGlow : 0.06;
         glow.setX(index, nodeGlow);
       }
       glow.needsUpdate = true;
 
-      const activeIndex = hoveredIndex >= 0 || sequenceGlow > 0 ? hoveredIndex >= 0 ? hoveredIndex : sequenceIndex : -1;
-      if (activeIndex < 0) {
+      const activeIndices = hoveredIndex >= 0 ? [hoveredIndex] : [...sequenceIndices];
+      if (activeIndices.length === 0) {
         if (labelRef.current) labelRef.current.style.opacity = "0";
         return;
       }
-      const labelPosition = screenPositions[activeIndex]!;
       if (labelRef.current) {
-        labelRef.current.textContent = nodes[activeIndex]!.label;
-        labelRef.current.style.left = `${labelPosition.x}px`;
-        labelRef.current.style.top = `${labelPosition.y}px`;
-        labelRef.current.style.opacity = hoveredIndex >= 0 ? "1" : String(Math.min(1, sequenceGlow));
+        while (labelElements.length < activeIndices.length) {
+          const label = document.createElement("span");
+          labelRef.current.appendChild(label);
+          labelElements.push(label);
+        }
+        while (labelElements.length > activeIndices.length) {
+          labelElements.pop()?.remove();
+        }
+        activeIndices.forEach((index, labelIndex) => {
+          const position = screenPositions[index]!;
+          const label = labelElements[labelIndex]!;
+          label.textContent = nodes[index]!.label;
+          label.style.left = `${position.x}px`;
+          label.style.top = `${position.y}px`;
+        });
+        labelRef.current.style.opacity = hoveredIndex >= 0 ? "1" : "0.92";
       }
     };
 

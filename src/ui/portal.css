@@ -90,10 +90,10 @@
 
 .portal-career-ring {
   position: absolute;
-  inset: -8% -14%;
+  inset: -15% -24%;
   z-index: 2;
   pointer-events: none;
-  opacity: 0.46;
+  opacity: 0.58;
   transform: rotateX(68deg) rotateZ(-2deg);
 }
 
@@ -109,10 +109,12 @@
 }
 
 .portal-career-ring text {
-  fill: rgba(139, 243, 155, 0.42);
+  fill: rgba(255, 184, 92, 0.78);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 15px;
-  letter-spacing: 0.28em;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-shadow: 0 0 10px rgba(255, 145, 58, 0.4);
 }
 
 .particle-node-label {
@@ -132,6 +134,17 @@
   opacity: 0;
   transform: translate(-50%, -145%);
   transition: opacity 180ms ease;
+}
+
+.particle-node-label > span {
+  position: absolute;
+  display: block;
+  max-width: 160px;
+  overflow: hidden;
+  color: rgba(190, 255, 198, 0.9);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translate(-50%, -145%);
 }
 
 .portal-hud {
@@ -224,13 +237,13 @@
   }
 
   .portal-career-ring {
-    inset: -8% -14%;
-    opacity: 0.34;
+    inset: -14% -22%;
+    opacity: 0.62;
   }
 
   .portal-career-ring text {
-    font-size: 12px;
-    letter-spacing: 0.2em;
+    font-size: 20px;
+    letter-spacing: 0.16em;
   }
 
   .particle-node-label {
