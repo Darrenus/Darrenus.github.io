@@ -5,6 +5,7 @@ import { normalizePath, parseRoute } from "../src/routes";
 assert.equal(normalizePath(""), "/");
 assert.equal(normalizePath("projects///"), "/projects");
 assert.deepEqual(parseRoute("/"), { kind: "home" });
+assert.deepEqual(parseRoute("/ragent/"), { kind: "ragent" });
 assert.deepEqual(parseRoute("/resume/"), { kind: "resume" });
 assert.deepEqual(parseRoute("/projects"), { kind: "projects" });
 assert.deepEqual(parseRoute("/projects/coding-agent/"), { kind: "project", slug: "coding-agent" });

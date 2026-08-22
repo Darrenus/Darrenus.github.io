@@ -14,6 +14,7 @@ function spaFallback(): Plugin {
       // GitHub Pages serves 404.html as a client-side fallback, but keeps the HTTP 404 status.
       // Known public routes get directory entry points so direct links return 200 as well.
       for (const route of [
+        "/ragent",
         "/resume",
         "/projects",
         "/projects/coding-agent",

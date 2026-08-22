@@ -1,5 +1,6 @@
 export type SiteRoute =
   | { kind: "home" }
+  | { kind: "ragent" }
   | { kind: "resume" }
   | { kind: "projects" }
   | { kind: "project"; slug: string }
@@ -14,6 +15,7 @@ export function normalizePath(pathname: string): string {
 export function parseRoute(pathname: string): SiteRoute {
   const path = normalizePath(pathname);
   if (path === "/") return { kind: "home" };
+  if (path === "/ragent") return { kind: "ragent" };
   if (path === "/resume") return { kind: "resume" };
   if (path === "/projects") return { kind: "projects" };
 

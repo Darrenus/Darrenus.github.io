@@ -5,13 +5,13 @@ export type SpherePhase = "sphere" | "expanding" | "expanded" | "collapsing";
 
 interface Props {
   phase: SpherePhase;
-  onExpand: () => void;
-  onComplete: () => void;
+  onExpand?: () => void;
+  onComplete?: () => void;
 }
 
 const RADIUS = 1.12;
-const DESKTOP_PARTICLES = 900;
-const MOBILE_PARTICLES = 520;
+const DESKTOP_PARTICLES = 1200;
+const MOBILE_PARTICLES = 680;
 const CLICK_DISTANCE = 6;
 const MAX_ROTATION_STEP = 0.12;
 const ROTATION_SENSITIVITY = 0.008;
@@ -31,7 +31,7 @@ const vertexShader = /* glsl */ `
     vec4 mvPosition = modelViewMatrix * vec4(point, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     vDepth = clamp(1.0 - ((-mvPosition.z) - 3.55) / 2.55, 0.08, 1.0);
-    gl_PointSize = (1.45 + vDepth * 1.65 + uActive * 0.5) * (14.0 / -mvPosition.z);
+    gl_PointSize = (0.82 + vDepth * 1.05 + uActive * 0.28) * (10.5 / -mvPosition.z);
   }
 `;
 
@@ -95,8 +95,8 @@ function nearestDirection(dx: number, dy: number): "horizontal" | "vertical" {
 export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
   const host = useRef<HTMLDivElement | null>(null);
   const phaseRef = useRef(phase);
-  const onCompleteRef = useRef(onComplete);
-  const onExpandRef = useRef(onExpand);
+  const onCompleteRef = useRef<(() => void) | undefined>(onComplete);
+  const onExpandRef = useRef<(() => void) | undefined>(onExpand);
   phaseRef.current = phase;
   onCompleteRef.current = onComplete;
   onExpandRef.current = onExpand;
@@ -160,10 +160,10 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       const currentPhase = phaseRef.current;
       if (currentPhase === "expanding" && progress > 0.98) {
         completed = true;
-        onCompleteRef.current();
+        onCompleteRef.current?.();
       } else if (currentPhase === "collapsing" && progress < 0.02) {
         completed = true;
-        onCompleteRef.current();
+        onCompleteRef.current?.();
       }
     };
 
@@ -218,14 +218,14 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       if (event.pointerId !== pointerId) return;
       active = false;
       pointerId = null;
-      if (!moved && phaseRef.current === "sphere") onExpandRef.current();
+      if (!moved && phaseRef.current === "sphere") onExpandRef.current?.();
       if (node.hasPointerCapture(event.pointerId)) node.releasePointerCapture(event.pointerId);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.key === "Enter" || event.key === " ") && phaseRef.current === "sphere") {
         event.preventDefault();
-        onExpandRef.current();
+        onExpandRef.current?.();
       }
     };
 
@@ -255,7 +255,7 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       className={`particle-sphere particle-sphere--${phase}`}
       role="button"
       tabIndex={phase === "sphere" ? 0 : -1}
-      aria-label={phase === "sphere" ? "拖动旋转粒子球，点击展开关键词" : "粒子球正在变化"}
+      aria-label={phase === "sphere" ? "拖动旋转粒子球" : "粒子球正在变化"}
     />
   );
 }

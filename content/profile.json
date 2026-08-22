@@ -8,6 +8,7 @@
     "description": "关于贺融的个人 AI 助手，介绍他的 AI 应用开发、Agent 工程和工业算法经历。",
     "routes": {
       "home": "/",
+      "ragent": "/ragent",
       "resume": "/resume",
       "resumePdf": "/resume-zh.pdf",
       "projects": "/projects"

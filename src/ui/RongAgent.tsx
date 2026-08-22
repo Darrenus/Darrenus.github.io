@@ -18,7 +18,6 @@ import { initialState, reducer, type AgentMessage, type Segment } from "./state"
 import { Markdown } from "./markdown";
 import { startFavicon } from "./favicon";
 import { Stickers } from "./Stickers";
-import { ParticleSphere, type SpherePhase } from "./ParticleSphere";
 import { isSoundMuted, playUiSound, setSoundMuted } from "./sound";
 import { PROFILE } from "../profile";
 import "./agent.css";
@@ -406,8 +405,12 @@ export default function RongAgent({
   const appRef = useRef<HTMLDivElement | null>(null);
   const busyRef = useRef(false);
   const [override, setOverride] = useState<Transport | null>(null);
-  const [spherePhase, setSpherePhase] = useState<SpherePhase>("sphere");
+  const keywordsVisible = true;
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
+
+  useEffect(() => {
+    document.title = `${wordmark} Agent`;
+  }, [wordmark]);
 
   /* Every turn takes a number, and stop/reset/a new question all bump it. A transport
    * cannot be forced to return the instant it is cancelled — it stops at its next poll —
@@ -475,12 +478,7 @@ export default function RongAgent({
     turn.current++;
     cancelled.current = true;
     busyRef.current = false;
-    setSpherePhase("sphere");
     dispatch({ type: "reset" });
-  }, []);
-
-  const collapseSphere = useCallback(() => {
-    setSpherePhase((current) => (current === "expanded" ? "collapsing" : current));
   }, []);
 
   const toggleSound = useCallback(() => {
@@ -488,19 +486,6 @@ export default function RongAgent({
     setSoundMutedState(next);
     setSoundMuted(next);
   }, [soundMuted]);
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      if (state.started) {
-        setSpherePhase("sphere");
-      } else {
-        collapseSphere();
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [collapseSphere, state.started]);
 
   // External control surface: any host page, or a test, can drive the thread.
   useEffect(() => {
@@ -605,20 +590,8 @@ export default function RongAgent({
       </header>
 
       {!state.started ? (
-        <main
-          className={spherePhase === "expanded" ? "landing landing--keywords" : "landing"}
-          onClick={(event) => {
-            if (event.target === event.currentTarget) collapseSphere();
-          }}
-        >
-          {spherePhase !== "expanded" && (
-            <ParticleSphere
-              phase={spherePhase}
-              onExpand={() => setSpherePhase("expanding")}
-              onComplete={() => setSpherePhase((current) => (current === "expanding" ? "expanded" : "sphere"))}
-            />
-          )}
-          {spherePhase === "expanded" && <Stickers onPick={(q) => void send(q)} />}
+        <main className={keywordsVisible ? "landing landing--keywords" : "landing"}>
+          {keywordsVisible && <Stickers onPick={(q) => void send(q)} />}
 
           <h1 className="h1">
             关于{" "}
@@ -657,7 +630,7 @@ export default function RongAgent({
         </main>
       ) : (
         <main className="chat">
-          {spherePhase === "expanded" && (
+          {keywordsVisible && (
             <div className="chat-keywords" aria-label="继续探索贺融的技能主题">
               <Stickers onPick={(q) => void send(q)} />
             </div>
