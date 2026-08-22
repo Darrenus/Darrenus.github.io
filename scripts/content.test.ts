@@ -9,6 +9,7 @@ const content = validateContent({
 });
 
 assert.equal(content.profile.site.domain, "rong.bio");
+assert.equal(content.profile.site.repository, "Darrenus/Darrenus.github.io");
 assert.equal(content.profile.site.routes.resume, "/resume");
 assert.equal(content.profile.site.routes.resumePdf, "/resume-zh.pdf");
 assert.equal(content.profile.person.preferredName, "Allen");

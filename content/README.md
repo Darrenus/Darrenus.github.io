@@ -3,6 +3,7 @@
 `profile.json` 与 `resume.json` 是网站公开事实的唯一人工维护入口。
 
 - 固定身份、联系方式、站点路由和隐私口径放在 `profile.json`。
+- `profile.json.site.repository` 是首页 HUD 读取最新提交的个人主页仓库，使用 `owner/name` 格式。
 - 教育、经历、项目、专利、获奖和技能放在 `resume.json`。
 - `summary`、`bio`、`highlights` 与 `customSections` 保留为自由文本，修改措辞不需要调整组件。
 - 所有条目的 `links` 都是可选记录；可以新增 `repository`、`demo`、`official`、`figma`、`video`、`evidence` 或其他自定义 `kind`。

@@ -5,6 +5,7 @@
     "wordmark": "RONG",
     "language": "zh-CN",
     "domain": "rong.bio",
+    "repository": "Darrenus/Darrenus.github.io",
     "version": "V1.0.0",
     "description": "关于贺融的个人 AI 助手，介绍他的 AI 应用开发、Agent 工程和工业算法经历。",
     "routes": {

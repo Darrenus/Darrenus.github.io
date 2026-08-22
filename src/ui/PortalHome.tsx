@@ -60,12 +60,9 @@ function PortalCareerRing() {
 }
 
 export default function PortalHome() {
-  const { profile, resume } = CONTENT;
+  const { profile } = CONTENT;
   const ragentPath = profile.site.routes.ragent ?? "/ragent";
-  const repositoryUrl = resume.projects
-    .flatMap((project) => project.links)
-    .find((link) => link.kind === "repository" && link.url)?.url;
-  const repository = repositoryUrl?.match(/^https?:\/\/github\.com\/([^/]+\/[^/]+)/)?.[1] ?? `${profile.github.username}/codeloop`;
+  const repository = profile.site.repository;
 
   useEffect(() => {
     document.title = `${profile.site.wordmark} | ${profile.person.preferredName}`;

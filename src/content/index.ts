@@ -38,6 +38,7 @@ export function validateContent(value: SiteContent): SiteContent {
   assert(value.profile.schemaVersion === 1, "unsupported profile schemaVersion");
   assert(value.resume.schemaVersion === 1, "unsupported resume schemaVersion");
   assert(value.profile.site.domain === "rong.bio", "public domain must be rong.bio");
+  assert(/^[^/]+\/[^/]+$/.test(value.profile.site.repository), "site repository must use owner/name format");
   assert(/^V\d+\.\d+\.\d+$/.test(value.profile.site.version), "site version must use VMAJOR.MINOR.PATCH format");
   assert(value.profile.person.name === "贺融", "public Chinese name changed unexpectedly");
 

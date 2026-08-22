@@ -10,6 +10,7 @@ export const PROFILE = {
     wordmark: CONTENT.profile.site.wordmark,
     language: CONTENT.profile.site.language,
     desiredDomain: CONTENT.profile.site.domain,
+    repository: CONTENT.profile.site.repository,
     description: CONTENT.profile.site.description,
     routes: CONTENT.profile.site.routes,
   },
