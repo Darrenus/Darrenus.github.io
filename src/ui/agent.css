@@ -250,6 +250,37 @@ textarea {
   background: var(--surface);
 }
 
+.sound-toggle {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted-2);
+  cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.sound-toggle:hover,
+.sound-toggle:focus-visible {
+  color: var(--ink);
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sound-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* ---------------------------------------------------------------- landing */
 
 .landing {
@@ -261,6 +292,33 @@ textarea {
   align-items: center;
   justify-content: center;
   padding: 0 24px 8vh;
+}
+
+.particle-sphere {
+  width: clamp(220px, 25vw, 320px);
+  height: clamp(220px, 25vw, 320px);
+  flex: 0 0 auto;
+  margin: 0 0 8px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 0 18px rgba(30, 210, 92, 0.08));
+}
+
+.particle-sphere canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.particle-sphere:active {
+  cursor: grabbing;
+}
+
+.particle-sphere--expanding,
+.particle-sphere--collapsing {
+  cursor: default;
 }
 
 .h1 {
@@ -460,10 +518,23 @@ textarea {
 /* ------------------------------------------------------------------- chat */
 
 .chat {
+  position: relative;
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
+}
+
+.chat-keywords {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.42;
+}
+
+.chat-keywords .sticker {
+  pointer-events: auto;
 }
 
 .scroll {
@@ -1591,5 +1662,22 @@ textarea {
 @media (max-width: 1180px) {
   .stickers {
     display: none;
+  }
+
+  .landing--keywords .stickers,
+  .chat-keywords .stickers {
+    display: block;
+  }
+}
+
+@media (max-width: 620px) {
+  .particle-sphere {
+    width: 220px;
+    height: 220px;
+    margin-bottom: 2px;
+  }
+
+  .chat-keywords {
+    opacity: 0.34;
   }
 }

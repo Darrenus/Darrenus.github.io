@@ -18,6 +18,8 @@ import { initialState, reducer, type AgentMessage, type Segment } from "./state"
 import { Markdown } from "./markdown";
 import { startFavicon } from "./favicon";
 import { Stickers } from "./Stickers";
+import { ParticleSphere, type SpherePhase } from "./ParticleSphere";
+import { isSoundMuted, playUiSound, setSoundMuted } from "./sound";
 import { PROFILE } from "../profile";
 import "./agent.css";
 
@@ -404,6 +406,8 @@ export default function RongAgent({
   const appRef = useRef<HTMLDivElement | null>(null);
   const busyRef = useRef(false);
   const [override, setOverride] = useState<Transport | null>(null);
+  const [spherePhase, setSpherePhase] = useState<SpherePhase>("sphere");
+  const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   /* Every turn takes a number, and stop/reset/a new question all bump it. A transport
    * cannot be forced to return the instant it is cancelled — it stops at its next poll —
@@ -417,6 +421,7 @@ export default function RongAgent({
     async (text: string) => {
       const q = text.trim();
       if (!q || busyRef.current) return;
+      playUiSound("send");
       const myTurn = ++turn.current;
       const current = () => turn.current === myTurn;
       busyRef.current = true;
@@ -470,8 +475,32 @@ export default function RongAgent({
     turn.current++;
     cancelled.current = true;
     busyRef.current = false;
+    setSpherePhase("sphere");
     dispatch({ type: "reset" });
   }, []);
+
+  const collapseSphere = useCallback(() => {
+    setSpherePhase((current) => (current === "expanded" ? "collapsing" : current));
+  }, []);
+
+  const toggleSound = useCallback(() => {
+    const next = !soundMuted;
+    setSoundMutedState(next);
+    setSoundMuted(next);
+  }, [soundMuted]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (state.started) {
+        setSpherePhase("sphere");
+      } else {
+        collapseSphere();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [collapseSphere, state.started]);
 
   // External control surface: any host page, or a test, can drive the thread.
   useEffect(() => {
@@ -530,12 +559,12 @@ export default function RongAgent({
         <div className="hdr-right">
           <nav className="nav">
             {PROFILE.site.routes.resume && (
-              <a href={PROFILE.site.routes.resume}>
+              <a href={PROFILE.site.routes.resume} onClick={() => playUiSound("navigate")}>
                 简历
               </a>
             )}
             {PROFILE.site.routes.projects && (
-              <a href={PROFILE.site.routes.projects}>
+              <a href={PROFILE.site.routes.projects} onClick={() => playUiSound("navigate")}>
                 项目
               </a>
             )}
@@ -554,13 +583,42 @@ export default function RongAgent({
               LinkedIn
             </a>
           </nav>
+          <button
+            className="sound-toggle"
+            type="button"
+            aria-label={soundMuted ? "开启音效" : "静音"}
+            aria-pressed={soundMuted}
+            title={soundMuted ? "开启音效" : "静音"}
+            onClick={toggleSound}
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M3.5 8.2h3.1l3.6-3v9.6l-3.6-3H3.5z" />
+              {soundMuted ? (
+                <path d="m13.5 8 3.2 4m0-4-3.2 4" />
+              ) : (
+                <path d="M13.6 7.1a4.2 4.2 0 0 1 0 5.8M15.8 5a7.2 7.2 0 0 1 0 10" />
+              )}
+            </svg>
+          </button>
           <img className="avatar" src={PROFILE.links.avatar} alt="贺融头像" />
         </div>
       </header>
 
       {!state.started ? (
-        <main className="landing">
-          <Stickers onPick={(q) => void send(q)} />
+        <main
+          className={spherePhase === "expanded" ? "landing landing--keywords" : "landing"}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) collapseSphere();
+          }}
+        >
+          {spherePhase !== "expanded" && (
+            <ParticleSphere
+              phase={spherePhase}
+              onExpand={() => setSpherePhase("expanding")}
+              onComplete={() => setSpherePhase((current) => (current === "expanding" ? "expanded" : "sphere"))}
+            />
+          )}
+          {spherePhase === "expanded" && <Stickers onPick={(q) => void send(q)} />}
 
           <h1 className="h1">
             关于{" "}
@@ -599,6 +657,11 @@ export default function RongAgent({
         </main>
       ) : (
         <main className="chat">
+          {spherePhase === "expanded" && (
+            <div className="chat-keywords" aria-label="继续探索贺融的技能主题">
+              <Stickers onPick={(q) => void send(q)} />
+            </div>
+          )}
           <div className="scroll" ref={scrollRef} onScroll={onScroll}>
             <div className="thread">
               {state.messages.map((m, mi) =>
