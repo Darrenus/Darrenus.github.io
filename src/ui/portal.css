@@ -23,10 +23,26 @@
 }
 
 .portal-sphere {
+  position: relative;
   width: clamp(480px, 75vh, 620px);
   height: clamp(480px, 75vh, 620px);
   display: grid;
   place-items: center;
+}
+
+.portal-core-label {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: rgba(204, 244, 211, 0.84);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(16px, 1.6vw, 22px);
+  letter-spacing: 0.16em;
+  text-shadow: 0 0 14px rgba(83, 221, 115, 0.24);
+  transform: translateX(0.08em);
 }
 
 .portal-sphere .particle-sphere {

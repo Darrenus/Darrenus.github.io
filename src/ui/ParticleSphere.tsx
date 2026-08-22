@@ -84,6 +84,59 @@ function createSphereGeometry(count: number): THREE.BufferGeometry {
   return geometry;
 }
 
+function createMeshGeometry(source: THREE.BufferGeometry): THREE.BufferGeometry {
+  const positions = source.getAttribute("position");
+  const values = positions.array as Float32Array;
+  const edges: number[] = [];
+  const neighborCount = 3;
+
+  // Connect each particle to a few nearest surface neighbors. This keeps the mesh
+  // fine-grained without the visual weight of a full wireframe or an O(n^2) edge list.
+  for (let i = 0; i < positions.count; i += 1) {
+    const nearestIndices = Array.from({ length: neighborCount }, () => -1);
+    const nearestDistances = Array.from({ length: neighborCount }, () => Number.POSITIVE_INFINITY);
+    const offset = i * 3;
+    const x = values[offset]!;
+    const y = values[offset + 1]!;
+    const z = values[offset + 2]!;
+
+    for (let j = 0; j < positions.count; j += 1) {
+      if (j === i) continue;
+      const candidateOffset = j * 3;
+      const dx = x - values[candidateOffset]!;
+      const dy = y - values[candidateOffset + 1]!;
+      const dz = z - values[candidateOffset + 2]!;
+      const distance = dx * dx + dy * dy + dz * dz;
+      const slot = nearestDistances.findIndex((current) => distance < current);
+      if (slot === -1) continue;
+
+      for (let k = neighborCount - 1; k > slot; k -= 1) {
+        nearestDistances[k] = nearestDistances[k - 1]!;
+        nearestIndices[k] = nearestIndices[k - 1]!;
+      }
+      nearestDistances[slot] = distance;
+      nearestIndices[slot] = j;
+    }
+
+    for (const neighbor of nearestIndices) {
+      if (neighbor === -1 || neighbor < i) continue;
+      const neighborOffset = neighbor * 3;
+      edges.push(
+        x,
+        y,
+        z,
+        values[neighborOffset]!,
+        values[neighborOffset + 1]!,
+        values[neighborOffset + 2]!,
+      );
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(edges, 3));
+  return geometry;
+}
+
 function nearestDirection(dx: number, dy: number): "horizontal" | "vertical" {
   const angle = Math.atan2(dy, dx);
   const normalized = angle < 0 ? angle + Math.PI * 2 : angle;
@@ -127,8 +180,19 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
         uActive: { value: 0 },
       },
     });
+    const meshGeometry = createMeshGeometry(geometry);
+    const meshMaterial = new THREE.LineBasicMaterial({
+      color: 0x2b9f53,
+      transparent: true,
+      opacity: 0.16,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
     const points = new THREE.Points(geometry, material);
-    scene.add(points);
+    const mesh = new THREE.LineSegments(meshGeometry, meshMaterial);
+    const sphereGroup = new THREE.Group();
+    sphereGroup.add(points, mesh);
+    scene.add(sphereGroup);
 
     const resize = () => {
       const width = Math.max(1, node.clientWidth);
@@ -205,10 +269,10 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       const deltaY = event.clientY - lastY;
       if (axis === "horizontal") {
         const step = Math.max(-MAX_ROTATION_STEP, Math.min(MAX_ROTATION_STEP, deltaX * ROTATION_SENSITIVITY));
-        points.rotation.y -= step;
+        sphereGroup.rotation.y -= step;
       } else {
         const step = Math.max(-MAX_ROTATION_STEP, Math.min(MAX_ROTATION_STEP, deltaY * ROTATION_SENSITIVITY));
-        points.rotation.x += step;
+        sphereGroup.rotation.x += step;
       }
       lastX = event.clientX;
       lastY = event.clientY;
@@ -243,7 +307,9 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       node.removeEventListener("pointercancel", endPointer);
       node.removeEventListener("keydown", onKeyDown);
       geometry.dispose();
+      meshGeometry.dispose();
       material.dispose();
+      meshMaterial.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };

@@ -30,6 +30,7 @@ export default function PortalHome() {
         <div className="portal-stage">
           <div className="portal-sphere">
             <ParticleSphere phase="sphere" />
+            <div className="portal-core-label" aria-hidden="true">HE RONG</div>
           </div>
 
           <nav className="portal-links" aria-label="RONG 入口">
