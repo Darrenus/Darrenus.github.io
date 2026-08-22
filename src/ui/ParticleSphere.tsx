@@ -15,6 +15,7 @@ const MOBILE_PARTICLES = 680;
 const CLICK_DISTANCE = 6;
 const MAX_ROTATION_STEP = 0.12;
 const ROTATION_SENSITIVITY = 0.008;
+const AUTO_ROTATION_SPEED = 0.075;
 
 const vertexShader = /* glsl */ `
   attribute float aDepth;
@@ -242,6 +243,10 @@ export function ParticleSphere({ phase, onExpand, onComplete }: Props) {
       material.uniforms.uProgress.value = progress;
       material.uniforms.uTime.value = time / 1000;
       material.uniforms.uActive.value += ((active ? 1 : 0) - material.uniforms.uActive.value) * 0.16;
+      if (currentPhase === "sphere" && !active) {
+        // Keep the portal alive with a slow clockwise turn; direct manipulation takes priority.
+        sphereGroup.rotation.y += AUTO_ROTATION_SPEED * elapsed;
+      }
       finishTransition();
       renderer.render(scene, camera);
       raf = requestAnimationFrame(render);
