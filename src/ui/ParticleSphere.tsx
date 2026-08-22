@@ -163,12 +163,27 @@ const COAST_TRACES: Array<Array<[number, number]>> = [
   [[138, 36], [142, 40], [145, 36], [143, 32], [138, 36]],
 ];
 
+function smoothCoastTrace(trace: Array<[number, number]>): Array<[number, number]> {
+  const controlPoints = trace[0]?.[0] === trace.at(-1)?.[0] && trace[0]?.[1] === trace.at(-1)?.[1]
+    ? trace.slice(0, -1)
+    : trace;
+  const curve = new THREE.CatmullRomCurve3(
+    controlPoints.map(([longitude, latitude]) => new THREE.Vector3(longitude, latitude, 0)),
+    true,
+    "centripetal",
+    0.22,
+  );
+  const sampleCount = Math.max(32, controlPoints.length * 8);
+  return curve.getPoints(sampleCount).slice(0, -1).map((point) => [point.x, point.y]);
+}
+
 function createCoastlineGeometry(): THREE.BufferGeometry {
   const edges: number[] = [];
   for (const trace of COAST_TRACES) {
-    for (let index = 1; index < trace.length; index += 1) {
-      const start = surfacePoint(...trace[index - 1]!);
-      const end = surfacePoint(...trace[index]!);
+    const smoothTrace = smoothCoastTrace(trace);
+    for (let index = 0; index < smoothTrace.length; index += 1) {
+      const start = surfacePoint(...smoothTrace[index]!);
+      const end = surfacePoint(...smoothTrace[(index + 1) % smoothTrace.length]!);
       edges.push(start.x, start.y, start.z, end.x, end.y, end.z);
     }
   }
@@ -180,7 +195,7 @@ function createCoastlineGeometry(): THREE.BufferGeometry {
 function createLandGeometry(): THREE.BufferGeometry {
   const positions: number[] = [];
   for (const trace of COAST_TRACES) {
-    const contour = trace.map(([longitude, latitude]) => new THREE.Vector2(longitude, latitude));
+    const contour = smoothCoastTrace(trace).map(([longitude, latitude]) => new THREE.Vector2(longitude, latitude));
     const triangles = THREE.ShapeUtils.triangulateShape(contour, []);
     for (const triangle of triangles) {
       for (const index of triangle) {
