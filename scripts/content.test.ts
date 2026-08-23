@@ -21,8 +21,11 @@ assert.equal(codeloop?.links.find((link) => link.kind === "repository")?.url, "h
 assert.ok(content.resume.projects.every((project) => project.slug));
 assert.ok(content.resume.projects.every((project) => project.links.some((link) => link.kind === "internal" && link.url === `/projects/${project.slug}` && link.status === "active")));
 assert.equal(codeloop?.links.find((link) => link.kind === "repository")?.status, "active");
-assert.match(codeloop?.summary ?? "", /LLM Agent 主循环/);
-assert.match(codeloop?.highlights.join(" ") ?? "", /SWE-bench Verified/);
+assert.match(codeloop?.summary ?? "", /可插拔的终端 Coding Agent/);
+assert.match(codeloop?.highlights.join(" ") ?? "", /DockerEnvironment/);
+assert.match(codeloop?.highlights.join(" ") ?? "", /trajectory replay/);
+assert.match(codeloop?.highlights.join(" ") ?? "", /正式 benchmark 尚未运行/);
+assert.equal(codeloop?.metrics.find((metric) => metric.label === "自动化测试")?.value, "73");
 assert.ok(content.resume.experience.some((entry) => entry.highlights.length >= 4));
 assert.ok(content.resume.experience.flatMap((entry) => entry.links).some((link) => link.label === "智己汽车官网" && link.status === "active"));
 assert.ok(content.resume.education.flatMap((entry) => entry.links).every((link) => link.status === "active" ? Boolean(link.url) : true));

@@ -152,18 +152,22 @@
       "subtitle": "终端 Coding Agent（Python / 开源）",
       "role": "个人开源项目",
       "period": { "start": "2026.03", "end": "进行中" },
-      "summary": "从零实现 LLM Agent 主循环与工具调用协议，面向终端代码编辑、受控执行与自动化评测。",
+      "summary": "从零实现可插拔的终端 Coding Agent，将模型调用、工具执行与代码编辑协议解耦，支持本地开发、Docker 隔离执行和可回放的 SWE-bench Verified 评测。",
       "highlights": [
-        "从零实现 LLM Agent 主循环与工具调用协议，支持文件读写、grep、SEARCH/REPLACE 增量编辑和沙箱化 shell。",
-        "设计只读工具免审批、写操作显式确认的权限分层，并加入工作区路径逃逸防护，限制 Agent 的可操作范围。",
-        "进行中：基于 SWE-bench Verified 搭建自动评测流水线，对比不同代码编辑格式的 Token 成本与编辑成功率。"
+        "实现约 110 行的 Agent 主循环，采用统一消息格式隔离不同模型供应商与上层逻辑，支持工具调用、错误恢复、有限步执行和运行轨迹记录；接入 Anthropic 与 OpenAI-compatible 接口，提供 11 个模型供应商预设，并支持响应缓存与 trajectory replay，便于低成本复现运行。",
+        "抽象 LocalEnvironment / DockerEnvironment 执行层，统一承载文件读取、grep、bash、SEARCH/REPLACE 与 whole-file 两种编辑方式；只读工具免审批，写操作显式确认，并通过工作区路径守卫、长驻容器和输出裁剪控制执行边界。",
+        "完善可复现运行链路：对超时、连接错误和 429/5xx 实施带随机抖动的指数退避重试，对余额耗尽等永久错误快速失败；记录 steps、tokens、编辑失败率等指标，自动排除 .pyc 等构建产物并提取可直接应用的 Git diff。",
+        "搭建 SWE-bench Verified 批量运行、评分与 A/B 消融评测工具，在固定实例、模型和随机种子下比较 SEARCH/REPLACE 与 whole-file 的任务解决率、Token 成本和编辑失败率；仓库当前已完成脚本与 73 项测试，正式 benchmark 尚未运行。"
       ],
-      "metrics": [],
+      "metrics": [
+        { "value": "73", "label": "自动化测试", "qualifier": "含 Docker 集成测试，CI 覆盖 Python 3.9/3.11/3.13" },
+        { "value": "11", "label": "模型供应商预设", "qualifier": "含 Anthropic、DeepSeek 及 OpenAI-compatible 接口" }
+      ],
       "links": [
         { "kind": "internal", "label": "项目详情", "url": "/projects/coding-agent", "status": "active" },
         { "kind": "repository", "label": "GitHub", "url": "https://github.com/Darrenus/codeloop", "status": "active" }
       ],
-      "tags": ["Python", "LLM Agent", "工具调用协议", "SEARCH/REPLACE", "沙箱化 shell", "权限分层", "SWE-bench Verified"],
+      "tags": ["Python", "LLM Agent", "模型抽象", "Docker", "工具调用协议", "SEARCH/REPLACE", "轨迹回放", "权限分层", "SWE-bench Verified"],
       "visibility": "public"
     },
     {
