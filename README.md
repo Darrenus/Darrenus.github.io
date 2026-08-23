@@ -1,6 +1,6 @@
-# RONG Agent
+# Ragent
 
-贺融的个人 AI 助手。页面使用 React、TypeScript 和 Vite 构建，Agent 循环、工具调用和 BM25 检索均运行在访问者的浏览器中。
+个人 AI 助手。页面使用 React、TypeScript 和 Vite 构建，Agent 循环、工具调用和 BM25 检索均运行在访问者的浏览器中。
 
 ## 本地运行
 
