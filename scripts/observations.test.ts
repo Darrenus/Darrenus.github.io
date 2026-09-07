@@ -1,3 +1,4 @@
+import { sourceHref } from "../src/ui/source-link";
 import assert from "node:assert/strict";
 import { CONTENT } from "../src/content";
 import {
@@ -39,3 +40,12 @@ assert.equal(readQuestion("?q=%20%20"), "");
 assert.equal(readQuestion("?q=" + "a".repeat(1300)).length, 1200);
 assert.equal(readQuestion("?q=A%26B%3F%20%E8%B4%BA%E8%9E%8D"), "A&B? 贺融");
 console.log("observation navigation, rotation and question checks passed");
+
+assert.equal(sourceHref({ label: "实习与工程经历" }), "/resume#experience-title");
+assert.equal(sourceHref({ label: "项目经历" }), "/projects");
+assert.equal(sourceHref({ label: "GitHub", url: "https://github.com/Darrenus" }), "https://github.com/Darrenus");
+assert.equal(sourceHref({ label: "Unknown", url: "javascript:alert(1)" }), undefined);
+assert.equal(sourceHref({ label: "Unknown" }), undefined);
+console.log("source links resolve to public records without empty or executable URLs");
+
+assert.equal(sourceHref({ label: "constructor" }), undefined);

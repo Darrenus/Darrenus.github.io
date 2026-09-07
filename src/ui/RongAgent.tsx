@@ -19,6 +19,7 @@ import { Markdown } from "./markdown";
 import { startFavicon } from "./favicon";
 import SiteHeader from "./SiteHeader";
 import { readQuestion } from "./observations";
+import { sourceHref } from "./source-link";
 import { isSoundMuted, playUiSound, setSoundMuted } from "./sound";
 import { PROFILE } from "../profile";
 import "./agent.css";
@@ -274,18 +275,16 @@ function AgentTurn({
         <div className="sources">
           <span className="sources-label">来源</span>
           {(allSources ? message.sources : message.sources.slice(0, SOURCE_LIMIT)).map(
-            (src, i) => (
-              <a
-                className="source"
-                key={`${src.url ?? src.label}-${i}`}
-                href={src.url ?? "#"}
-                target={src.url?.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
-              >
-                <span className="source-n">{i + 1}</span>
-                <span>{src.label}</span>
-              </a>
-            ),
+            (src, i) => {
+              const href = sourceHref(src);
+              const label = <><span className="source-n">{i + 1}</span><span>{src.label}</span></>;
+              return href ? (
+                <a className="source" key={`${src.label}-${i}`} href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                  {label}
+                </a>
+              ) : <span className="source" key={`${src.label}-${i}`}>{label}</span>;
+            },
           )}
           {/* A deep question can touch twenty-odd files. Hiding none of them is honest but
               unreadable, so the count stays visible and the rest are one click away. */}
