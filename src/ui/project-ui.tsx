@@ -1,4 +1,5 @@
-import { CONTENT, type ContentLink } from "../content";
+import SiteHeader from "./SiteHeader";
+import { type ContentLink } from "../content";
 
 function isExternalUrl(url: string): boolean {
   return /^https?:\/\//.test(url);
@@ -10,26 +11,8 @@ function statusLabel(link: ContentLink): string {
   return "";
 }
 
-export function ProjectSiteHeader({ current }: { current?: "resume" | "projects" }) {
-  const { profile } = CONTENT;
-  const avatar = profile.links.find((link) => link.id === "avatar");
-
-  return (
-    <header className="projects-header">
-      <div className="projects-header-inner">
-        <a className="projects-wordmark" href="/" aria-label="返回 RONG 主页">{profile.site.wordmark}</a>
-        <nav className="projects-nav" aria-label="主导航">
-          <a href="/ragent" aria-current={current === undefined ? "page" : undefined}>Ragent</a>
-          <a href="/resume" aria-current={current === "resume" ? "page" : undefined}>简历</a>
-          <a href="/projects" aria-current={current === "projects" ? "page" : undefined}>项目</a>
-          {profile.links.filter((link) => ["github", "linkedin"].includes(link.kind)).map((link) => (
-            <a className="projects-nav-external" href={link.url ?? "#"} key={link.id} target="_blank" rel="noreferrer">{link.label}</a>
-          ))}
-          {avatar?.url && <img className="projects-avatar" src={avatar.url} alt="贺融 GitHub 头像" />}
-        </nav>
-      </div>
-    </header>
-  );
+export function ProjectSiteHeader({ current = "projects" }: { current?: "resume" | "projects" }) {
+  return <SiteHeader current={current} />;
 }
 
 export function ProjectTags({ tags, className = "" }: { tags: string[]; className?: string }) {

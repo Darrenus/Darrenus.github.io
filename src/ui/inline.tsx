@@ -61,7 +61,7 @@ function link(href: string, label: ReactNode, key: number): ReactNode {
   );
 }
 
-export function inline(text: string, keyBase = 0): ReactNode[] {
+export function inline(text: string, keyBase = 0, allowLinks = true): ReactNode[] {
   const out: ReactNode[] = [];
   let last = 0;
   let key = keyBase;
@@ -123,11 +123,13 @@ export function inline(text: string, keyBase = 0): ReactNode[] {
       const split = token.indexOf("](");
       const label = token.slice(1, split);
       const href = token.slice(split + 2, -1);
-      out.push(link(href, inline(label, key * 100), key++));
+      const children = inline(label, key * 100, false);
+      out.push(allowLinks ? link(href, children, key++) : <span key={key++}>{children}</span>);
     } else {
       // Bare URL, optionally in angle brackets.
       const url = token.replace(/^<|>$/g, "");
-      out.push(link(url, prettyUrl(url), key++));
+      // A URL used as a Markdown link label must not create an anchor inside an anchor.
+      out.push(allowLinks ? link(url, prettyUrl(url), key++) : prettyUrl(url));
     }
   }
 

@@ -29,7 +29,7 @@ export default function ProjectsPage() {
   return (
     <div className="projects-page">
       <ProjectSiteHeader current="projects" />
-      <main>
+      <main id="main-content">
         <section className="projects-hero" aria-labelledby="projects-title">
           <div className="projects-container">
             <p className="projects-eyebrow">Selected work</p>

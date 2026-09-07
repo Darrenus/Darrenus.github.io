@@ -1,3 +1,4 @@
+import SiteHeader from "./SiteHeader";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod, type ContentLink, type ProfileLink } from "../content";
 import "./resume.css";
@@ -74,11 +75,9 @@ function SectionHeading({ eyebrow, title, id }: { eyebrow: string; title: string
 export default function ResumePage() {
   const { profile, resume } = CONTENT;
   const emailLinks = profile.links.filter((link) => link.kind === "email");
-  const publicProfileLinks = profile.links.filter(
-    (link) => ["github", "linkedin", "website"].includes(link.kind),
-  );
-
   useEffect(() => {
+    // The static HTML has no résumé sections until React mounts.
+    document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "instant" });
     document.title = `${resume.meta.title} | ${profile.site.wordmark}`;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     description?.setAttribute("content", profile.site.description);
@@ -90,30 +89,9 @@ export default function ResumePage() {
 
   return (
     <div className="resume-page">
-      <header className="resume-header">
-        <div className="resume-header-inner">
-          <a className="resume-wordmark" href="/" aria-label="返回 RONG 主页">{profile.site.wordmark}</a>
-          <nav className="resume-nav" aria-label="主导航">
-            <a className="resume-nav-current" href="/resume" aria-current="page">简历</a>
-            <a href="/ragent">Ragent</a>
-            <a href="/projects">项目</a>
-            {publicProfileLinks.map((link) => (
-              <a
-                className="resume-nav-external"
-                href={link.url ?? "#"}
-                key={link.id}
-                target={link.url && isExternalUrl(link.url) ? "_blank" : undefined}
-                rel={link.url && isExternalUrl(link.url) ? "noreferrer" : undefined}
-              >
-                {link.label}
-              </a>
-            ))}
-            <img className="resume-avatar" src={profile.links.find((link) => link.id === "avatar")?.url ?? ""} alt="贺融 GitHub 头像" />
-          </nav>
-        </div>
-      </header>
+      <SiteHeader current="resume" />
 
-      <main>
+      <main id="main-content">
         <section className="resume-hero" aria-labelledby="resume-title">
           <div className="resume-container resume-hero-grid">
             <div>
@@ -154,7 +132,7 @@ export default function ResumePage() {
             <SectionHeading eyebrow="03" title="经历" id="experience-title" />
             <div className="resume-timeline">
               {resume.experience.map((entry) => (
-                <article className="resume-entry" key={entry.id}>
+                <article className="resume-entry" id={entry.id} key={entry.id}>
                   <div className="resume-entry-meta">
                     <time>{formatPeriod(entry.period)}</time>
                     <div className="resume-entry-tags">{entry.tags.slice(0, 4).map((tag) => <span key={tag}>{tag}</span>)}</div>
@@ -180,7 +158,7 @@ export default function ResumePage() {
             <SectionHeading eyebrow="04" title="教育" id="education-title" />
             <div className="resume-education-grid">
               {resume.education.map((entry) => (
-                <article className="resume-education" key={entry.id}>
+                <article className="resume-education" id={entry.id} key={entry.id}>
                   <div className="resume-entry-meta"><time>{formatPeriod(entry.period)}</time><span className="resume-rank">{entry.rankLabel}</span></div>
                   <h3>{entry.institution}</h3>
                   <p className="resume-role">{entry.degree} · {entry.field}</p>

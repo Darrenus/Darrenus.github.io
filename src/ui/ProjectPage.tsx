@@ -47,7 +47,7 @@ export default function ProjectPage({ project }: { project: ProjectEntry }) {
   return (
     <div className="projects-page">
       <ProjectSiteHeader current="projects" />
-      <main>
+      <main id="main-content">
         <section className="project-hero" aria-labelledby="project-title">
           <div className="projects-container">
             <a className="project-back" href="/projects"><span aria-hidden="true">←</span> 全部项目</a>

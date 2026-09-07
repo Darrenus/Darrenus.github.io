@@ -10,7 +10,11 @@ import { CONTENT } from "./content";
 import { parseRoute } from "./routes";
 import { createTransport } from "./agent/transport";
 import { hasModel, setByokKey } from "./agent/config";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-500.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
 import "./ui/agent.css";
+import "./ui/observatory.css";
 
 /* Local development without the proxy: paste a DeepSeek key once from the console.
  *

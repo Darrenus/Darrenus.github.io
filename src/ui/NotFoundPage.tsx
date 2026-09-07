@@ -21,7 +21,7 @@ export default function NotFoundPage() {
   return (
     <div className="projects-page projects-page--not-found">
       <ProjectSiteHeader />
-      <main className="not-found-main">
+      <main id="main-content" className="not-found-main">
         <section className="not-found" aria-labelledby="not-found-title">
           <p className="projects-eyebrow">404</p>
           <h1 id="not-found-title">页面未找到</h1>

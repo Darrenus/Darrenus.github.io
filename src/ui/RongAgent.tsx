@@ -17,7 +17,8 @@ import type { AgentEvent, Transport } from "../agent/events";
 import { initialState, reducer, type AgentMessage, type Segment } from "./state";
 import { Markdown } from "./markdown";
 import { startFavicon } from "./favicon";
-import { Stickers } from "./Stickers";
+import SiteHeader from "./SiteHeader";
+import { readQuestion } from "./observations";
 import { isSoundMuted, playUiSound, setSoundMuted } from "./sound";
 import { PROFILE } from "../profile";
 import "./agent.css";
@@ -63,77 +64,6 @@ interface Props {
   transport: Transport;
 }
 
-/* ----------------------------------------------------------------------- rays
- * The background line field answers the pointer on three axes. Vertical position sets the gap
- * and slides the field along its own normal, so moving down spreads the lines and pushes them
- * past you. Horizontal position tilts the field.
- *
- * Same shape as useSheen: custom properties written straight to the node, eased in a rAF loop,
- * never in React state. The easing is far slower than the sheen's 0.12 on purpose. The sheen is
- * a highlight the eye expects to keep up with the cursor; this is a room the page sits in, and
- * a room that answers instantly reads as a gimmick.
- *
- * Lines are a hard 2px, so the gap can run tighter than it could when each one carried a
- * soft shoulder and neighbours merged into haze. */
-const GAP_NEAR = 54;
-const GAP_FAR = 22;
-/* The field rests slanted, not level. Level lines read as ruled paper, and the slant is what
- * says the light comes from somewhere. The pointer swings the angle either side of this rest
- * position, so the same sweep still reads as depth. Rest plus swing stays inside the 130px of
- * vertical slack that .app::before is overhung by. */
-const TILT_REST = -13;
-const TILT_SWING = 9;
-
-function useRays(el: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ease = calm ? 1 : 0.032;
-
-    let gap = 32;
-    let slide = 0;
-    let angle = TILT_REST;
-    let toGap = 32;
-    let toSlide = 0;
-    let toAngle = TILT_REST;
-    let raf = 0;
-
-    const loop = () => {
-      gap += (toGap - gap) * ease;
-      slide += (toSlide - slide) * ease;
-      angle += (toAngle - angle) * ease;
-      const node = el.current;
-      if (node) {
-        node.style.setProperty("--gap", `${gap.toFixed(2)}px`);
-        node.style.setProperty("--slide", `${slide.toFixed(1)}px`);
-        node.style.setProperty("--angle", `${angle.toFixed(2)}deg`);
-      }
-      raf =
-        Math.abs(toGap - gap) > 0.04 ||
-        Math.abs(toSlide - slide) > 0.3 ||
-        Math.abs(toAngle - angle) > 0.02
-          ? requestAnimationFrame(loop)
-          : 0;
-    };
-
-    const onPointer = (e: PointerEvent) => {
-      const down = e.clientY / Math.max(1, window.innerHeight);
-      const across = e.clientX / Math.max(1, window.innerWidth);
-      // Top of the screen is the far field, bottom is the near field.
-      toGap = GAP_FAR + down * (GAP_NEAR - GAP_FAR);
-      toSlide = down * 260 - 130;
-      toAngle = TILT_REST + (across * 2 - 1) * TILT_SWING;
-      if (!raf) raf = requestAnimationFrame(loop);
-    };
-
-    window.addEventListener("pointermove", onPointer, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onPointer);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [el]);
-}
-
 /* --------------------------------------------------------------------- composer */
 
 function Composer({
@@ -171,11 +101,12 @@ function Composer({
       <textarea
         ref={ta}
         rows={rows}
+        aria-label="你的问题"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
+          if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
             e.preventDefault();
             onSend();
           }
@@ -398,14 +329,13 @@ export default function RongAgent({
   footerNote = live ? FOOTER_NOTE : OFFLINE_NOTE,
   transport,
 }: Props) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState, (base) => ({ ...base, draft: readQuestion(window.location.search) }));
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const stickToBottom = useRef(true);
   const cancelled = useRef(false);
   const appRef = useRef<HTMLDivElement | null>(null);
   const busyRef = useRef(false);
   const [override, setOverride] = useState<Transport | null>(null);
-  const keywordsVisible = true;
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   useEffect(() => {
@@ -505,7 +435,6 @@ export default function RongAgent({
    * and polls, instead of being torn down and rebuilt on every token that arrives. */
   useEffect(() => startFavicon(() => (busyRef.current ? "busy" : "idle")), []);
 
-  useRays(appRef);
 
   // Follow the stream, but let go the moment the reader scrolls up to re-read something.
   useEffect(() => {
@@ -525,49 +454,8 @@ export default function RongAgent({
 
   return (
     <div className="app" ref={appRef}>
-      <header className="hdr">
-        <div className="hdr-left">
-          {/* The wordmark is the way back to the start, the way a masthead is on any site.
-              A separate "New thread" button said the same thing twice. */}
-          {state.started ? (
-            <button
-              className="wordmark wordmark--home"
-              onClick={reset}
-              title="开始新对话"
-            >
-              {wordmark}
-            </button>
-          ) : (
-            <div className="wordmark">{wordmark}</div>
-          )}
-        </div>
-        <div className="hdr-right">
-          <nav className="nav">
-            {PROFILE.site.routes.resume && (
-              <a href={PROFILE.site.routes.resume} onClick={() => playUiSound("navigate")}>
-                简历
-              </a>
-            )}
-            {PROFILE.site.routes.projects && (
-              <a href={PROFILE.site.routes.projects} onClick={() => playUiSound("navigate")}>
-                项目
-              </a>
-            )}
-            <a
-              href={PROFILE.links.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-            <a
-              href={PROFILE.links.linkedin}
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
-          </nav>
+      <SiteHeader current="ragent" actions={<>
+          {state.started && <button className="new-conversation" onClick={reset}>新对话</button>}
           <button
             className="sound-toggle"
             type="button"
@@ -585,13 +473,11 @@ export default function RongAgent({
               )}
             </svg>
           </button>
-          <img className="avatar" src={PROFILE.links.avatar} alt="贺融头像" />
-        </div>
-      </header>
+      </>} />
 
       {!state.started ? (
-        <main className={keywordsVisible ? "landing landing--keywords" : "landing"}>
-          {keywordsVisible && <Stickers onPick={(q) => void send(q)} />}
+        <main className="landing" id="main-content">
+          <p className="eyebrow question-eyebrow">RAGENT / AN OPEN CONVERSATION</p>
 
           <h1 className="h1">
             关于{" "}
@@ -602,6 +488,7 @@ export default function RongAgent({
           </h1>
 
 
+          <p className="question-intro">从一个问题开始，沿着公开资料，了解我的工作。</p>
           <div className="composer-wrap">
             <Composer
               value={state.draft}
@@ -627,14 +514,10 @@ export default function RongAgent({
               </div>
             )}
           </div>
+          <p className="question-mode">{live ? "在线问答 · 回答附有来源，请结合原文判断。" : OFFLINE_NOTE}</p>
         </main>
       ) : (
-        <main className="chat">
-          {keywordsVisible && (
-            <div className="chat-keywords" aria-label="继续探索贺融的技能主题">
-              <Stickers onPick={(q) => void send(q)} />
-            </div>
-          )}
+        <main className="chat" id="main-content">
           <div className="scroll" ref={scrollRef} onScroll={onScroll}>
             <div className="thread">
               {state.messages.map((m, mi) =>
