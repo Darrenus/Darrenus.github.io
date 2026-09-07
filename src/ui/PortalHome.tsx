@@ -1,249 +1,257 @@
-import { useEffect, useState } from "react";
-import { CONTENT, formatPeriod } from "../content";
-import SiteHeader from "./SiteHeader";
-import ObservationDial from "./ObservationDial";
-import { OBSERVATIONS, questionHref } from "./observations";
-import "./portal.css";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+import { CONTENT } from "../content";
+import type { EarthControls } from "./EarthScene";
+import "./earth.css";
 
+const EarthScene = lazy(() => import("./EarthScene"));
 export default function PortalHome() {
-  const { profile, resume } = CONTENT;
-  const [selected, setSelected] = useState(0);
-  const observation = OBSERVATIONS[selected];
+  const [zoom, setZoom] = useState(0);
+  const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
+    "loading",
+  );
+  const [paused, setPaused] = useState(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [opened, setOpened] = useState(false);
+  const [projectIndex, setProjectIndex] = useState(0);
+  const controls = useRef<EarthControls>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const openButton = useRef<HTMLButtonElement>(null);
+  const reportZoom = useCallback((value: number) => setZoom(value), []);
+  const reportStatus = useCallback(
+    (value: "ready" | "fallback") => setStatus(value),
+    [],
+  );
+  const project = CONTENT.resume.projects[projectIndex];
   useEffect(() => {
-    document.title = "RONG · 贺融 | 观测与求证";
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const changeMotion = () => {
+      if (motion.matches) setPaused(true);
+    };
+    motion.addEventListener("change", changeMotion);
+    document.title = "RONG · 贺融 | A world in motion";
     document
       .querySelector<HTMLMetaElement>('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "贺融 Allen He 的个人网站。探索 AI Agent、工业算法与产品设计中的真实项目和工程思考。",
+        "贺融 Allen He 的个人空间。探索 AI Agent、工业算法与产品设计。",
       );
-    document
-      .querySelector<HTMLLinkElement>('link[rel="canonical"]')
-      ?.setAttribute("href", `https://${profile.site.domain}/`);
-  }, [profile.site.domain]);
+    return () => motion.removeEventListener("change", changeMotion);
+  }, []);
+  const close = () => {
+    dialog.current?.close();
+    setOpened(false);
+    openButton.current?.focus();
+  };
+  const open = () => {
+    setOpened(true);
+    dialog.current?.showModal();
+  };
   return (
-    <div className="observatory-page">
-      <SiteHeader current="home" />
-      <main id="main-content">
-        <section
-          className="observatory-hero frame"
-          aria-labelledby="home-title"
-        >
-          <div className="hero-intro">
-            <p className="eyebrow">
-              <span className="small-rule" /> A PERSONAL OBSERVATORY
-            </p>
-            <p className="hero-name">
-              {profile.person.name}
-              <span>{profile.person.englishName}</span>
-            </p>
-            <h1 id="home-title">
-              让智能，
-              <br />
-              经得起<span className="brass-text">求证。</span>
-            </h1>
-            <p className="hero-description">
-              我构建 AI 应用与 Agent 系统。
-              <br />
-              关注推理如何走向行动，
-              <br className="desktop-break" />
-              也关注行动如何被验证。
-            </p>
-            <a className="text-link hero-cta" href="/projects">
-              走进我的项目 <span aria-hidden="true">↗</span>
-            </a>
-            <div className="hero-affiliation">
-              <span>NUS · 软件工程技术硕士在读</span>
-              <span>KAIST · 计算机科学本科</span>
-            </div>
-          </div>
-          <div className="hero-instrument">
-            <div className="instrument-heading">
-              <span>01 / 观测与求证</span>
-              <span>六个方向，一条主线</span>
-            </div>
-            <ObservationDial selected={selected} onSelect={setSelected} />
-            <p className="dial-instructions" id="dial-instructions">
-              <span aria-hidden="true">↔</span> 拖动圆心转动指针 · 或点选主题
-              <span className="sr-only">
-                。键盘方向键切换，Home 与 End 跳至首尾。
-              </span>
-            </p>
-          </div>
-          <aside
-            className="observation-readout"
-            aria-label="主题对应的公开记录"
+    <main
+      className={`earth-page is-${status}${opened ? " is-exploring" : ""}`}
+      style={{ "--journey": zoom } as CSSProperties}
+    >
+      <div className="earth-background" aria-hidden="true" />
+      <div className="earth-large-type" aria-hidden="true">
+        RONG
+      </div>
+      <Suspense fallback={null}>
+        <EarthScene
+          ref={controls}
+          paused={paused || opened}
+          onZoom={reportZoom}
+          onReady={reportStatus}
+        />
+      </Suspense>
+      {status === "fallback" && (
+        <div className="earth-fallback" aria-hidden="true" />
+      )}
+      <div className="earth-vignette" aria-hidden="true" />
+      <header className="earth-header">
+        <a className="earth-logo" href="/" aria-label="RONG 首页">
+          <span className="earth-logo-mark" aria-hidden="true">
+            ⊕
+          </span>{" "}
+          RONG
+        </a>
+        <span className="earth-header-caption">A PERSONAL UNIVERSE</span>
+        <nav aria-label="主导航">
+          <a href="/projects">
+            项目 <span aria-hidden="true">↗</span>
+          </a>
+          <a href="/resume">
+            简历 <span aria-hidden="true">↗</span>
+          </a>
+          <a className="earth-ask" href="/ragent">
+            问 RONG <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </header>
+      <div className="earth-side-label" aria-hidden="true">
+        CURIOSITY / SYSTEMS / POSSIBILITY
+      </div>
+      <div className="earth-identity">
+        <p className="earth-overline">
+          贺融 <span>ALLEN HE</span>
+        </p>
+        <h1>
+          保持好奇。
+          <br />
+          <span>向未知，进一步。</span>
+        </h1>
+        <p className="earth-role">AI 应用开发 · Agent 工程</p>
+      </div>
+      <button
+        className="earth-explore"
+        aria-label="探索我的工作"
+        onClick={open}
+        ref={openButton}
+      >
+        <span className="earth-explore-orbit" aria-hidden="true">
+          <span>↗</span>
+        </span>
+        <span>
+          探索我的工作<small>SELECTED WORK</small>
+        </span>
+      </button>
+      <div className="earth-near-caption" aria-hidden={zoom < 0.5}>
+        <span>01 / CLOSER</span>
+        <p>
+          视角改变，
+          <br />
+          新的联系开始浮现。
+        </p>
+      </div>
+      <footer className="earth-footer">
+        <div className="earth-location">
+          <span className="earth-location-dot" /> SINGAPORE
+          <small>NUS · KAIST</small>
+        </div>
+        <div className="earth-instructions">
+          <span className="earth-scroll-mark" aria-hidden="true" />
+          <span>
+            {status === "loading"
+              ? "正在构建地球…"
+              : status === "fallback"
+                ? "当前设备使用静态视图"
+                : zoom > 0.85
+                  ? "继续向下转动地表 · 向上拉远"
+                  : "向下滚动靠近 · 拖动环绕"}
+            <small>
+              {status === "fallback"
+                ? "项目、简历与问答仍可访问"
+                : "也可使用缩放按钮 · 手机支持双指缩放"}
+            </small>
+          </span>
+        </div>
+        <div className="earth-controls" aria-label="地球视角控制">
+          <button
+            onClick={() => controls.current?.zoomBy(-0.18)}
+            aria-label="缩小地球"
+            disabled={status !== "ready" || zoom < 0.01}
           >
-            <div
-              className="readout-title"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <p className="eyebrow">
-                {String(selected + 1).padStart(2, "0")} / {observation.english}
-              </p>
-              <h2>{observation.statement}</h2>
-            </div>
-            <ol className="evidence-list" key={selected}>
-              {observation.evidence.map((item, i) => (
-                <li key={item.href}>
-                  <a href={item.href}>
-                    <span className="evidence-index">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>
-                      <strong>{item.label}</strong>
-                      <span className="evidence-detail">{item.detail}</span>
-                    </span>
-                    <span className="evidence-arrow" aria-hidden="true">
-                      ↗
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-            <a
-              className="text-link readout-ask"
-              href={questionHref(observation.question)}
-            >
-              就此问 RONG <span aria-hidden="true">↗</span>
-            </a>
-          </aside>
-          <div className="hero-baseline">
-            <span>SINGAPORE · 01° N / 103° E</span>
-            <a href="#selected-work">
-              向下，读一些实际的工作 <span aria-hidden="true">↓</span>
-            </a>
-          </div>
-        </section>
-        <section
-          className="selected-work frame"
-          id="selected-work"
-          aria-labelledby="work-title"
-        >
-          <div className="section-heading">
-            <p className="eyebrow">02 / SELECTED WORK</p>
-            <h2 id="work-title">想法，落在实处。</h2>
-            <p>从 Agent 的一轮执行，到真实世界的反馈。</p>
-          </div>
-          <div className="home-projects">
-            {resume.projects.slice(0, 3).map((project, index) => (
-              <a
-                className="home-project"
-                href={`/projects/${project.slug}`}
-                key={project.id}
-              >
-                <div
-                  className={`project-study project-study--${index}`}
-                  aria-hidden="true"
-                >
-                  <span className="study-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <svg viewBox="0 0 400 240">
-                    {index === 0 ? (
-                      <>
-                        <path d="M104 120a96 72 0 1 1 96 72" />
-                        <path d="m198 181 12 11-13 10" />
-                        <rect x="154" y="82" width="92" height="76" rx="2" />
-                        <path d="M104 120h50m92 0h50M200 48v34m0 76v34" />
-                        <circle cx="104" cy="120" r="5" />
-                        <circle cx="296" cy="120" r="5" />
-                      </>
-                    ) : index === 1 ? (
-                      <>
-                        <path d="M52 172H350M82 50V192M82 153l44-39 35 11 44-59 33 24 30-12 42-31" />
-                        <path
-                          className="study-faint"
-                          d="M82 172l44-28 35-8 44-32 33 7 30-29 42-21M82 92h238M82 132h238"
-                        />
-                        <circle cx="205" cy="66" r="5" />
-                      </>
-                    ) : (
-                      <>
-                        <rect x="113" y="41" width="104" height="158" rx="10" />
-                        <rect x="177" y="64" width="104" height="158" rx="10" />
-                        <path d="M195 102h66m-66 12h40M195 173h66" />
-                        <circle cx="229" cy="146" r="18" />
-                        <path d="M130 73h50M130 83h30" />
-                      </>
-                    )}
-                  </svg>
-                  <span className="study-caption">
-                    {
-                      [
-                        "MODEL → TOOL → OBSERVATION",
-                        "CONTROL / ENERGY / CONSTRAINT",
-                        "RESEARCH → PROTOTYPE → EXPERIENCE",
-                      ][index]
-                    }
-                  </span>
-                </div>
-                <div className="home-project-meta">
-                  <span>
-                    {
-                      [
-                        "AGENT ENGINEERING",
-                        "ALGORITHM & CONTROL",
-                        "PRODUCT DESIGN",
-                      ][index]
-                    }
-                  </span>
-                  <span aria-hidden="true">↗</span>
-                </div>
-                <h3>{project.name}</h3>
-                <p>{project.summary}</p>
-                <time>{formatPeriod(project.period)}</time>
-              </a>
-            ))}
-          </div>
-          <a className="text-link all-work" href="/projects">
-            全部 {resume.projects.length} 个项目{" "}
-            <span aria-hidden="true">→</span>
-          </a>
-        </section>
-        <section className="about-pause" aria-labelledby="about-title">
-          <div className="frame about-inner">
-            <p className="eyebrow">03 / THE THREAD THROUGH IT ALL</p>
-            <h2 id="about-title">
-              从观察开始。
-              <br />
-              在真实的问题里，
-              <br />
-              <span className="brass-text">把系统想清楚。</span>
-            </h2>
-            <div className="about-copy">
-              <p>{resume.overview.careerNarrative}</p>
-              <p>
-                这些经历的共同主线，是把模型能力转化为可控、可执行、可验证的软件系统。
-              </p>
-              <a className="text-link" href="/resume">
-                阅读完整经历 <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="observatory-footer frame">
-        <div>
-          <a className="site-wordmark" href="/">
-            RONG
-          </a>
-          <p>保持好奇。持续求证。</p>
+            −
+          </button>
+          <span className="earth-zoom-readout" aria-live="off">
+            {Math.round(zoom * 100)
+              .toString()
+              .padStart(2, "0")}
+            <small> / 100</small>
+          </span>
+          <button
+            onClick={() => controls.current?.zoomBy(0.18)}
+            aria-label="放大地球"
+            disabled={status !== "ready" || zoom > 0.99}
+          >
+            +
+          </button>
+          <button
+            className="earth-reset"
+            onClick={() => controls.current?.reset()}
+            aria-label="重置视角"
+            disabled={status !== "ready"}
+          >
+            ↺
+          </button>
+          <button
+            className="earth-pause"
+            onClick={() => setPaused((p) => !p)}
+            aria-pressed={paused}
+            aria-label={paused ? "开启自转" : "暂停自转"}
+            disabled={status !== "ready"}
+          >
+            {paused ? "▷" : "Ⅱ"}
+          </button>
         </div>
-        <div className="footer-links">
-          {profile.links
-            .filter((link) =>
-              ["github", "linkedin", "primary-email"].includes(link.id),
-            )
-            .map((link) => (
-              <a href={link.url!} key={link.id}>
-                {link.id === "primary-email" ? "联系我" : link.label} ↗
-              </a>
-            ))}
-        </div>
-        <p className="footer-date">公开资料更新于 {resume.meta.updatedAt}</p>
       </footer>
-    </div>
+      <dialog
+        className="earth-project-dialog"
+        ref={dialog}
+        onCancel={close}
+        onClose={() => {
+          setOpened(false);
+          openButton.current?.focus();
+        }}
+        aria-labelledby="earth-project-title"
+        onClick={(e) => {
+          if (e.target === dialog.current) {
+            const r = dialog.current.getBoundingClientRect();
+            if (
+              e.clientX < r.left ||
+              e.clientX > r.right ||
+              e.clientY < r.top ||
+              e.clientY > r.bottom
+            )
+              close();
+          }
+        }}
+      >
+        <button
+          className="earth-dialog-close"
+          onClick={close}
+          aria-label="关闭项目，返回地球"
+        >
+          关闭 <span>×</span>
+        </button>
+        <p className="earth-overline">
+          SELECTED WORK{" "}
+          <span>{String(projectIndex + 1).padStart(2, "0")} / 04</span>
+        </p>
+        <div className="earth-project-tabs" role="group" aria-label="选择项目">
+          {CONTENT.resume.projects.map((item, i) => (
+            <button
+              key={item.id}
+              aria-pressed={i === projectIndex}
+              onClick={() => setProjectIndex(i)}
+              aria-label={`查看${item.name}`}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </button>
+          ))}
+        </div>
+        <div className="earth-project-record" key={project.id}>
+          <p className="earth-project-category">
+            {project.tags.slice(0, 2).join(" / ")}
+          </p>
+          <h2 id="earth-project-title">{project.name}</h2>
+          <p>{project.summary}</p>
+          <a className="earth-project-link" href={`/projects/${project.slug}`}>
+            进入项目 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <a className="earth-dialog-all" href="/projects">
+          全部项目 <span aria-hidden="true">→</span>
+        </a>
+      </dialog>
+    </main>
   );
 }
