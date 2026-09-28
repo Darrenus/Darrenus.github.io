@@ -3,6 +3,7 @@ export interface EarthPlace {
   kind: "education" | "experience" | "academic" | "reflection";
   label: string;
   shortLabel?: string;
+  educationLevel?: "本科" | "硕士";
   city: string;
   longitude: number;
   latitude: number;
@@ -43,7 +44,8 @@ export const EARTH_PLACES: EarthPlace[] = [
     id: "kaist",
     kind: "education",
     label: "韩国科学技术院",
-    shortLabel: "韩国科院",
+    shortLabel: "韩科院",
+    educationLevel: "本科",
     city: "大田",
     longitude: 127.36,
     latitude: 36.37,
@@ -57,6 +59,7 @@ export const EARTH_PLACES: EarthPlace[] = [
     kind: "education",
     label: "新加坡国立大学",
     shortLabel: "新国大",
+    educationLevel: "硕士",
     city: "新加坡",
     longitude: 103.78,
     latitude: 1.3,
@@ -67,12 +70,12 @@ export const EARTH_PLACES: EarthPlace[] = [
   },
   {
     id: "chengdu", kind: "reflection", label: "成都", city: "成都",
-    longitude: 104.07, latitude: 30.57, recordIds: [], labelSide: "left", labelRise: 0,
+    longitude: 104.07, latitude: 30.57, recordIds: [], labelSide: "left", labelRise: -25,
     reflection: { period: "2024年", note: "慢下来以后，我开始意识到，不必始终给自己施加压力。努力之外，也要学会放松。" },
   },
   {
     id: "chongqing", kind: "reflection", label: "重庆", city: "重庆",
-    longitude: 106.55, latitude: 29.56, recordIds: [], labelSide: "right", labelRise: 0,
+    longitude: 106.55, latitude: 29.56, recordIds: [], labelSide: "left", labelRise: 25,
     reflection: { period: "2024年", note: "慢下来以后，我开始意识到，不必始终给自己施加压力。努力之外，也要学会放松。" },
   },
   {
@@ -82,12 +85,12 @@ export const EARTH_PLACES: EarthPlace[] = [
   },
   {
     id: "hong-kong", kind: "reflection", label: "香港", city: "香港",
-    longitude: 114.17, latitude: 22.32, recordIds: [], labelSide: "right", labelRise: 0,
+    longitude: 114.17, latitude: 22.32, recordIds: [], labelSide: "right", labelRise: 35,
     reflection: { period: "2025年", note: "繁华与差距同时存在，也让我更具体地思考自己想要怎样的生活，以及愿意为此付出怎样的努力。" },
   },
   {
     id: "macao", kind: "reflection", label: "澳门", city: "澳门",
-    longitude: 113.54, latitude: 22.20, recordIds: [], labelSide: "left", labelRise: 0,
+    longitude: 113.54, latitude: 22.20, recordIds: [], labelSide: "left", labelRise: 55,
     reflection: { period: "2025年", note: "繁华与差距同时存在，也让我更具体地思考自己想要怎样的生活，以及愿意为此付出怎样的努力。" },
   },
   {
@@ -148,28 +151,28 @@ export function layoutPlaceLabels(
   const minY = width <= 480 ? 214 : 92;
   const maxY = Math.max(minY, height - 160);
   const maxX = Math.max(10, width - 70);
-  for (const p of points) {
-    const preferredX = Math.max(10, Math.min(maxX, p.x + (p.compact ? -30 : p.side === "left" ? -80 : 20)));
-    const preferredY = Math.max(minY, Math.min(maxY, p.y + (p.compact ? 0 : p.rise) - 22));
-    if (!boxes.some(b => Math.abs(b.x - preferredX) < 66 && Math.abs(b.y - preferredY) < 50)) {
-      boxes.push({ id: p.id, x: preferredX, y: preferredY });
-      continue;
-    }
-    const xs = new Set([preferredX, 10, maxX]);
-    const ys = new Set([preferredY, minY, maxY]);
-    for (let offset = 72; offset <= width; offset += 72) {
-      xs.add(Math.max(10, preferredX - offset));
-      xs.add(Math.min(maxX, preferredX + offset));
-    }
-    for (let offset = 50; offset <= height; offset += 50) {
-      ys.add(Math.max(minY, preferredY - offset));
-      ys.add(Math.min(maxY, preferredY + offset));
-    }
-    const candidates = [...xs].flatMap(x => [...ys].map(y => ({ x, y })))
-      .sort((a, b) => (a.x - preferredX) ** 2 + (a.y - preferredY) ** 2 - ((b.x - preferredX) ** 2 + (b.y - preferredY) ** 2));
-    const candidate = candidates.find(a => !boxes.some(b => Math.abs(b.x - a.x) < 66 && Math.abs(b.y - a.y) < 50));
-    // When a tiny viewport has no room, keep the place available in the full list.
-    if (candidate) boxes.push({ id: p.id, ...candidate });
+  // Two ordered callout columns keep nearby cities from jumping across one another.
+  // Real coordinates never move; arrows connect each label back to its anchor.
+  const capacity = Math.floor((maxY - minY) / 50) + 1;
+  for (const side of ["left", "right"] as const) {
+    const eligible = points.filter(p => p.side === side &&
+      (side === "left" ? p.x >= 88 : p.x <= width - 88));
+    // Preserve education and employment labels if a short viewport is crowded.
+    const group = eligible.sort((a, b) => Number(!!a.compact) - Number(!!b.compact))
+      .slice(0, capacity).sort((a, b) => a.y - b.y);
+    if (!group.length) continue;
+    const x = side === "left"
+      ? Math.max(10, Math.min(...group.map(p => p.x)) - 104)
+      : Math.min(maxX, Math.max(...group.map(p => p.x)) + 44);
+    const desired = group.map(p => p.y + p.rise - 22);
+    const packed: number[] = [];
+    for (let i = 0; i < group.length; i++)
+      packed.push(Math.min(maxY - (group.length - 1 - i) * 50,
+        Math.max(desired[i], i ? packed[i - 1] + 50 : minY)));
+    // Balance displacement above and below the cluster rather than pushing it south.
+    const meanShift = desired.reduce((sum, value, i) => sum + value - packed[i], 0) / group.length;
+    const shift = Math.max(minY - packed[0], Math.min(maxY - packed[packed.length - 1], meanShift));
+    group.forEach((p, i) => boxes.push({ id: p.id, x, y: packed[i] + shift }));
   }
   return boxes;
 }

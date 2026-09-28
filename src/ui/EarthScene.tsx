@@ -625,8 +625,16 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         pin.element.style.setProperty("--dot-x", `${anchor.x - label.x}px`);
         pin.element.style.setProperty("--dot-y", `${anchor.y - label.y}px`);
         const leader = pin.element.querySelector("line");
-        leader?.setAttribute("x1", String(anchor.x - label.x));
-        leader?.setAttribute("y1", String(anchor.y - label.y));
+        if (leader) {
+          const startX = pin.place.labelSide === "left" ? 60 : 0;
+          const dx = anchor.x - label.x - startX;
+          const dy = anchor.y - label.y - 22;
+          const length = Math.max(1, Math.hypot(dx, dy));
+          leader.setAttribute("x1", String(startX));
+          leader.setAttribute("y1", "22");
+          leader.setAttribute("x2", String(anchor.x - label.x - dx / length * 7));
+          leader.setAttribute("y2", String(anchor.y - label.y - dy / length * 7));
+        }
       }
       frame = requestAnimationFrame(draw);
     };
@@ -703,16 +711,16 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         const label = `${place.label} · ${place.city}，${place.url ? "进入学校官网" : "查看" + (place.kind === "experience" ? "实习经历" : place.kind === "reflection" ? "城市思考" : "学术活动")}`;
         const contents = (
           <>
-            {place.kind === "reflection" && <>
-              <svg className="earth-reflection-leader" width="60" height="44" aria-hidden="true"><line x1="30" y1="22" x2="30" y2="22" /></svg>
-              <span className="earth-reflection-point" aria-hidden="true" />
-            </>}
+            <svg className="earth-place-leader" width="60" height="44" aria-hidden="true">
+              <defs><marker id={`place-arrow-${place.id}`} viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1 L5 3 L1 5" /></marker></defs>
+              <line x1="30" y1="22" x2="30" y2="22" markerEnd={`url(#place-arrow-${place.id})`} />
+            </svg>
             <span className="earth-pin-dot" aria-hidden="true" />
             <span className="earth-pin-label">
               <span>{place.shortLabel ?? place.label}</span>
               <small>
                 {place.kind === "education"
-                  ? "学校 ↗"
+                  ? `${place.educationLevel ?? "学校"} ↗`
                   : place.kind === "experience"
                     ? "实习 +"
                     : place.kind === "reflection" ? "思考 +" : "学术 +"}

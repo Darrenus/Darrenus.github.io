@@ -93,16 +93,20 @@ for (const [width, height] of [
 ]) {
   const points = EARTH_PLACES.map((p, i) => ({
     id: p.id,
-    x: width - 30 + i * 2,
+    x: width * .5 + i * 2,
     y: height * 0.4 + i * 5,
     side: p.labelSide,
     rise: p.labelRise,
     compact: p.kind === "reflection",
   }));
   const boxes = layoutPlaceLabels(points, width, height);
-  assert.equal(boxes.length, points.length, "All points fit in the supported portrait and desktop viewports");
+  if (width >= 390) assert.equal(boxes.length, points.length, "All points fit when the viewport has room on both sides");
+  else assert.ok(boxes.length >= 8, "On tiny screens, omit crowded labels instead of reversing their direction");
   for (let i = 0; i < boxes.length; i++) {
     const a = boxes[i];
+    const anchor = points.find(p => p.id === a.id)!;
+    assert.ok(anchor.side === "left" ? a.x + 60 <= anchor.x - 18 : a.x >= anchor.x + 18,
+      `${a.id} must stay on its assigned side of the geographic point`);
     assert.ok(
       a.x >= 0 && a.x + 60 <= width && a.y >= 92 && a.y + 44 < height - 100,
     );
@@ -112,5 +116,12 @@ for (const [width, height] of [
         `${a.id} overlaps ${b.id}`,
       );
   }
+  for (const side of ["left", "right"] as const) {
+    const ordered = boxes.filter(b => points.find(p => p.id === b.id)?.side === side)
+      .sort((a, b) => points.find(p => p.id === a.id)!.y - points.find(p => p.id === b.id)!.y);
+    for (let i = 1; i < ordered.length; i++)
+      assert.ok(ordered[i].y >= ordered[i - 1].y + 50, "Callouts must preserve geographic order");
+  }
 }
+assert.equal(EARTH_PLACES.find(p => p.id === "chongqing")?.labelSide, "left");
 console.log("Touch labels stay in the viewport and do not overlap");
