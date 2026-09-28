@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import RongAgent from "./ui/RongAgent";
 import PortalHome from "./ui/PortalHome";
 import ResumePage from "./ui/ResumePage";
+import BlogPostPage from "./ui/BlogPostPage";
+import { BLOG_POSTS } from "./content/blog";
 import BlogPage from "./ui/BlogPage";
 import ResearchPage from "./ui/ResearchPage";
 import ProjectsPage from "./ui/ProjectsPage";
@@ -54,6 +56,10 @@ const project = route.kind === "project"
   : undefined;
 
 const page = (() => {
+  if (route.kind === "blog-post") {
+    const post = BLOG_POSTS.find((entry) => entry.slug === route.slug);
+    return post ? <BlogPostPage post={post} /> : <NotFoundPage />;
+  }
   if (route.kind === "privacy" || route.kind === "terms") return <LegalPage kind={route.kind} />;
   if (route.kind === "home") return <PortalHome />;
   if (route.kind === "ragent") return <RongAgent transport={createTransport()} live={hasModel()} />;

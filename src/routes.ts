@@ -5,6 +5,7 @@ export type SiteRoute =
   | { kind: "projects" }
   | { kind: "research" }
   | { kind: "blog" }
+  | { kind: "blog-post"; slug: string }
   | { kind: "privacy" }
   | { kind: "terms" }
   | { kind: "project"; slug: string }
@@ -26,6 +27,9 @@ export function parseRoute(pathname: string): SiteRoute {
   if (path === "/blog") return { kind: "blog" };
   if (path === "/research") return { kind: "research" };
   if (path === "/projects") return { kind: "projects" };
+
+  const blogMatch = /^\/blog\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(path);
+  if (blogMatch) return { kind: "blog-post", slug: blogMatch[1] };
 
   const projectMatch = /^\/projects\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(path);
   if (projectMatch) return { kind: "project", slug: projectMatch[1] };

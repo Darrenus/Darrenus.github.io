@@ -1,7 +1,9 @@
-import { copyFileSync, mkdirSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
+
+const blogPosts = JSON.parse(readFileSync(new URL("./content/blog.json", import.meta.url), "utf8")) as { slug: string }[];
 
 function spaFallback(): Plugin {
   return {
@@ -19,6 +21,7 @@ function spaFallback(): Plugin {
         "/projects",
         "/research",
         "/blog",
+        ...blogPosts.map((post) => `/blog/${post.slug}`),
         "/privacy",
         "/terms",
         "/projects/coding-agent",
