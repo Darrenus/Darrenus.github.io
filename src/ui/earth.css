@@ -986,3 +986,31 @@ html:has(.earth-page) { scroll-padding-top:0; }
   .earth-places-open { top: 168px; }
   .earth-near-caption { top: 32%; }
 }
+/* Reflection points share the globe; only the engaged point reveals its label. */
+.earth-pin.is-reflection { color: #d1c7ac; }
+.earth-reflection-point { position: absolute; left: 30px; top: 22px; width: 6px; height: 6px; border-radius: 50%; background: #b8a47d; box-shadow: 0 0 0 4px #b8a47d14; transform: translate(-50%, -50%); pointer-events: none; }
+.earth-reflection-leader { position: absolute; inset: 0; overflow: visible; pointer-events: none; opacity: .4; }
+.earth-reflection-leader line { stroke: #c7a56980; stroke-width: 1; }
+.earth-pin.is-reflection .earth-pin-dot { opacity: .65; width: 4px; height: 4px; box-shadow: none; background: #b8a47d; }
+.earth-pin.is-reflection .earth-pin-label { opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
+.earth-pin.is-reflection:hover, .earth-pin.is-reflection:focus-visible { z-index: 4; }
+.earth-pin.is-reflection:hover .earth-pin-label, .earth-pin.is-reflection:focus-visible .earth-pin-label,
+.earth-pin.is-reflection:hover .earth-reflection-leader, .earth-pin.is-reflection:focus-visible .earth-reflection-leader,
+.earth-pin.is-reflection:hover .earth-pin-dot, .earth-pin.is-reflection:focus-visible .earth-pin-dot { opacity: 1; }
+.earth-pin.is-reflection:hover .earth-reflection-point, .earth-pin.is-reflection:focus-visible .earth-reflection-point { opacity: 0; }
+.earth-places-dialog.is-reflection { inset: 0; margin: auto; width: min(460px, calc(100% - 32px)); height: fit-content; max-height: calc(100svh - 40px); padding: 70px 38px 40px; border: 1px solid #b09a723d; box-shadow: 0 24px 100px #0006; }
+.earth-places-dialog.is-reflection[open] { animation: earth-record-in 260ms ease both; }
+.earth-places-dialog.is-reflection .earth-dialog-close { top: 22px; right: 24px; }
+.earth-places-dialog.is-reflection > h2 { margin-bottom: 12px; font-size: 30px; }
+.earth-reflection-note { margin-top: 24px; border-top: 1px solid #b09a7230; padding-top: 24px; }
+.earth-reflection-note .earth-place-period { margin: 0 0 20px; }
+.earth-reflection-visit { font-size: 12px; line-height: 1.8; color: #a7ad9f; margin: 0 0 20px; }
+.earth-reflection-prose { font-size: 16px; line-height: 2; color: #dedbcc; margin: 0; }
+@media (max-width: 480px) {
+  .earth-places-dialog.is-reflection { padding: 64px 26px 30px; }
+  .earth-reflection-prose { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .earth-pin.is-reflection .earth-pin-label { transition: none; }
+  .earth-places-dialog.is-reflection[open] { animation: none; }
+}

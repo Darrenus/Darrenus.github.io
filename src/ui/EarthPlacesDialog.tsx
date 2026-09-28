@@ -45,7 +45,7 @@ export default function EarthPlacesDialog({
   return (
     <dialog
       ref={dialog}
-      className="earth-project-dialog earth-places-dialog"
+      className={`earth-project-dialog earth-places-dialog${place?.kind === "reflection" ? " is-reflection" : ""}`}
       aria-labelledby="earth-places-title"
       onCancel={(e) => {
         e.preventDefault();
@@ -71,7 +71,7 @@ export default function EarthPlacesDialog({
       >
         关闭 <span>×</span>
       </button>
-      <p className="earth-overline">学习与实践</p>
+      <p className="earth-overline">{place?.kind === "reflection" ? "城市思考" : "学习与实践"}</p>
       <h2 id="earth-places-title" tabIndex={-1}>
         {place ? place.city : "经历坐标"}
       </h2>
@@ -80,11 +80,17 @@ export default function EarthPlacesDialog({
           <button className="earth-places-back" onClick={() => onSelect(null)}>
             ← 全部地点
           </button>
-          <p className="earth-places-caption">
+          {place.reflection ? (
+            <div className="earth-reflection-note">
+              <p className="earth-place-period">{place.reflection.period}</p>
+              {place.reflection.visited && <p className="earth-reflection-visit">参访 · {place.reflection.visited.join("、")}</p>}
+              <p className="earth-reflection-prose">{place.reflection.note}</p>
+            </div>
+          ) : <p className="earth-places-caption">
             {place.kind === "experience"
               ? `${experiences.length} 段实习经历`
               : "学术活动"}
-          </p>
+          </p>}
           {experiences.map((e) => (
             <article className="earth-place-record" key={e.id}>
               <p className="earth-place-period">
@@ -115,8 +121,8 @@ export default function EarthPlacesDialog({
         </>
       ) : (
         <>
-          <p className="earth-places-caption">学习与实践，落在世界上的坐标。</p>
-          {(["education", "experience", "academic"] as const).map((kind) => {
+          <p className="earth-places-caption">学习、实践，以及沿途留下的思考。</p>
+          {(["education", "experience", "academic", "reflection"] as const).map((kind) => {
             const places = EARTH_PLACES.filter((p) => p.kind === kind);
             if (!places.length) return null;
             return (
@@ -126,7 +132,7 @@ export default function EarthPlacesDialog({
                     ? "教育"
                     : kind === "experience"
                       ? "实习"
-                      : "学术活动"}
+                      : kind === "reflection" ? "城市思考" : "学术活动"}
                 </h3>
                 {places.map((p) =>
                   p.url ? (
@@ -146,8 +152,7 @@ export default function EarthPlacesDialog({
                       <span>
                         {p.label}
                         <small>
-                          {p.city} · {p.recordIds.length}{" "}
-                          {kind === "experience" ? "段经历" : "项活动"}
+                          {p.reflection ? `${p.reflection.period}${p.reflection.visited ? " · 校园参访" : ""}` : `${p.city} · ${p.recordIds.length} ${kind === "experience" ? "段经历" : "项活动"}`}
                         </small>
                       </span>
                       <span aria-hidden="true">→</span>

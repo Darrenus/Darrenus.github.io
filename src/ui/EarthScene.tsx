@@ -555,10 +555,13 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
           velocity *= Math.exp(-dt * 5);
         }
       }
-      yaw += (targetYaw - yaw) * ease;
-      pitch += (targetPitch - pitch) * ease;
-      parallaxX += (pointerX * 0.07 - parallaxX) * ease;
-      parallaxY += (pointerY * 0.04 - parallaxY) * ease;
+      // Keep dense marker targets still while the visitor points at one.
+      if (!markerEngaged) {
+        yaw += (targetYaw - yaw) * ease;
+        pitch += (targetPitch - pitch) * ease;
+        parallaxX += (pointerX * 0.07 - parallaxX) * ease;
+        parallaxY += (pointerY * 0.04 - parallaxY) * ease;
+      }
       planet.rotation.set(pitch, yaw, -0.13);
       planet.position.set(
         camera.aspect < 1 ? 0 : 0.26 * (1 - zoom),
@@ -603,6 +606,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
             y,
             side: pin.place.labelSide,
             rise: pin.place.labelRise,
+            compact: pin.place.kind === "reflection",
           });
       }
       const labels = layoutPlaceLabels(
@@ -610,12 +614,19 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         host.clientWidth,
         host.clientHeight,
       );
+      const placed = new Set(labels.map(label => label.id));
+      for (const pin of pins) {
+        if (!placed.has(pin.place.id)) pin.element.style.visibility = "hidden";
+      }
       for (const label of labels) {
         const pin = pins.find((p) => p.place.id === label.id)!;
         const anchor = projectedPlaces.find((p) => p.id === label.id)!;
         pin.element.style.transform = `translate3d(${label.x}px,${label.y}px,0)`;
         pin.element.style.setProperty("--dot-x", `${anchor.x - label.x}px`);
         pin.element.style.setProperty("--dot-y", `${anchor.y - label.y}px`);
+        const leader = pin.element.querySelector("line");
+        leader?.setAttribute("x1", String(anchor.x - label.x));
+        leader?.setAttribute("y1", String(anchor.y - label.y));
       }
       frame = requestAnimationFrame(draw);
     };
@@ -689,9 +700,13 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       aria-label="交互地球：滚轮靠近或远离，拖动旋转；方向键转动与缩放，Home 复位"
     >
       {EARTH_PLACES.map((place) => {
-        const label = `${place.label} · ${place.city}，${place.url ? "进入学校官网" : "查看" + (place.kind === "experience" ? "实习经历" : "学术活动")}`;
+        const label = `${place.label} · ${place.city}，${place.url ? "进入学校官网" : "查看" + (place.kind === "experience" ? "实习经历" : place.kind === "reflection" ? "城市思考" : "学术活动")}`;
         const contents = (
           <>
+            {place.kind === "reflection" && <>
+              <svg className="earth-reflection-leader" width="60" height="44" aria-hidden="true"><line x1="30" y1="22" x2="30" y2="22" /></svg>
+              <span className="earth-reflection-point" aria-hidden="true" />
+            </>}
             <span className="earth-pin-dot" aria-hidden="true" />
             <span className="earth-pin-label">
               <span>{place.shortLabel ?? place.label}</span>
@@ -700,7 +715,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
                   ? "学校 ↗"
                   : place.kind === "experience"
                     ? "实习 +"
-                    : "学术 +"}
+                    : place.kind === "reflection" ? "思考 +" : "学术 +"}
               </small>
             </span>
           </>

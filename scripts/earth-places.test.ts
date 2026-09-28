@@ -48,10 +48,15 @@ assert.deepEqual(
     .sort(),
   CONTENT.resume.experience.map((e) => e.id).sort(),
 );
-assert.ok(
-  EARTH_PLACES.every((p) => p.kind === "education" || p.kind === "experience"),
-  "No academic or personal-life locations in this release",
-);
+const reflections = EARTH_PLACES.filter(p => p.kind === "reflection");
+assert.deepEqual(reflections.map(p => p.id), ["chengdu", "chongqing", "beijing", "hong-kong", "macao", "stanford-visit", "cambridge-visit", "new-york-visit"]);
+assert.equal(new Set(EARTH_PLACES.map(p => p.id)).size, EARTH_PLACES.length);
+for (const place of reflections) {
+  assert.ok(place.reflection?.period && place.reflection.note);
+  assert.deepEqual(place.recordIds, [], "Visits must not become education or employment credentials");
+  assert.equal(place.url, undefined, "Click visits to read the note, not to redirect");
+}
+assert.deepEqual(EARTH_PLACES.find(p => p.id === "cambridge-visit")?.reflection?.visited, ["哈佛大学", "麻省理工学院（MIT）"]);
 assert.equal(facesCamera([0, 0, 1], [0, 0, 1]), true);
 assert.equal(facesCamera([0, 0, -1], [0, 0, 1]), false);
 assert.equal(
@@ -92,8 +97,10 @@ for (const [width, height] of [
     y: height * 0.4 + i * 5,
     side: p.labelSide,
     rise: p.labelRise,
+    compact: p.kind === "reflection",
   }));
   const boxes = layoutPlaceLabels(points, width, height);
+  assert.equal(boxes.length, points.length, "All points fit in the supported portrait and desktop viewports");
   for (let i = 0; i < boxes.length; i++) {
     const a = boxes[i];
     assert.ok(
