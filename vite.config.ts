@@ -17,6 +17,7 @@ function spaFallback(): Plugin {
         "/ragent",
         "/resume",
         "/projects",
+        "/research",
         "/projects/coding-agent",
         "/projects/hybrid-uav",
         "/projects/breadify",

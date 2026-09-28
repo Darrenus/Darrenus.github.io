@@ -3,6 +3,7 @@ export type SiteRoute =
   | { kind: "ragent" }
   | { kind: "resume" }
   | { kind: "projects" }
+  | { kind: "research" }
   | { kind: "project"; slug: string }
   | { kind: "not-found" };
 
@@ -17,6 +18,7 @@ export function parseRoute(pathname: string): SiteRoute {
   if (path === "/") return { kind: "home" };
   if (path === "/ragent") return { kind: "ragent" };
   if (path === "/resume") return { kind: "resume" };
+  if (path === "/research") return { kind: "research" };
   if (path === "/projects") return { kind: "projects" };
 
   const projectMatch = /^\/projects\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(path);

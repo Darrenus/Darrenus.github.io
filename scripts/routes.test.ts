@@ -18,4 +18,5 @@ for (const project of CONTENT.resume.projects) {
   assert.equal(internalLink?.url, `/projects/${project.slug}`);
 }
 
+assert.deepEqual(parseRoute("/research/"), { kind: "research" });
 console.log("route checks passed");

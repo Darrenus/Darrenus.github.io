@@ -1,0 +1,49 @@
+{
+  "publications": [
+    {
+      "id": "decomposition-integrity",
+      "title": "Decomposition Buys Integrity, Not Yield",
+      "authors": ["Rong He"],
+      "publishedAt": "2026-09-15",
+      "status": "预印本 · arXiv v1",
+      "summary": "研究多智能体任务分解中，信息沿代理树逐层传递时的保留与损耗。结合理论模型和生产轨迹，分析分层结构在信息产出、根节点上下文暴露与计算成本之间的取舍。",
+      "links": [
+        {
+          "platform": "arXiv",
+          "url": "https://doi.org/10.48550/arXiv.2609.17464",
+          "identifier": "arXiv:2609.17464"
+        }
+      ]
+    },
+    {
+      "id": "prefix-sharing",
+      "title": "Prefix Sharing Is a Sorting Problem",
+      "authors": ["Rong He"],
+      "publishedAt": "2026-09-12",
+      "status": "预印本 · arXiv v1",
+      "summary": "将大语言模型服务中的提示片段排序与 KV 缓存前缀共享问题联系起来，建立请求层次结构与最优前缀树成本的等价关系，并在检索轨迹上评估排序对预填充计算开销的影响。",
+      "links": [
+        {
+          "platform": "arXiv",
+          "url": "https://doi.org/10.48550/arXiv.2609.13692",
+          "identifier": "arXiv:2609.13692"
+        }
+      ]
+    },
+    {
+      "id": "time-reversal-hmm",
+      "title": "Sharp Limits on Time-Reversal Detection in Binary Hidden Markov Models",
+      "authors": ["Rong He"],
+      "publishedAt": "2026-09-10",
+      "status": "预印本 · Zenodo v0.10",
+      "summary": "研究二元隐马尔可夫模型中时间不可逆性的可检测边界。构造具有严格正转移与发射概率的模型，给出观测窗口长度的紧界，并刻画二元无记忆信道下检测所需的样本量尺度。",
+      "links": [
+        {
+          "platform": "Zenodo",
+          "url": "https://zenodo.org/records/22684761",
+          "identifier": "10.5281/zenodo.22684761"
+        }
+      ]
+    }
+  ]
+}

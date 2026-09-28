@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import RongAgent from "./ui/RongAgent";
 import PortalHome from "./ui/PortalHome";
 import ResumePage from "./ui/ResumePage";
+import ResearchPage from "./ui/ResearchPage";
 import ProjectsPage from "./ui/ProjectsPage";
 import ProjectPage from "./ui/ProjectPage";
 import NotFoundPage from "./ui/NotFoundPage";
@@ -54,6 +55,7 @@ const page = (() => {
   if (route.kind === "home") return <PortalHome />;
   if (route.kind === "ragent") return <RongAgent transport={createTransport()} live={hasModel()} />;
   if (route.kind === "resume") return <ResumePage />;
+  if (route.kind === "research") return <ResearchPage />;
   if (route.kind === "projects") return <ProjectsPage />;
   if (route.kind === "project" && project) return <ProjectPage project={project} />;
   return <NotFoundPage />;
