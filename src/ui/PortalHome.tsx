@@ -147,7 +147,7 @@ export default function PortalHome() {
       </button>
       <div className="earth-near-caption" aria-hidden={zoom < 0.5}>
         <span>01 / 近观</span>
-        <p>学习与实践的足迹</p>
+        <p>足迹</p>
       </div>
       <footer className="earth-footer">
         <div className="earth-location">
