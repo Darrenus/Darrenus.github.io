@@ -972,3 +972,5 @@
 }
 
 .earth-side-label strong { font-weight:400; color:var(--space-brass); letter-spacing:.18em; }
+
+html:has(.earth-page) { scroll-padding-top:0; }

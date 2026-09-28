@@ -10,6 +10,7 @@ import {
 import { CONTENT } from "../content";
 import type { EarthControls } from "./EarthScene";
 import "./earth.css";
+import SiteFooter from "./SiteFooter";
 import EarthPlacesDialog from "./EarthPlacesDialog";
 
 const EarthScene = lazy(() => import("./EarthScene"));
@@ -61,7 +62,9 @@ export default function PortalHome() {
     dialog.current?.showModal();
   };
   return (
+    <>
     <main
+      id="earth-home"
       className={`earth-page is-${status}${opened ? " is-exploring" : ""}`}
       style={{ "--journey": zoom } as CSSProperties}
     >
@@ -100,6 +103,7 @@ export default function PortalHome() {
           <a href="/resume">
             简历 <span aria-hidden="true">↗</span>
           </a>
+          <a href="#site-footer">联系 <span aria-hidden="true">↓</span></a>
           <a className="earth-ask" href="/ragent">
             问 RONG <span aria-hidden="true">↗</span>
           </a>
@@ -264,5 +268,7 @@ export default function PortalHome() {
         </a>
       </dialog>
     </main>
+    <SiteFooter home />
+    </>
   );
 }

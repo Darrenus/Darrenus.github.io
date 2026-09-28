@@ -1,3 +1,4 @@
+import SiteFooter from "./SiteFooter";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod, type ProjectEntry } from "../content";
 import { ProjectLinks, ProjectSiteHeader, ProjectTags } from "./project-ui";
@@ -108,12 +109,7 @@ export default function ProjectPage({ project }: { project: ProjectEntry }) {
           )}
         </div>
       </main>
-      <footer className="projects-footer">
-        <div className="projects-container">
-          <a href="/projects"><span aria-hidden="true">←</span> 返回项目列表</a>
-          <a href="/resume">查看完整简历 <span aria-hidden="true">→</span></a>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

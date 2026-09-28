@@ -446,7 +446,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         }
       });
     const wheel = (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) return;
+      if (e.ctrlKey || e.metaKey || host.getBoundingClientRect().top < -1) return;
       e.preventDefault();
       const delta = wheelStep(e.deltaY, e.deltaMode, host.clientHeight);
       if (targetZoom > 0.995 && delta > 0) targetYaw += delta * 0.0013;

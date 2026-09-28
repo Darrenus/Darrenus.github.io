@@ -1,3 +1,4 @@
+import SiteFooter from "./SiteFooter";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod } from "../content";
 import { ProjectLinks, ProjectSiteHeader, ProjectTags } from "./project-ui";
@@ -73,12 +74,7 @@ export default function ProjectsPage() {
           ))}
         </section>
       </main>
-      <footer className="projects-footer">
-        <div className="projects-container">
-          <span>{profile.site.wordmark} · {resume.meta.updatedAt}</span>
-          <a href="/resume">查看完整简历 <span aria-hidden="true">→</span></a>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

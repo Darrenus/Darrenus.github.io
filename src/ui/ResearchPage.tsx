@@ -1,3 +1,4 @@
+import SiteFooter from "./SiteFooter";
 import { useEffect } from "react";
 import SiteHeader from "./SiteHeader";
 import { PUBLICATIONS } from "../content/research";
@@ -84,12 +85,7 @@ export default function ResearchPage() {
           )}
         </section>
       </main>
-      <footer className="research-footer research-container">
-        <span>RONG / 贺融</span>
-        <a href="/projects">
-          探索项目 <span aria-hidden="true">→</span>
-        </a>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

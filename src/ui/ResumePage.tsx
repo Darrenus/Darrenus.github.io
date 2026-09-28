@@ -1,3 +1,4 @@
+import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod, type ContentLink, type ProfileLink } from "../content";
@@ -212,12 +213,7 @@ export default function ResumePage() {
         </div>
       </main>
 
-      <footer className="resume-footer">
-        <div className="resume-container">
-          <span>{profile.site.wordmark} · {resume.meta.updatedAt}</span>
-          <a href="/ragent">打开 Ragent <span aria-hidden="true">↗</span></a>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
