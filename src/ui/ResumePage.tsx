@@ -79,12 +79,12 @@ export default function ResumePage() {
   useEffect(() => {
     // The static HTML has no résumé sections until React mounts.
     document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "instant" });
-    document.title = `${resume.meta.title} | ${profile.site.wordmark}`;
+    document.title = "简历 · Rong He";
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     description?.setAttribute("content", profile.site.description);
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     canonical?.setAttribute("href", `https://${profile.site.domain}/resume`);
-    document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute("content", resume.meta.title);
+    document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute("content", "简历 · Rong He");
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute("content", `https://${profile.site.domain}/resume`);
   }, [profile.site.description, profile.site.domain, profile.site.wordmark, resume.meta.title]);
 

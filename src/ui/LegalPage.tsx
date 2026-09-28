@@ -6,10 +6,10 @@ import "./legal.css";
 export default function LegalPage({ kind }: { kind: "privacy" | "terms" }) {
   const title = kind === "privacy" ? "隐私政策" : "使用条款";
   useEffect(() => {
-    document.title = `${title} | RONG`;
+    document.title = `${title} · Rong He`;
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", `https://rong.bio/${kind}`);
     document.querySelector('meta[name="description"]')?.setAttribute("content", `${title}：rong.bio 的网站功能、数据处理与使用说明。`);
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", `${title} | RONG`);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", `${title} · Rong He`);
     document.querySelector('meta[property="og:url"]')?.setAttribute("content", `https://rong.bio/${kind}`);
     document.querySelector('meta[property="og:description"]')?.setAttribute("content", `${title}：rong.bio 的网站功能、数据处理与使用说明。`);
   }, [kind, title]);

@@ -7,7 +7,8 @@ export default function NotFoundPage() {
   const { profile } = CONTENT;
 
   useEffect(() => {
-    document.title = `页面未找到 | ${profile.site.wordmark}`;
+    document.title = "页面未找到 · Rong He";
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
       "content",
       "该页面不存在或已移动。",

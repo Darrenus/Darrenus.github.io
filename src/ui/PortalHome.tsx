@@ -43,7 +43,8 @@ export default function PortalHome() {
       if (motion.matches) setPaused(true);
     };
     motion.addEventListener("change", changeMotion);
-    document.title = "RONG · 贺融 | 学习与实践";
+    document.title = "Rong He";
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", "Rong He");
     document
       .querySelector<HTMLMetaElement>('meta[name="description"]')
       ?.setAttribute(

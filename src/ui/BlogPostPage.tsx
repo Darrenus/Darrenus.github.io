@@ -19,10 +19,10 @@ function RichText({ spans }: { spans: BlogSpan[] }) {
 
 export default function BlogPostPage({ post }: { post: BlogPost }) {
   useEffect(() => {
-    document.title = `${post.title} | RONG`;
+    document.title = `${post.title} · Rong He`;
     const metadata = {
       description: post.title,
-      "og:title": `${post.title} | RONG`,
+      "og:title": `${post.title} · Rong He`,
       "og:description": post.title,
       "og:url": `https://rong.bio/blog/${post.slug}`,
       "og:type": "article",

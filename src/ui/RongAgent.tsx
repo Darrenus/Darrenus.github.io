@@ -338,7 +338,8 @@ export default function RongAgent({
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   useEffect(() => {
-    document.title = `${wordmark} Ragent`;
+    document.title = "问 RONG · Rong He";
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
   }, [wordmark]);
 
   /* Every turn takes a number, and stop/reset/a new question all bump it. A transport

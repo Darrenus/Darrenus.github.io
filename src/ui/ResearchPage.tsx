@@ -6,10 +6,10 @@ import "./research.css";
 
 export default function ResearchPage() {
   useEffect(() => {
-    document.title = "学术研究 | RONG";
+    document.title = "学术研究 · Rong He";
     const metadata = {
       description: "贺融的论文与公开研究记录，以及 arXiv、Zenodo 原文入口。",
-      "og:title": "学术研究 | RONG",
+      "og:title": "学术研究 · Rong He",
       "og:description":
         "贺融的论文与公开研究记录，以及 arXiv、Zenodo 原文入口。",
       "og:url": "https://rong.bio/research",

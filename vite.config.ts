@@ -1,37 +1,43 @@
-import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
 
-const blogPosts = JSON.parse(readFileSync(new URL("./content/blog.json", import.meta.url), "utf8")) as { slug: string }[];
+const blogPosts = JSON.parse(readFileSync(new URL("./content/blog.json", import.meta.url), "utf8")) as { slug: string; title: string }[];
+const resume = JSON.parse(readFileSync(new URL("./content/resume.json", import.meta.url), "utf8")) as { projects: { slug: string; name: string }[] };
+const routeTitles: Record<string, string> = {
+  "/ragent": "问 RONG",
+  "/resume": "简历",
+  "/projects": "项目",
+  "/research": "学术研究",
+  "/blog": "个人博客",
+  "/privacy": "隐私政策",
+  "/terms": "使用条款",
+  ...Object.fromEntries(blogPosts.map(post => [`/blog/${post.slug}`, post.title])),
+  ...Object.fromEntries(resume.projects.map(project => [`/projects/${project.slug}`, project.name])),
+};
+
+function withPageTitle(html: string, title: string) {
+  const escaped = title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return html.replace(/<title>[^<]*<\/title>/, () => `<title>${escaped}</title>`)
+    .replace(/<meta property="og:title" content="[^"]*" \/>/, () => `<meta property="og:title" content="${escaped}" />`);
+}
 
 function spaFallback(): Plugin {
   return {
     name: "spa-fallback",
     closeBundle() {
       const index = new URL("./dist/index.html", import.meta.url);
+      const html = readFileSync(index, "utf8");
       const fallback = new URL("./dist/404.html", import.meta.url);
-      copyFileSync(index, fallback);
+      writeFileSync(fallback, withPageTitle(html, "页面未找到 · Rong He"));
 
       // GitHub Pages serves 404.html as a client-side fallback, but keeps the HTTP 404 status.
       // Known public routes get directory entry points so direct links return 200 as well.
-      for (const route of [
-        "/ragent",
-        "/resume",
-        "/projects",
-        "/research",
-        "/blog",
-        ...blogPosts.map((post) => `/blog/${post.slug}`),
-        "/privacy",
-        "/terms",
-        "/projects/coding-agent",
-        "/projects/hybrid-uav",
-        "/projects/breadify",
-        "/projects/kaist-smart-canteen",
-      ]) {
+      for (const [route, title] of Object.entries(routeTitles)) {
         const entry = new URL(`./dist${route}/index.html`, import.meta.url);
         mkdirSync(new URL(".", entry), { recursive: true });
-        copyFileSync(index, entry);
+        writeFileSync(entry, withPageTitle(html, `${title} · Rong He`));
       }
     },
   };

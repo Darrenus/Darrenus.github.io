@@ -31,7 +31,7 @@ export default function ProjectPage({ project }: { project: ProjectEntry }) {
   const detail = project.detail;
 
   useEffect(() => {
-    const pageTitle = `${project.name} | 项目 | ${profile.site.wordmark}`;
+    const pageTitle = `${project.name} · Rong He`;
     document.title = pageTitle;
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute("content", project.summary);
     document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute(

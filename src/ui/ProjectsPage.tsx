@@ -8,7 +8,7 @@ export default function ProjectsPage() {
   const { profile, resume } = CONTENT;
 
   useEffect(() => {
-    document.title = `项目 | ${profile.site.wordmark}`;
+    document.title = "项目 · Rong He";
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
       "content",
       "贺融的 AI 应用开发、算法与产品设计项目。",
@@ -19,7 +19,7 @@ export default function ProjectsPage() {
     );
     document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute(
       "content",
-      `项目 | ${profile.site.wordmark}`,
+      "项目 · Rong He",
     );
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute(
       "content",

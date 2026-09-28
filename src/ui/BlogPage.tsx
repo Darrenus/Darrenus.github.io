@@ -7,10 +7,10 @@ import "./blog.css";
 
 export default function BlogPage() {
   useEffect(() => {
-    document.title = "个人博客 | RONG";
+    document.title = "个人博客 · Rong He";
     const metadata = {
       description: "贺融的个人思考与学习笔记。",
-      "og:title": "个人博客 | RONG",
+      "og:title": "个人博客 · Rong He",
       "og:description": "贺融的个人思考与学习笔记。",
       "og:url": "https://rong.bio/blog",
     };
