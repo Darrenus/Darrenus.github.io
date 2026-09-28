@@ -268,7 +268,7 @@ export default function PortalHome() {
         </a>
       </dialog>
     </main>
-    <SiteFooter home />
+    <SiteFooter />
     </>
   );
 }

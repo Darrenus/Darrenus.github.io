@@ -18,6 +18,8 @@ function spaFallback(): Plugin {
         "/resume",
         "/projects",
         "/research",
+        "/privacy",
+        "/terms",
         "/projects/coding-agent",
         "/projects/hybrid-uav",
         "/projects/breadify",

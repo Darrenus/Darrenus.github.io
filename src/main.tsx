@@ -6,6 +6,7 @@ import ResumePage from "./ui/ResumePage";
 import ResearchPage from "./ui/ResearchPage";
 import ProjectsPage from "./ui/ProjectsPage";
 import ProjectPage from "./ui/ProjectPage";
+import LegalPage from "./ui/LegalPage";
 import NotFoundPage from "./ui/NotFoundPage";
 import { CONTENT } from "./content";
 import { parseRoute } from "./routes";
@@ -52,6 +53,7 @@ const project = route.kind === "project"
   : undefined;
 
 const page = (() => {
+  if (route.kind === "privacy" || route.kind === "terms") return <LegalPage kind={route.kind} />;
   if (route.kind === "home") return <PortalHome />;
   if (route.kind === "ragent") return <RongAgent transport={createTransport()} live={hasModel()} />;
   if (route.kind === "resume") return <ResumePage />;

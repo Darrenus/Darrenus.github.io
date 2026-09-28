@@ -5,7 +5,7 @@ export default function SiteHeader({
   current,
   actions,
 }: {
-  current: "home" | "projects" | "resume" | "research" | "ragent";
+  current?: "home" | "projects" | "resume" | "research" | "ragent";
   actions?: ReactNode;
 }) {
   return (
