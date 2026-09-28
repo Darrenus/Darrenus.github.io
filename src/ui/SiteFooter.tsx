@@ -26,6 +26,7 @@ export default function SiteFooter() {
           <a href="/projects">项目</a>
           <a href="/resume">简历</a>
           <a href="/research">学术研究</a>
+          <a href="/blog">个人博客</a>
           <a href="/ragent">问 RONG</a>
         </nav>
         <div className="site-footer-contact">
@@ -41,7 +42,7 @@ export default function SiteFooter() {
       </div>
       <div className="site-footer-bottom">
         <nav aria-label="网站政策"><a href="/privacy">隐私政策</a><a href="/terms">使用条款</a></nav>
-        <span>© 2026 Rong He</span>
+        <span>© 2026 Rong He. All rights reserved.</span>
       </div>
     </footer>
   );

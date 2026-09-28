@@ -974,3 +974,15 @@
 .earth-side-label strong { font-weight:400; color:var(--space-brass); letter-spacing:.18em; }
 
 html:has(.earth-page) { scroll-padding-top:0; }
+@media (min-width: 481px) and (max-width: 760px) {
+  .earth-header { flex-wrap: wrap; gap: 4px; padding-top: 16px; }
+  .earth-header nav { width: 100%; justify-content: space-between; gap: 12px; }
+  .earth-header nav a { white-space: nowrap; }
+  .earth-places-open { top: 126px; }
+}
+@media (max-width: 480px) {
+  .earth-header nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 12px; }
+  .earth-header nav a { justify-content: center; }
+  .earth-places-open { top: 168px; }
+  .earth-near-caption { top: 32%; }
+}

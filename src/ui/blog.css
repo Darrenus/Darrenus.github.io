@@ -1,0 +1,10 @@
+.blog-archive { padding: 64px 0 88px; min-height: 320px; }
+.blog-empty { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 26px; padding: 0 0 48px; border-bottom: 1px solid #bcb5a3; }
+.blog-empty-number { font: 11px var(--mono); color: #7c6844; padding-top: 6px; }
+.blog-empty h2 { font-size: 24px; font-weight: 400; line-height: 1.5; margin: 0 0 18px; }
+.blog-empty p { font-size: 14px; line-height: 1.9; color: #64695e; margin: 0; }
+@media (max-width: 600px) {
+  .blog-archive { padding: 44px 0 56px; min-height: 260px; }
+  .blog-empty { grid-template-columns: 24px minmax(0, 1fr); gap: 12px; padding-bottom: 36px; }
+  .blog-empty h2 { font-size: 21px; }
+}

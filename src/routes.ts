@@ -4,6 +4,7 @@ export type SiteRoute =
   | { kind: "resume" }
   | { kind: "projects" }
   | { kind: "research" }
+  | { kind: "blog" }
   | { kind: "privacy" }
   | { kind: "terms" }
   | { kind: "project"; slug: string }
@@ -22,6 +23,7 @@ export function parseRoute(pathname: string): SiteRoute {
   if (path === "/resume") return { kind: "resume" };
   if (path === "/privacy") return { kind: "privacy" };
   if (path === "/terms") return { kind: "terms" };
+  if (path === "/blog") return { kind: "blog" };
   if (path === "/research") return { kind: "research" };
   if (path === "/projects") return { kind: "projects" };
 

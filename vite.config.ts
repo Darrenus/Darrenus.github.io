@@ -18,6 +18,7 @@ function spaFallback(): Plugin {
         "/resume",
         "/projects",
         "/research",
+        "/blog",
         "/privacy",
         "/terms",
         "/projects/coding-agent",

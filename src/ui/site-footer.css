@@ -33,3 +33,7 @@ footer.site-footer .site-footer-email:hover { color: #baa073; }
 }
 @media (prefers-reduced-motion: reduce) { footer.site-footer a { transition: none; } }
 @media print { footer.site-footer { display: none; } }
+@media (max-width: 600px) {
+  .site-footer-bottom { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .site-footer-bottom > span { align-self: flex-end; }
+}

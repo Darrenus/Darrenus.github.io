@@ -100,6 +100,9 @@ export default function PortalHome() {
           <a href="/research">
             学术研究 <span aria-hidden="true">↗</span>
           </a>
+          <a href="/blog">
+            个人博客 <span aria-hidden="true">↗</span>
+          </a>
           <a href="/resume">
             简历 <span aria-hidden="true">↗</span>
           </a>

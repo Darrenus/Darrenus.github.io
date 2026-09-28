@@ -518,3 +518,6 @@ textarea {
     color-scheme: light;
   }
 }
+@media (max-width: 600px) {
+  .site-nav { width: 100%; margin-left: 0; justify-content: space-between; gap: 6px; }
+}
