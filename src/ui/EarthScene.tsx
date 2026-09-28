@@ -1,5 +1,7 @@
+import { layoutPlaceLabels, type ProjectedPlace } from "./earth-places";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
+import { EARTH_PLACES, geographicPosition, facesCamera } from "./earth-places";
 import { cameraDistance, clampZoom, wheelStep } from "./earth-navigation";
 
 export interface EarthControls {
@@ -9,6 +11,7 @@ export interface EarthControls {
 interface Props {
   paused: boolean;
   onZoom: (value: number) => void;
+  onPlace: (id: string) => void;
   onReady: (status: "ready" | "fallback") => void;
 }
 type Land = number[][][][];
@@ -156,7 +159,7 @@ function landPoints(
 }
 
 export default forwardRef<EarthControls, Props>(function EarthScene(
-  { paused, onZoom, onReady },
+  { paused, onZoom, onReady, onPlace },
   ref,
 ) {
   const mount = useRef<HTMLDivElement>(null);
@@ -176,6 +179,39 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
   useEffect(() => {
     const host = mount.current!;
     const abort = new AbortController();
+    let markerEngaged = false;
+    const engage = () => {
+      markerEngaged = true;
+    };
+    const disengage = () => {
+      markerEngaged = !!host.querySelector(
+        ".earth-pin:hover, .earth-pin:focus-visible",
+      );
+    };
+    const pins = EARTH_PLACES.map((place) => {
+      const element = host.querySelector<HTMLElement>(
+        `[data-place="${place.id}"]`,
+      )!;
+      element.addEventListener("pointerenter", engage);
+      element.addEventListener("pointerleave", disengage);
+      element.addEventListener("focus", engage);
+      element.addEventListener("blur", disengage);
+      return {
+        place,
+        element,
+        local: new THREE.Vector3(
+          ...geographicPosition(
+            place.longitude,
+            place.latitude,
+            RADIUS + 0.008,
+          ),
+        ),
+      };
+    });
+    const hidePins = () =>
+      pins.forEach(({ element }) => {
+        element.style.visibility = "hidden";
+      });
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
@@ -184,6 +220,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         powerPreference: "high-performance",
       });
     } catch {
+      hidePins();
       onReady("fallback");
       return;
     }
@@ -316,6 +353,64 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
+    // National boundaries are a separate surface layer: no country text labels.
+    fetch("/globe/borders.json", { signal: abort.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error("boundary data unavailable");
+        return r.json();
+      })
+      .then((lines: number[][][]) => {
+        if (disposed) return;
+        const vertices: number[] = [];
+        for (const line of lines)
+          for (let i = 1; i < line.length; i++) {
+            const a = new THREE.Vector3(
+              ...geographicPosition(line[i - 1][0], line[i - 1][1], 1),
+            );
+            const b = new THREE.Vector3(
+              ...geographicPosition(line[i][0], line[i][1], 1),
+            );
+            // Subdivide longer arcs so the line follows the sphere instead of cutting through it.
+            const steps = Math.max(1, Math.ceil(a.angleTo(b) / 0.008));
+            for (let j = 0; j < steps; j++) {
+              vertices.push(
+                ...a
+                  .clone()
+                  .lerp(b, j / steps)
+                  .normalize()
+                  .multiplyScalar(RADIUS + 0.006)
+                  .toArray(),
+              );
+              vertices.push(
+                ...a
+                  .clone()
+                  .lerp(b, (j + 1) / steps)
+                  .normalize()
+                  .multiplyScalar(RADIUS + 0.006)
+                  .toArray(),
+              );
+            }
+          }
+        const boundaryGeometry = new THREE.BufferGeometry();
+        boundaryGeometry.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(vertices, 3),
+        );
+        planet.add(
+          new THREE.LineSegments(
+            boundaryGeometry,
+            new THREE.LineBasicMaterial({
+              color: 0xc6ad7e,
+              transparent: true,
+              opacity: 0.48,
+              depthWrite: false,
+            }),
+          ),
+        );
+      })
+      .catch(() => {
+        /* The globe and place links remain usable if this optional layer fails. */
+      });
     const observer = new ResizeObserver(size);
     observer.observe(host);
     size();
@@ -345,6 +440,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       .catch(() => {
         if (!disposed) {
           failed = true;
+          hidePins();
           cancelAnimationFrame(frame);
           onReady("fallback");
         }
@@ -357,7 +453,11 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       else updateZoom(targetZoom + delta * 0.0011);
     };
     const down = (e: PointerEvent) => {
-      if (e.button !== 0) return;
+      if (
+        e.button !== 0 ||
+        (e.target instanceof Element && e.target.closest(".earth-pin"))
+      )
+        return;
       host.setPointerCapture(e.pointerId);
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       lastPointerTime = performance.now();
@@ -418,6 +518,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       pointerY = 0;
     };
     const keys = (e: KeyboardEvent) => {
+      if (e.target !== host) return;
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         e.preventDefault();
         targetYaw += (e.key === "ArrowRight" ? 1 : -1) * 0.18;
@@ -436,6 +537,10 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     host.addEventListener("pointercancel", up);
     host.addEventListener("pointerleave", leave);
     host.addEventListener("keydown", keys);
+    const worldPoint = new THREE.Vector3(),
+      projected = new THREE.Vector3(),
+      normal = new THREE.Vector3(),
+      toCamera = new THREE.Vector3();
     const draw = (time: number) => {
       if (disposed || failed) return;
       const dt = Math.min((time - lastTime) / 1000 || 0.016, 0.045);
@@ -443,8 +548,9 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       const ease = reduced ? 1 : 1 - Math.exp(-dt * 5.5);
       zoom += (targetZoom - zoom) * ease;
       if (!pointers.size) {
-        if (!pausedRef.current) targetYaw += dt * (0.045 - zoom * 0.015);
-        if (!reduced) {
+        if (!pausedRef.current && !markerEngaged)
+          targetYaw += dt * (0.045 - zoom * 0.015);
+        if (!reduced && !markerEngaged && !pausedRef.current) {
           targetYaw += velocity * dt * 40;
           velocity *= Math.exp(-dt * 5);
         }
@@ -474,6 +580,43 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         onZoom(zoom);
       }
       renderer.render(scene, camera);
+      const projectedPlaces: ProjectedPlace[] = [];
+      for (const pin of pins) {
+        worldPoint.copy(pin.local).applyMatrix4(planet.matrixWorld);
+        normal.copy(worldPoint).sub(planet.position).normalize();
+        toCamera.copy(camera.position).sub(worldPoint).normalize();
+        projected.copy(worldPoint).project(camera);
+        const x = (projected.x * 0.5 + 0.5) * host.clientWidth,
+          y = (-projected.y * 0.5 + 0.5) * host.clientHeight;
+        const visible =
+          facesCamera(normal.toArray(), toCamera.toArray()) &&
+          projected.z < 1 &&
+          x > 12 &&
+          x < host.clientWidth - 12 &&
+          y > 90 &&
+          y < host.clientHeight - 115;
+        pin.element.style.visibility = visible ? "visible" : "hidden";
+        if (visible)
+          projectedPlaces.push({
+            id: pin.place.id,
+            x,
+            y,
+            side: pin.place.labelSide,
+            rise: pin.place.labelRise,
+          });
+      }
+      const labels = layoutPlaceLabels(
+        projectedPlaces,
+        host.clientWidth,
+        host.clientHeight,
+      );
+      for (const label of labels) {
+        const pin = pins.find((p) => p.place.id === label.id)!;
+        const anchor = projectedPlaces.find((p) => p.id === label.id)!;
+        pin.element.style.transform = `translate3d(${label.x}px,${label.y}px,0)`;
+        pin.element.style.setProperty("--dot-x", `${anchor.x - label.x}px`);
+        pin.element.style.setProperty("--dot-y", `${anchor.y - label.y}px`);
+      }
       frame = requestAnimationFrame(draw);
     };
     const visibility = () => {
@@ -490,6 +633,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     const lost = (e: Event) => {
       e.preventDefault();
       failed = true;
+      hidePins();
       cancelAnimationFrame(frame);
       onReady("fallback");
     };
@@ -499,6 +643,12 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     frame = requestAnimationFrame(draw);
     return () => {
       disposed = true;
+      pins.forEach(({ element }) => {
+        element.removeEventListener("pointerenter", engage);
+        element.removeEventListener("pointerleave", disengage);
+        element.removeEventListener("focus", engage);
+        element.removeEventListener("blur", disengage);
+      });
       abort.abort();
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -513,7 +663,11 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       host.removeEventListener("keydown", keys);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       scene.traverse((obj) => {
-        if (obj instanceof THREE.Mesh || obj instanceof THREE.Points) {
+        if (
+          obj instanceof THREE.Mesh ||
+          obj instanceof THREE.Points ||
+          obj instanceof THREE.LineSegments
+        ) {
           obj.geometry.dispose();
           const mats = Array.isArray(obj.material)
             ? obj.material
@@ -533,6 +687,48 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       tabIndex={0}
       role="group"
       aria-label="交互地球：滚轮靠近或远离，拖动旋转；方向键转动与缩放，Home 复位"
-    />
+    >
+      {EARTH_PLACES.map((place) => {
+        const label = `${place.label} · ${place.city}，${place.url ? "进入学校官网" : "查看" + (place.kind === "experience" ? "实习经历" : "学术活动")}`;
+        const contents = (
+          <>
+            <span className="earth-pin-dot" aria-hidden="true" />
+            <span className="earth-pin-label">
+              <span>{place.label}</span>
+              <small>
+                {place.kind === "education"
+                  ? "学校 ↗"
+                  : place.kind === "experience"
+                    ? "实习 +"
+                    : "学术 +"}
+              </small>
+            </span>
+          </>
+        );
+        const common = {
+          className: `earth-pin is-${place.kind} label-${place.labelSide}`,
+          "data-place": place.id,
+          "aria-label": label,
+          style: {
+            visibility: "hidden" as const,
+            "--label-rise": `${place.labelRise}px`,
+          } as React.CSSProperties,
+        };
+        return place.url ? (
+          <a {...common} href={place.url} key={place.id}>
+            {contents}
+          </a>
+        ) : (
+          <button
+            {...common}
+            type="button"
+            key={place.id}
+            onClick={() => onPlace(place.id)}
+          >
+            {contents}
+          </button>
+        );
+      })}
+    </div>
   );
 });

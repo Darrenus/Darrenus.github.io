@@ -16,7 +16,7 @@ resume and Ragent routes remain available from the floating navigation.
   fine geographical measurement lines and a single upper-left light source.
 
 The globe uses real coastlines from public-domain Natural Earth 1:50m land data,
-with no political borders. See `public/globe/NOTICE.md`. A locally generated mask,
+with fine national boundary lines and no country names. See `public/globe/NOTICE.md`. A locally generated mask,
 procedural surface grain and evenly distributed land points create the material;
 no third-party rendering service or remote texture is required at runtime.
 
@@ -53,3 +53,27 @@ clearance and portrait whole-globe framing. Browser QA covers full/near views,
 wheel and drag, project switching and Escape focus, fixed navigation during zoom,
 and responsive viewport layouts. Existing content, routes, Markdown and corpus
 tests remain part of the release checks.
+
+
+## Public place layer — September 2026
+
+The globe adds Natural Earth 1:50m admin-0 land boundary geometry as thin brass
+lines. Only coordinates are shipped, with no country-name labels. Long line
+segments are subdivided onto the spherical surface to avoid disappearing inside it.
+
+Four public place markers: KAIST (Daejeon campus), NUS (Kent Ridge campus),
+Shanghai (three internships), and Zhengzhou (Jantech). Internship pins represent
+city centers, not office addresses. The user requested no academic-activity
+markers for now and no personal-life locations.
+
+School pins are native links to `https://www.kaist.ac.kr/kr/` and
+`https://nus.edu.sg/`. City buttons open a modal listing the corresponding public
+resume records, with expandable work details. The resume stays the source of
+truth; experience text is not duplicated in map data.
+
+Markers use the same longitude/latitude convention as the land texture, follow
+rotation/zoom, and disappear behind the perspective horizon. Labels have 44px
+click targets and a viewport-aware collision layout so Shanghai and KAIST cannot
+intercept one another on phones. Hover or keyboard focus holds auto-rotation.
+The “经历坐标” button provides access even when places are on the far side or WebGL
+is unavailable. Escape returns focus to the triggering control.

@@ -681,3 +681,280 @@
     margin-top: 12px;
   }
 }
+
+/* The anchor follows the globe; the small label extends beyond its touch target. */
+.earth-pin {
+  position: absolute;
+  top: -22px;
+  left: -22px;
+  width: 44px;
+  height: 44px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #f0dfb8;
+  cursor: pointer;
+  text-decoration: none;
+  touch-action: manipulation;
+  outline-offset: 2px;
+}
+.earth-pin-dot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid #e1c594;
+  border-radius: 50%;
+  background: #181e19;
+  box-shadow:
+    0 0 0 5px #b39a6322,
+    0 0 16px #c7a56944;
+}
+.earth-pin.is-education .earth-pin-dot {
+  border-radius: 1px;
+  transform: rotate(45deg);
+  background: #dac394;
+  width: 7px;
+  height: 7px;
+}
+.earth-pin-label {
+  position: absolute;
+  left: 37px;
+  top: calc(8px + var(--label-rise));
+  text-align: left;
+  white-space: nowrap;
+  font: 11px var(--sans);
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  padding: 5px 7px;
+  border-radius: 2px;
+  background: #0c1212c9;
+  border: 1px solid #c7a56933;
+  transition:
+    background 180ms,
+    border-color 180ms;
+}
+.earth-pin-label small {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  color: #b5b8a6;
+  letter-spacing: 0.1em;
+}
+.earth-pin-label::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 12px;
+  width: 16px;
+  height: 1px;
+  background: #c7a56988;
+}
+.earth-pin.label-left .earth-pin-label {
+  left: auto;
+  right: 37px;
+  text-align: right;
+}
+.earth-pin.label-left .earth-pin-label::before {
+  right: auto;
+  left: 100%;
+}
+.earth-pin:hover .earth-pin-label,
+.earth-pin:focus-visible .earth-pin-label {
+  background: #17201eef;
+  border-color: #c7a569aa;
+}
+.earth-pin:hover .earth-pin-dot,
+.earth-pin:focus-visible .earth-pin-dot {
+  box-shadow:
+    0 0 0 7px #b39a6333,
+    0 0 24px #c7a56966;
+}
+.earth-page:not(.is-ready) .earth-pin {
+  display: none;
+}
+.earth-places-open {
+  position: absolute;
+  right: 44px;
+  top: 111px;
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #cfbd9b;
+  font: 11px var(--sans);
+  background: #0c121277;
+  border: 1px solid #b09a7244;
+  border-radius: 24px;
+  padding: 0 15px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.earth-places-open:hover {
+  border-color: #b09a7299;
+}
+.earth-places-dialog {
+  width: min(560px, 100%);
+}
+.earth-places-dialog > h2 {
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin: 0 0 22px;
+}
+.earth-places-caption {
+  color: #a7ae9f;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 20px 0 32px;
+}
+.earth-place-group {
+  margin-top: 32px;
+}
+.earth-place-group > h3 {
+  font-size: 11px;
+  font-weight: 400;
+  color: #a79878;
+  letter-spacing: 0.18em;
+  margin: 0 0 10px;
+}
+.earth-place-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 21px 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #b09a722f;
+  text-align: left;
+  color: #e4e0d5;
+  font: 18px var(--sans);
+  cursor: pointer;
+}
+.earth-place-row small {
+  display: block;
+  margin-top: 9px;
+  font-size: 11px;
+  color: #a0a797;
+}
+.earth-place-row:hover {
+  color: #d6ba83;
+}
+.earth-places-back {
+  padding: 8px 0;
+  min-height: 40px;
+  border: 0;
+  background: none;
+  color: #beac88;
+  cursor: pointer;
+  font: 12px var(--sans);
+}
+.earth-place-record {
+  border-top: 1px solid #b09a7240;
+  padding-top: 28px;
+  margin-top: 34px;
+}
+.earth-place-period {
+  color: #baab8c;
+  font: 11px var(--mono);
+}
+.earth-place-record h3 {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 16px 0 12px;
+}
+.earth-place-role {
+  color: #c4c3b5;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.earth-place-record ul {
+  padding-left: 17px;
+  color: #b3b9aa;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.earth-place-record li {
+  padding-left: 4px;
+  margin-bottom: 16px;
+}
+.earth-place-record > a {
+  display: inline-block;
+  font-size: 12px;
+  color: #d2bd93;
+  margin: 8px 0 16px;
+}
+@media (max-width: 600px) {
+  .earth-places-open {
+    right: 22px;
+    top: 86px;
+    min-height: 36px;
+    font-size: 10px;
+  }
+  .earth-pin-label {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+  .earth-pin-label small {
+    font-size: 8px;
+  }
+  .earth-places-dialog > h2 {
+    font-size: 30px;
+  }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  .earth-places-open {
+    top: 83px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .earth-pin-label {
+    transition: none;
+  }
+}
+
+.earth-place-summary {
+  color: #b3b9aa;
+  font-size: 13px;
+  line-height: 1.85;
+}
+.earth-place-record details summary {
+  color: #cdbb95;
+  font-size: 12px;
+  cursor: pointer;
+  min-height: 36px;
+  padding-block: 8px;
+}
+/* Keep click boxes on separated labels, rather than overlapping adjacent city pins. */
+.earth-pin {
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 44px;
+}
+.earth-pin-dot {
+  position: absolute;
+  left: var(--dot-x);
+  top: var(--dot-y);
+  transform: translate(-50%, -50%);
+}
+.earth-pin.is-education .earth-pin-dot {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.earth-pin-label,
+.earth-pin.label-left .earth-pin-label {
+  position: static;
+  min-width: 60px;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.earth-pin-label::before,
+.earth-pin.label-left .earth-pin-label::before {
+  display: none;
+}

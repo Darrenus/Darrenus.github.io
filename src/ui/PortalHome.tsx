@@ -10,6 +10,7 @@ import {
 import { CONTENT } from "../content";
 import type { EarthControls } from "./EarthScene";
 import "./earth.css";
+import EarthPlacesDialog from "./EarthPlacesDialog";
 
 const EarthScene = lazy(() => import("./EarthScene"));
 export default function PortalHome() {
@@ -21,6 +22,10 @@ export default function PortalHome() {
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   const [opened, setOpened] = useState(false);
+  const [placeSelection, setPlaceSelection] = useState<
+    string | null | undefined
+  >(undefined);
+  const selectPlace = useCallback((id: string) => setPlaceSelection(id), []);
   const [projectIndex, setProjectIndex] = useState(0);
   const controls = useRef<EarthControls>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -67,7 +72,8 @@ export default function PortalHome() {
       <Suspense fallback={null}>
         <EarthScene
           ref={controls}
-          paused={paused || opened}
+          paused={paused || opened || placeSelection !== undefined}
+          onPlace={selectPlace}
           onZoom={reportZoom}
           onReady={reportStatus}
         />
@@ -96,6 +102,18 @@ export default function PortalHome() {
           </a>
         </nav>
       </header>
+      <button
+        className="earth-places-open"
+        onClick={() => setPlaceSelection(null)}
+      >
+        <span aria-hidden="true">⊕</span> 经历坐标{" "}
+        <span aria-hidden="true">↗</span>
+      </button>
+      <EarthPlacesDialog
+        selection={placeSelection}
+        onSelect={setPlaceSelection}
+        onClose={() => setPlaceSelection(undefined)}
+      />
       <div className="earth-side-label" aria-hidden="true">
         CURIOSITY / SYSTEMS / POSSIBILITY
       </div>
@@ -149,7 +167,7 @@ export default function PortalHome() {
             <small>
               {status === "fallback"
                 ? "项目、简历与问答仍可访问"
-                : "也可使用缩放按钮 · 手机支持双指缩放"}
+                : "点击地球标记 · 探索学习与实习经历"}
             </small>
           </span>
         </div>
