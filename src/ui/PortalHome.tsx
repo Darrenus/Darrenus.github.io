@@ -42,12 +42,12 @@ export default function PortalHome() {
       if (motion.matches) setPaused(true);
     };
     motion.addEventListener("change", changeMotion);
-    document.title = "RONG · 贺融 | A world in motion";
+    document.title = "RONG · 贺融 | 学习与实践";
     document
       .querySelector<HTMLMetaElement>('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "贺融 Allen He 的个人空间。探索 AI Agent、工业算法与产品设计。",
+        "贺融的个人空间。探索 AI Agent、工业算法与产品设计。",
       );
     return () => motion.removeEventListener("change", changeMotion);
   }, []);
@@ -89,7 +89,7 @@ export default function PortalHome() {
           </span>{" "}
           RONG
         </a>
-        <span className="earth-header-caption">A PERSONAL UNIVERSE</span>
+        <span className="earth-header-caption">贺融的个人空间</span>
         <nav aria-label="主导航">
           <a href="/projects">
             项目 <span aria-hidden="true">↗</span>
@@ -118,18 +118,19 @@ export default function PortalHome() {
         onClose={() => setPlaceSelection(undefined)}
       />
       <div className="earth-side-label" aria-hidden="true">
-        CURIOSITY / SYSTEMS / POSSIBILITY
+        <strong>CRAFT</strong>
+        <span>curiosity / reasoning / attention / feeling / taste</span>
       </div>
       <div className="earth-identity">
         <p className="earth-overline">
-          贺融 <span>ALLEN HE</span>
+          贺融
         </p>
         <h1>
           保持好奇。
           <br />
           <span>向未知，进一步。</span>
         </h1>
-        <p className="earth-role">AI 应用开发 · Agent 工程</p>
+        <p className="earth-role">软件开发 · AI应用开发</p>
       </div>
       <button
         className="earth-explore"
@@ -141,21 +142,17 @@ export default function PortalHome() {
           <span>↗</span>
         </span>
         <span>
-          探索我的工作<small>SELECTED WORK</small>
+          探索我的工作<small>精选项目</small>
         </span>
       </button>
       <div className="earth-near-caption" aria-hidden={zoom < 0.5}>
-        <span>01 / CLOSER</span>
-        <p>
-          视角改变，
-          <br />
-          新的联系开始浮现。
-        </p>
+        <span>01 / 近观</span>
+        <p>学习与实践的足迹</p>
       </div>
       <footer className="earth-footer">
         <div className="earth-location">
-          <span className="earth-location-dot" /> SINGAPORE
-          <small>NUS · KAIST</small>
+          <span className="earth-location-dot" /> 新加坡
+          <small>新加坡国立大学 · 韩国科学技术院</small>
         </div>
         <div className="earth-instructions">
           <span className="earth-scroll-mark" aria-hidden="true" />
@@ -164,14 +161,7 @@ export default function PortalHome() {
               ? "正在构建地球…"
               : status === "fallback"
                 ? "当前设备使用静态视图"
-                : zoom > 0.85
-                  ? "继续向下转动地表 · 向上拉远"
-                  : "向下滚动靠近 · 拖动环绕"}
-            <small>
-              {status === "fallback"
-                ? "项目、简历与问答仍可访问"
-                : "点击地球标记 · 探索学习与实习经历"}
-            </small>
+                : "向下转动地表，向上拉远"}
           </span>
         </div>
         <div className="earth-controls" aria-label="地球视角控制">
@@ -244,7 +234,7 @@ export default function PortalHome() {
           关闭 <span>×</span>
         </button>
         <p className="earth-overline">
-          SELECTED WORK{" "}
+          精选项目{" "}
           <span>{String(projectIndex + 1).padStart(2, "0")} / 04</span>
         </p>
         <div className="earth-project-tabs" role="group" aria-label="选择项目">

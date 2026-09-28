@@ -71,7 +71,7 @@ export default function EarthPlacesDialog({
       >
         关闭 <span>×</span>
       </button>
-      <p className="earth-overline">PLACES & PRACTICE</p>
+      <p className="earth-overline">学习与实践</p>
       <h2 id="earth-places-title" tabIndex={-1}>
         {place ? place.city : "经历坐标"}
       </h2>

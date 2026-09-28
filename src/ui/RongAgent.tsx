@@ -476,7 +476,7 @@ export default function RongAgent({
 
       {!state.started ? (
         <main className="landing" id="main-content">
-          <p className="eyebrow question-eyebrow">RAGENT / AN OPEN CONVERSATION</p>
+          <p className="eyebrow question-eyebrow">问答 / 从一个问题开始</p>
 
           <h1 className="h1">
             关于{" "}

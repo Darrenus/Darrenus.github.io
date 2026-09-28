@@ -2,6 +2,7 @@ export interface EarthPlace {
   id: string;
   kind: "education" | "experience" | "academic";
   label: string;
+  shortLabel?: string;
   city: string;
   longitude: number;
   latitude: number;
@@ -39,7 +40,8 @@ export const EARTH_PLACES: EarthPlace[] = [
   {
     id: "kaist",
     kind: "education",
-    label: "KAIST",
+    label: "韩国科学技术院",
+    shortLabel: "韩国科院",
     city: "大田",
     longitude: 127.36,
     latitude: 36.37,
@@ -51,7 +53,8 @@ export const EARTH_PLACES: EarthPlace[] = [
   {
     id: "nus",
     kind: "education",
-    label: "NUS",
+    label: "新加坡国立大学",
+    shortLabel: "新国大",
     city: "新加坡",
     longitude: 103.78,
     latitude: 1.3,

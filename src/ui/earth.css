@@ -130,11 +130,15 @@
 }
 .earth-side-label {
   position: absolute;
-  top: 43%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 18px;
+  white-space: nowrap;
   left: 44px;
   writing-mode: vertical-rl;
   font: 9px var(--mono);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   color: #858981;
   opacity: calc(1 - var(--journey));
   pointer-events: none;
@@ -966,3 +970,5 @@
  .earth-places-open { top:126px; }
  .earth-near-caption { top:27%; }
 }
+
+.earth-side-label strong { font-weight:400; color:var(--space-brass); letter-spacing:.18em; }

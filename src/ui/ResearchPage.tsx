@@ -29,7 +29,7 @@ export default function ResearchPage() {
       <main id="main-content">
         <section className="research-hero" aria-labelledby="research-title">
           <div className="research-container">
-            <p className="research-eyebrow">RESEARCH / PUBLICATIONS</p>
+            <p className="research-eyebrow">研究 / 论文</p>
             <h1 id="research-title">学术研究</h1>
             <p className="research-intro">论文、思考与可追溯的研究记录。</p>
             <div className="research-register">

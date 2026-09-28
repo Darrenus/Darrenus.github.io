@@ -694,7 +694,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
           <>
             <span className="earth-pin-dot" aria-hidden="true" />
             <span className="earth-pin-label">
-              <span>{place.label}</span>
+              <span>{place.shortLabel ?? place.label}</span>
               <small>
                 {place.kind === "education"
                   ? "学校 ↗"

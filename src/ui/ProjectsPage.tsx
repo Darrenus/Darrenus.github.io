@@ -32,7 +32,7 @@ export default function ProjectsPage() {
       <main id="main-content">
         <section className="projects-hero" aria-labelledby="projects-title">
           <div className="projects-container">
-            <p className="projects-eyebrow">Selected work</p>
+            <p className="projects-eyebrow">精选项目</p>
             <h1 id="projects-title">项目</h1>
             <p>围绕 AI Agent、算法系统、产品体验与智能硬件的公开项目记录。</p>
           </div>
