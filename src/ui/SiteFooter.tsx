@@ -41,7 +41,7 @@ export default function SiteFooter() {
       </div>
       <div className="site-footer-bottom">
         <nav aria-label="网站政策"><a href="/privacy">隐私政策</a><a href="/terms">使用条款</a></nav>
-        <span>2026 LLC</span>
+        <span>© 2026 Rong He</span>
       </div>
     </footer>
   );
