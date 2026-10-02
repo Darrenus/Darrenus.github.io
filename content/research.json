@@ -1,6 +1,40 @@
 {
   "publications": [
     {
+      "id": "label-adaptivity-best-of-n",
+      "title": "Label Adaptivity in Best-of-n Budget Selection",
+      "authors": [
+        "Rong He"
+      ],
+      "publishedAt": "2026-10-01",
+      "status": "预印本 · Zenodo v1",
+      "summary": "研究固定候选池、有限正确性标注下的 best-of-n 部署预算选择，给出自适应与非自适应标注策略的匹配极小极大期望遗憾界。结果表明，非自适应策略的额外对数代价仅出现在标注项，并刻画候选池规模、标注预算与预算菜单跨度的共同影响。数值检查与合成估计诊断用于说明有限预算的局限，不代表真实任务收益。",
+      "links": [
+        {
+          "platform": "Zenodo",
+          "url": "https://zenodo.org/records/23086434",
+          "identifier": "10.5281/zenodo.23086434"
+        }
+      ]
+    },
+    {
+      "id": "pointwise-to-population",
+      "title": "From Pointwise Queries to Population Probabilities: A Sharp Preservation Threshold",
+      "authors": [
+        "Rong He"
+      ],
+      "publishedAt": "2026-09-28",
+      "status": "预印本 · Zenodo v1.0",
+      "summary": "比较同一有限布尔问题集在返回单个状态的真值与精确总体概率时的最优保证。设点查询的极小极大预测误差为 e，总体查询的极小极大超额零一风险为 R，证明 e ≤ R ≤ 2e，并确定普适保持区间：e = 0 或 e ≥ 1/3 时 R = e；每个可达的 0 < e < 1/3 均存在 R > e 的有限接口。结论针对受限的精确查询接口，不构成模型性能保证。",
+      "links": [
+        {
+          "platform": "Zenodo",
+          "url": "https://zenodo.org/records/23020314",
+          "identifier": "10.5281/zenodo.23020314"
+        }
+      ]
+    },
+    {
       "id": "decomposition-integrity",
       "title": "Decomposition Buys Integrity, Not Yield",
       "authors": [
