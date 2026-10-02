@@ -17,17 +17,8 @@ assert.equal(content.profile.links.find((link) => link.id === "primary-email")?.
 assert.ok(content.resume.projects.some(project => project.slug === "coding-agent-from-scratch"));
 assert.ok(content.resume.projects.some(project => project.slug === "bodycraft-oss"));
 assert.ok(content.resume.projects.some(project => project.slug === "spreadsheet-qa"));
-const codeloop = content.resume.projects.find((project) => project.slug === "coding-agent");
-assert.equal(codeloop?.name, "codeloop");
-assert.equal(codeloop?.links.find((link) => link.kind === "repository")?.url, "https://github.com/Darrenus/codeloop");
 assert.ok(content.resume.projects.every((project) => project.slug));
 assert.ok(content.resume.projects.every((project) => project.links.some((link) => link.kind === "internal" && link.url === `/projects/${project.slug}` && link.status === "active")));
-assert.equal(codeloop?.links.find((link) => link.kind === "repository")?.status, "active");
-assert.match(codeloop?.summary ?? "", /可插拔的终端 Coding Agent/);
-assert.match(codeloop?.highlights.join(" ") ?? "", /DockerEnvironment/);
-assert.match(codeloop?.highlights.join(" ") ?? "", /trajectory replay/);
-assert.match(codeloop?.highlights.join(" ") ?? "", /正式 benchmark 尚未运行/);
-assert.equal(codeloop?.metrics.find((metric) => metric.label === "自动化测试")?.value, "73");
 assert.ok(content.resume.experience.some((entry) => entry.highlights.length >= 4));
 assert.equal(content.resume.experience.find(entry => entry.id === "jantech-industrial-ai")?.period.end, "2026.01");
 assert.ok(content.resume.education.flatMap((entry) => entry.links).every((link) => link.status === "active" ? Boolean(link.url) : true));
@@ -38,6 +29,7 @@ assert.doesNotMatch(serialized, /hr\.bio/);
 assert.match(serialized, /20\+/);
 assert.match(serialized, /约 2/);
 assert.doesNotMatch(serialized, /85%/);
-assert.match(serialized, /SWE-bench Verified/);
+assert.doesNotMatch(serialized, /codeloop|SWE-bench Verified/);
+assert.ok(!content.resume.projects.some(project => project.slug === "coding-agent"));
 
 console.log("content source checks passed");

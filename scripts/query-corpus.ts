@@ -33,7 +33,6 @@ const tests = [
   { query: "coding-agent-from-scratch Seatbelt PageRank", hit: /^about-projects#/ },
   { query: "bodycraft-oss NDCG 五路", hit: /^about-projects#/ },
   { query: "Prefix Sharing Sorting Problem", hit: /^about-research#/ },
-  { query: "codeloop Python SWE-bench 工具调用", hit: /^about-projects#/ },
   { query: "hanserong NUS 邮箱", hit: /^about-(contact|links)#/ },
   { query: "专利 正在审查", hit: /^about-achievements#/ },
 ];

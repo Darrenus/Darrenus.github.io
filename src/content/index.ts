@@ -81,7 +81,6 @@ export function validateContent(value: SiteContent): SiteContent {
   assert(!serialized.includes("hr.bio"), "obsolete domain detected");
   assert(serialized.includes("20+"), "approved 20+ qualifier is missing");
   assert(serialized.includes("约 2"), "approved approximate two-hour qualifier is missing");
-  assert(serialized.includes("SWE-bench Verified"), "approved codeloop evaluation scope is missing");
 
   return value;
 }

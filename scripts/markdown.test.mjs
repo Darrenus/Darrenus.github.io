@@ -45,12 +45,12 @@ function render(md) {
 const checks = [
   {
     name: "URL inside a Markdown label creates only one anchor",
-    md: "[https://github.com/Darrenus/codeloop](https://github.com/Darrenus/codeloop)",
-    want: (r) => r.hrefs.length === 1 && r.text === "github.com/Darrenus/codeloop",
+    md: "[https://github.com/Darrenus/coding-agent-from-scratch](https://github.com/Darrenus/coding-agent-from-scratch)",
+    want: (r) => r.hrefs.length === 1 && r.text === "github.com/Darrenus/coding-agent-from-scratch",
   },
   {
     name: "link label retains inline emphasis without nested anchors",
-    md: "[**codeloop** https://github.com/Darrenus/codeloop](https://github.com/Darrenus/codeloop)",
+    md: "[**coding-agent-from-scratch** https://github.com/Darrenus/coding-agent-from-scratch](https://github.com/Darrenus/coding-agent-from-scratch)",
     want: (r) => r.hrefs.length === 1 && r.tags.includes("strong"),
   },
   {

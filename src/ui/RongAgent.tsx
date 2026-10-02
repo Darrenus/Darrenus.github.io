@@ -40,7 +40,7 @@ const SEED_QUESTIONS = [
   "贺融是谁？",
   "介绍一下他的经历。",
   "他做过哪些 AI 项目？",
-  "他如何设计 codeloop？",
+  "他如何设计 coding-agent-from-scratch？",
 ];
 
 /** Sources shown before the list is folded. */

@@ -39,15 +39,15 @@ export const OBSERVATIONS: Observation[] = [
     english: "AGENT SYSTEMS",
     statement: "从模型调用，到可执行的系统。",
     question:
-      "贺融如何设计 codeloop 的 Agent 循环？与内部表格问答平台有哪些共同的工程思路？",
-    evidence: [project("coding-agent"), experience("saic-im-ai")],
+      "贺融如何设计 coding-agent-from-scratch 的 Agent 循环？与内部表格问答平台有哪些共同的工程思路？",
+    evidence: [project("coding-agent-from-scratch"), experience("saic-im-ai")],
   },
   {
     label: "可靠执行",
     english: "RELIABLE EXECUTION",
     statement: "能力的边界，也应该被设计。",
-    question: "贺融如何处理 Agent 的隔离执行、SQL 安全和可回放评测？",
-    evidence: [project("coding-agent"), experience("saic-im-ai")],
+    question: "贺融如何处理 Agent 的沙箱隔离、SQL 安全和可复现评测？",
+    evidence: [project("coding-agent-from-scratch"), experience("saic-im-ai")],
   },
   {
     label: "工业智能",
@@ -72,7 +72,7 @@ export const OBSERVATIONS: Observation[] = [
     evidence: [
       experience("apt-java-web"),
       experience("gweee-automation"),
-      project("coding-agent"),
+      project("coding-agent-from-scratch"),
     ],
   },
   {

@@ -127,10 +127,9 @@
     "publicClaims": [
       "四个智能体累计服务约 500 名内部用户",
       "内部表格问答平台上线 20+ 内部试用用户；据用户反馈估算，人均每天减少约 2 小时手工表格工作",
-      "coding-agent-from-scratch 的仓库地图在 112 文件仓库实验中使任务步数下降 21%、输入 token 下降 33%",
-      "codeloop 与 coding-agent-from-scratch 是不同的公开项目，不能混用其测试数量、架构与评测结论"
+      "coding-agent-from-scratch 的仓库地图在 112 文件仓库实验中使任务步数下降 21%、输入 token 下降 33%"
     ],
     "patentStatusRule": "三项专利均为申请且处于审查阶段，不得表述为已授权。",
-    "unpublishedRepositoryRule": "只引用内容源中记录的真实仓库地址；codeloop 与 coding-agent-from-scratch 是不同项目，不混淆二者，不猜测 bodycraft-oss 或内部项目的仓库链接。"
+    "unpublishedRepositoryRule": "只引用内容源中记录的真实仓库地址，不猜测 bodycraft-oss 或内部项目的仓库链接。"
   }
 }

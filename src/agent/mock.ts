@@ -14,7 +14,6 @@ interface Run {
 
 const { profile, resume } = CONTENT;
 const saic = resume.experience.find((entry) => entry.id === "saic-im-ai")!;
-const codeloop = resume.projects.find((entry) => entry.id === "coding-agent")!;
 const paragraphText = (paragraphs: string[]) => paragraphs.filter(Boolean).join("\n\n");
 const publicContact = [
   profileLink("primary-email"),
@@ -56,21 +55,6 @@ const RUNS: Run[] = [
     text: paragraphText([saic.summary, ...saic.highlights]),
     sources: [{ label: "实习与工程经历" }],
     suggestions: ["Planner-Executor 为什么更可控？", "SQL 安全层如何限制模型？"],
-  },
-  {
-    keywords: ["codeloop", "swe-bench"],
-    reasoning: "先读取 codeloop 的公开项目范围、工具协议与权限边界，再引用真实仓库地址。",
-    steps: [
-      { name: "retrieve", args: "index:project codeloop SWE-bench", result: "命中 codeloop 项目资料" },
-      { name: "read_document", args: "about-projects", result: "已读取工具协议与评测范围" },
-    ],
-    text: paragraphText([
-      codeloop.summary,
-      ...codeloop.highlights,
-      `公开代码仓库：[${codeloop.links.find((link) => link.kind === "repository")?.url}](${codeloop.links.find((link) => link.kind === "repository")?.url})。`,
-    ]),
-    sources: [{ label: "项目经历", url: codeloop.links.find((link) => link.kind === "repository")?.url ?? undefined }],
-    suggestions: ["codeloop 的权限分层如何设计？", "SWE-bench 评测比较什么？"],
   },
   {
     keywords: ["项目", "coding agent", "编程助手", "工具调用协议"],
@@ -124,7 +108,7 @@ const FALLBACK: Run = {
   keywords: [],
   reasoning: "当前没有配置模型，只能从有限的离线预设中匹配；不匹配时应明确说明。",
   steps: [{ name: "retrieve", args: "index:all", result: "离线模式未找到对应预设" }],
-  text: `当前版本尚未配置在线模型，所以这里只能回答几类预设问题。你可以询问${profile.person.name}的经历、上汽 AI 应用工作、codeloop、教育背景或联系方式。`,
+  text: `当前版本尚未配置在线模型，所以这里只能回答几类预设问题。你可以询问${profile.person.name}的经历、上汽 AI 应用工作、公开项目、教育背景或联系方式。`,
   sources: [],
   suggestions: ["贺融是谁？", "他做过哪些 AI 项目？"],
 };
