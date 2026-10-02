@@ -6,6 +6,7 @@ import MiniSearch from "minisearch";
 import { processTerm, tokenize } from "../src/rag/tokenize";
 import profileJson from "../content/profile.json";
 import resumeJson from "../content/resume.json";
+import researchJson from "../content/research.json";
 import { validateContent, type ProfileContent, type ResumeContent, type SiteContent } from "../src/content";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -151,7 +152,7 @@ function canonicalDocs(): Doc[] {
     lang: "zh",
     sections: [
       section("发明专利申请", [
-        "以下三项均为发明专利申请，当前处于审查阶段，不表示已经授权：",
+        "以下均为发明专利申请，不表示已经授权；具体状态以各条记录为准：",
         bulletLines(resume.patents.map((patent) => `${patent.title}，${patent.submittedAt} 提交，${patent.statusLabel}`)),
       ]),
       section("获奖与项目成果", bulletLines(resume.awards.map((award) => `${award.title}，${award.date}`))),
@@ -191,7 +192,9 @@ function canonicalDocs(): Doc[] {
         ...profile.links
           .filter((link) => link.kind === "repository" && link.url)
           .map((link) => `${link.label}：[${link.url}](${link.url})`),
-        "codeloop 的公开仓库：[https://github.com/Darrenus/codeloop](https://github.com/Darrenus/codeloop)。",
+        ...resume.projects.flatMap(project => project.links
+          .filter(link => link.kind === "repository" && link.status === "active" && link.url)
+          .map(link => `${project.name} 的公开仓库：[${link.url}](${link.url})。`)),
       ].join("\n\n")),
     ],
   };
@@ -207,7 +210,15 @@ function canonicalDocs(): Doc[] {
     sections: splitSections(websiteMatter.content),
   };
 
-  return [about, achievements, contact, education, experience, links, projects, website];
+  const research: Doc = {
+    id: "about-research", title: "研究成果", kind: "paper", lang: "zh",
+    sections: researchJson.publications.map(paper => section(paper.title, [
+      `${paper.authors.join("、")}；${paper.publishedAt}；${paper.status}`,
+      paper.summary,
+      ...paper.links.map(link => `${link.platform}：[${link.identifier}](${link.url})`),
+    ])),
+  };
+  return [about, achievements, contact, education, experience, links, projects, research, website];
 }
 
 function readDocs(): { docs: Doc[]; hashes: Record<string, string> } {
@@ -216,7 +227,7 @@ function readDocs(): { docs: Doc[]; hashes: Record<string, string> } {
   }
 
   const hashes: Record<string, string> = {};
-  for (const source of ["content/profile.json", "content/resume.json", "corpus/src/this-site.md"]) {
+  for (const source of ["content/profile.json", "content/resume.json", "content/research.json", "corpus/src/this-site.md"]) {
     const raw = fs.readFileSync(path.join(ROOT, source), "utf8");
     hashes[source] = createHash("sha256").update(raw).digest("hex").slice(0, 16);
   }

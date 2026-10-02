@@ -1,8 +1,9 @@
 {
-  "builtAt": "2026-08-23",
+  "builtAt": "2026-10-02",
   "sources": {
-    "content/profile.json": "bba1bdb70cfa99e9",
-    "content/resume.json": "9bc3f90128fac0be",
+    "content/profile.json": "f2996479267d990c",
+    "content/resume.json": "180b55130fea92b1",
+    "content/research.json": "530db0f0a081dc04",
     "corpus/src/this-site.md": "a68da09ca8bb9f86"
   }
 }

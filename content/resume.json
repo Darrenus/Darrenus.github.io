@@ -3,27 +3,27 @@
   "meta": {
     "title": "贺融 - 中文简历（公开版）",
     "subject": "AI 应用开发与 Agent 工程",
-    "updatedAt": "2026.08",
+    "updatedAt": "2026.10.02",
     "versionLabel": "公开版"
   },
   "overview": {
-    "tagline": "AI 应用开发  |  Agent 工程  |  新加坡",
+    "tagline": "AI 智能体开发  |  检索与评测  |  新加坡",
     "summary": [
-      "面向 AI 应用开发与 Agent 工程的软件工程师，现于新加坡国立大学攻读软件工程技术硕士。经历覆盖大模型应用、工业视觉与控制算法、Web 与自动化开发，关注把模型能力转化为可控、可执行、可验证的软件系统。"
+      "面向 AI 智能体、检索系统与工程评测的软件工程师，现于新加坡国立大学攻读软件工程技术硕士。关注工具调用、上下文工程、混合检索与可复现评测，将模型能力转化为可控、可执行、可验证的系统。"
     ],
     "bio": [
-      "贺融（Allen）是一名面向 AI 应用开发与 Agent 工程的软件工程师，目前在新加坡国立大学攻读软件工程技术硕士。他本科毕业于韩国科学技术院计算机科学专业，现居新加坡。",
-      "他的经历横跨三类工作：大模型应用工程、工业视觉与控制算法、传统软件与自动化开发。主线是把模型能力转化为可控、可执行、可验证的软件系统。"
+      "贺融目前在新加坡国立大学攻读软件工程技术硕士，本科毕业于韩国科学技术院计算机科学专业。",
+      "工程经历覆盖企业智能体落地、工业视觉算法与 Java Web 开发；个人项目围绕从零构建编程智能体、多路检索、上下文管理及对照实验展开。"
     ],
     "focus": [
-      "LLM 应用",
-      "Agent 编排",
-      "数据处理工作流",
-      "权限与安全控制",
-      "跨会话记忆",
-      "真实业务场景的工程化落地"
+      "智能体与工具调用",
+      "记忆与上下文工程",
+      "混合检索与查询理解",
+      "消融实验与可复现评测",
+      "并发压测与对抗性测试",
+      "权限与数据隔离"
     ],
-    "careerNarrative": "工程经历从 Java Web 和自动化开发开始，随后转向工业视觉算法，再进入 AI 应用开发。"
+    "careerNarrative": "从 Java Web 开发到工业视觉算法，再到企业智能体落地，持续关注系统的执行边界、真实表现与可复现证据。"
   },
   "education": [
     {
@@ -32,7 +32,10 @@
       "rankLabel": "QS 10",
       "degree": "硕士",
       "field": "软件工程技术",
-      "period": { "start": "2026.08", "end": "2027.10" },
+      "period": {
+        "start": "2026.08",
+        "end": "2027.10"
+      },
       "summary": "贺融于新加坡国立大学攻读软件工程技术硕士，2026 年 8 月入学，预计 2027 年 10 月完成学业。",
       "highlights": [],
       "links": [
@@ -43,7 +46,10 @@
           "status": "active"
         }
       ],
-      "tags": ["软件工程", "NUS"],
+      "tags": [
+        "软件工程",
+        "NUS"
+      ],
       "visibility": "public"
     },
     {
@@ -52,9 +58,14 @@
       "rankLabel": "QS 65",
       "degree": "本科",
       "field": "计算机科学",
-      "period": { "start": "2021.09", "end": "2025.08" },
+      "period": {
+        "start": "2021.09",
+        "end": "2025.08"
+      },
       "summary": "贺融于韩国科学技术院攻读计算机科学本科，学习时间为 2021 年 9 月至 2025 年 8 月。",
-      "highlights": ["平均绩点 86，专业排名前 5%"],
+      "highlights": [
+        "GPA 86/100，专业前 5%"
+      ],
       "links": [
         {
           "kind": "official",
@@ -63,58 +74,112 @@
           "status": "active"
         }
       ],
-      "tags": ["计算机科学", "KAIST"],
+      "tags": [
+        "计算机科学",
+        "KAIST"
+      ],
       "visibility": "public"
     }
   ],
   "experience": [
     {
       "id": "saic-im-ai",
-      "organization": "上汽集团（智己汽车）前瞻研发中心",
-      "role": "AI 应用开发",
-      "period": { "start": "2026.02", "end": "2026.07" },
-      "summary": "贺融于 2026 年 2 月至 7 月从事 AI 应用开发，参与内部表格问答平台从 Demo 到业务试用的落地。",
+      "organization": "上汽集团",
+      "role": "AI 智能体开发工程师",
+      "period": {
+        "start": "2026.02",
+        "end": "2026.07"
+      },
+      "summary": "2026 年 2 月至 7 月，在上海对接工程、产品规划与项目管理三个部门的需求，独立交付四个智能体，累计服务约 500 名内部用户。",
       "highlights": [
-        "参与内部表格问答平台从 Demo 到业务试用的落地，覆盖 FFL/FSL/ICD、信号查询及整车实验数据等分析场景。我负责集成文件问答、表格合并/导出等能力，并服务 20+ 内部用户完成版本迭代。经评估，单用户日均节省约 2h 人工处理时间。",
-        "设计文件库与异步任务链路，基于 MinIO 存储原始文件、MySQL 存储结构化元数据，通过 MQ 拆分上传、元数据抽取、Schema 画像、数据入库与图表生成等队列，提升大文件处理与多任务并发稳定性。",
-        "将固定 workflow 重构为 Planner-Executor 模式，拆分 Schema 检查、SQL 生成/校验、查询执行与图表渲染等白名单动作，实现模型规划与后端执行解耦，提升复杂问答与多轮追问的可控性。",
-        "设计 SQL 安全执行层，仅允许只读查询并校验表名/字段/权限；构建短期/长期记忆系统，持久化会话上下文、SQL 及图表配置，保障多轮追问与图表切换的连续性。"
+        "四个智能体落地：独立交付连接器选型、竞品分析、PRD 生成审核、黑盒智能体测试四个智能体，覆盖三个部门的降本增效需求。",
+        "连接器选型：基于 Flask、LangChain 与 MongoDB，以 LLM 识别意图，将自然语言拆成精确匹配、模糊匹配和范围查询三类条件，并行检索五个产品集合并完成字段名映射。工程师确认的结果回写知识库，复用历史模板；约 8.5k 行 Python，迭代八个版本，完成数据集迁移与 fallback 链路简化。",
+        "竞品分析：由 LLM 驱动爬虫采集竞品车型的公开用户评论并入库 MongoDB，再通过六个章节级智能体组成报告流水线，生成有数据支撑的结构化报告。",
+        "AUT 黑盒智能体测试工具：自研约 3.1k 行 Python，使用 Playwright 完成登录、定位对话入口、抓取真实 API 调用并生成可重放请求模板；验证码、SSO、MFA 等场景支持人工接管。按成功率、错误率与 p95 设置分级并发压测的自动熔断条件，并提供提示词注入、跨会话信息泄漏、输出格式稳定性探针。",
+        "连接器智能体实测：20 并发下成功率 100%、p95 为 14.2 秒；500 并发时成功率为 94.9%，1000 次请求中有 51 次返回空值或不合规内容。该结果用于识别性能拐点，不代表所有并发条件下均无失败。"
       ],
       "metrics": [
-        { "value": "20+", "label": "内部试用用户", "qualifier": "业务试用" },
-        { "value": "约 2 小时/天", "label": "单用户节省时间", "qualifier": "内部评估" }
+        {
+          "value": "约 500",
+          "label": "内部用户",
+          "qualifier": "四个智能体累计服务"
+        },
+        {
+          "value": "14.2 秒",
+          "label": "p95 响应时间",
+          "qualifier": "连接器智能体，20 并发实测"
+        }
       ],
       "links": [
-        { "kind": "official", "label": "上汽集团官网", "url": "https://www.saicmotor.com/", "status": "active" },
-        { "kind": "official", "label": "智己汽车官网", "url": "https://www.immotors.com/", "status": "active" }
+        {
+          "kind": "official",
+          "label": "上汽集团官网",
+          "url": "https://www.saicmotor.com/",
+          "status": "active"
+        }
       ],
-      "tags": ["LLM 应用", "Planner-Executor", "SQL 安全", "MinIO", "MySQL", "异步任务", "跨会话记忆"],
+      "tags": [
+        "智能体",
+        "LangChain",
+        "MongoDB",
+        "Flask",
+        "Playwright",
+        "并发压测",
+        "对抗性测试"
+      ],
       "visibility": "public"
     },
     {
       "id": "jantech-industrial-ai",
       "organization": "郑州捷安高科股份有限公司",
-      "role": "算法工程师 · 工业智能实训",
-      "period": { "start": "2025.09", "end": "2025.12" },
-      "summary": "贺融于 2025 年 9 月至 12 月担任算法工程师，方向为工业智能实训。",
+      "role": "算法工程师",
+      "period": {
+        "start": "2025.09",
+        "end": "2026.01"
+      },
+      "summary": "2025 年 9 月至 2026 年 1 月，在郑州参与特种作业智能考评系统，负责视觉算法与其中三条产线的落地。",
       "highlights": [
-        "面向特定的工业实训场景，完成原始传感/视频数据的清洗、标注与统计分析，并基于处理后的数据集开展深度学习模型的训练与精度验证工作，为后续算法部署提供可靠数据基础。",
-        "参与仿真平台智能评价系统的核心算法设计，围绕学员实训操作过程，构建目标检测与姿态识别算法流程，利用机器学习/深度学习模型实现对操作规范性与流程完整性的自动化评分与评价。",
-        "负责算法在多设备、多实训场景下的适配与调试，参与平台算法库的持续维护与版本迭代，定位并解决模型推理稳定性、输入分辨率差异等实际部署中的技术问题，提升算法在复杂工业环境下的鲁棒性。",
-        "编写并维护算法设计文档，系统性整理需求分析、模型结构说明、核心数学公式以及伪代码实现，为算法复现、团队协作与后续产品迭代提供技术支撑。"
+        "与市应急管理局合作的特种作业智能考评系统采用四到五路摄像头同步采集，判断操作合规性与流程完整性。系统连续一个多月在每个工作日承担正式考试，本人负责三条产线，并与数据部门共同制定标注规范。",
+        "将 YOLO 检测加人工规则改为图结构建模：由 YOLOv8 输出部件中心点、尺寸、角度与类别，按搭设步骤约束组织成图，再用图卷积网络预测部件安装及步骤完成状态。",
+        "模型内部验收准确率约 90%；设置人工陪考与平板打分的降级通道，保证算法异常时考试不中断。"
       ],
-      "metrics": [],
+      "metrics": [
+        {
+          "value": "约 90%",
+          "label": "模型准确率",
+          "qualifier": "内部验收"
+        },
+        {
+          "value": "3 条",
+          "label": "负责产线",
+          "qualifier": "正式考试场景"
+        }
+      ],
       "links": [
-        { "kind": "official", "label": "公司官网", "url": "https://www.jantech.cn/", "status": "active" }
+        {
+          "kind": "official",
+          "label": "公司官网",
+          "url": "https://www.jantech.cn/",
+          "status": "active"
+        }
       ],
-      "tags": ["工业视觉", "目标检测", "姿态识别", "深度学习"],
+      "tags": [
+        "YOLOv8",
+        "图卷积网络",
+        "工业视觉",
+        "标注规范",
+        "降级通道"
+      ],
       "visibility": "public"
     },
     {
       "id": "gweee-automation",
       "organization": "上海广为电器集团",
       "role": "软件开发助理 · 智能系统与自动化",
-      "period": { "start": "2024.01", "end": "2024.02" },
+      "period": {
+        "start": "2024.01",
+        "end": "2024.02"
+      },
       "summary": "贺融于 2024 年 1 月至 2 月担任软件开发助理，方向为智能系统与自动化。",
       "highlights": [
         "参与“化学元素周期表元素智能展示柜”研发工作，围绕工业级科普展示场景，协同完成可视化展示界面、交互控制逻辑与硬件执行单元之间的整体技术链路设计与调试。",
@@ -124,34 +189,203 @@
       ],
       "metrics": [],
       "links": [],
-      "tags": ["自动化", "IoT", "FDM 3D 打印", "工业机器人"],
+      "tags": [
+        "自动化",
+        "IoT",
+        "FDM 3D 打印",
+        "工业机器人"
+      ],
       "visibility": "public"
     },
     {
       "id": "apt-java-web",
       "organization": "上海亚太神通计算机有限公司",
-      "role": "软件开发工程师 · Java Web",
-      "period": { "start": "2023.07", "end": "2023.08" },
-      "summary": "贺融于 2023 年 7 月至 8 月担任软件开发工程师，方向为 Java Web。",
+      "role": "软件开发工程师",
+      "period": {
+        "start": "2023.07",
+        "end": "2023.08"
+      },
+      "summary": "2023 年 7 月至 8 月，在上海承担企业 Java Web 系统的业务功能开发、维护与数据库访问层调优。",
       "highlights": [
-        "参与企业级 Java Web 系统的功能开发与日常维护，基于既有系统架构完成业务逻辑实现、接口联调及缺陷修复，保障系统在实际业务场景下的稳定运行。",
-        "针对高并发访问场景，对数据库访问层进行性能优化，包括合理配置数据库连接池、引入批量读写操作及精简与重构 SQL 查询，有效降低数据库访问开销并提升系统在峰值负载下的稳定性。",
-        "负责系统前端相关功能开发，使用 HTML5、CSS3、JavaScript 实现页面布局与交互逻辑，并参与微信小程序的功能实现与页面开发，完成前后端接口对接与联调。"
+        "完成企业 Java Web 系统业务功能、配套前端页面及一个微信小程序。",
+        "针对高峰并发重估连接池容量，将逐条读写改为批量操作并简化查询语句；调优后，高峰时段的连接等待告警不再出现。",
+        "形成先定位等待发生在哪一环、再决定调整哪个参数的排查方法。"
       ],
       "metrics": [],
       "links": [],
-      "tags": ["Java", "Web", "SQL", "微信小程序"],
+      "tags": [
+        "Java",
+        "Web",
+        "SQL",
+        "微信小程序"
+      ],
       "visibility": "public"
     }
   ],
   "projects": [
+    {
+      "id": "coding-agent-from-scratch",
+      "slug": "coding-agent-from-scratch",
+      "name": "coding-agent-from-scratch",
+      "subtitle": "从零构建终端编程智能体",
+      "role": "个人开源项目",
+      "period": {
+        "start": "2026.09",
+        "end": "至今"
+      },
+      "summary": "不依赖智能体框架，从零实现命令行编程助手，以仓库地图、沙箱逃逸测试与 A/A 对照实验检验每个设计决策。",
+      "highlights": [
+        "原生工具调用的 ReAct 主循环与七个工具；SEARCH/REPLACE 增量编辑采用四级匹配策略链，处理行尾空白与半行截断偏差。shell 由 macOS Seatbelt 策略约束，以逃逸测试验证边界。核心代码约 1,300 行，52 个测试，其中九个针对沙箱逃逸。",
+        "仓库地图以 tree-sitter 抽取符号定义与引用，通过个性化 PageRank 为当前任务排序；用真实 Python 导入关系约束边，使边精确率从 32% 提升到 100%，且未丢失真边。通过 IDF 加权种子提取改善查询理解。",
+        "在 112 个文件的仓库上，仓库地图使任务步数下降 21%、输入 token 下降 33%；这些数字对应该实验场景，不是对所有仓库的性能承诺。",
+        "评测默认带 A/A 对照组，将效应与自身噪声并列展示，并据此撤回此前的一个结论。实测发现，在该架构下工具输出封顶后历史压缩无必要；子智能体隔离多消耗 42% 总 token，仅减少主循环上下文 22%，完成率与正确率均无改善。原始轨迹全部提交，数字可重新推导。"
+      ],
+      "metrics": [
+        {
+          "value": "52",
+          "label": "自动化测试",
+          "qualifier": "含 9 项沙箱逃逸测试"
+        },
+        {
+          "value": "33%",
+          "label": "输入 token 降幅",
+          "qualifier": "112 文件仓库的对照实验"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/coding-agent-from-scratch",
+          "status": "active"
+        },
+        {
+          "kind": "repository",
+          "label": "GitHub",
+          "url": "https://github.com/Darrenus/coding-agent-from-scratch",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Python",
+        "ReAct",
+        "Seatbelt",
+        "tree-sitter",
+        "PageRank",
+        "上下文工程",
+        "A/A 对照"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "bodycraft-oss",
+      "slug": "bodycraft-oss",
+      "name": "bodycraft-oss",
+      "subtitle": "多路检索引擎",
+      "role": "个人开源项目",
+      "period": {
+        "start": "2026.04",
+        "end": "2026.07"
+      },
+      "summary": "文件名与路径、章节标题、SQLite FTS5、稠密向量、实体图谱五路并行召回，公开各路径得分，以排序质量和独立重复实验选择权重。",
+      "highlights": [
+        "五条检索路径并行运行，由四套相互独立的权重策略分别打分后按文件归并，并返回每条路径的得分明细。",
+        "将评分公式中的硬编码参数提取为可热加载配置；相关性标签取自模型实际展开的文件，属于弱监督，并记录来源以区别于人工标注。",
+        "以 NDCG 为优化目标，避免比值型指标通过压低其他路径权重而虚增；先网格搜索范围，再多轮独立运行遗传算法，通过轮次间离散程度区分提升与噪声。",
+        "索引结构、配置格式与排序指标已在 17 个测试下建成，全流程无需 API key 即可离线运行。"
+      ],
+      "metrics": [
+        {
+          "value": "5 路",
+          "label": "并行召回",
+          "qualifier": "逐路径返回得分"
+        },
+        {
+          "value": "17",
+          "label": "自动化测试",
+          "qualifier": "离线运行，无需 API key"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/bodycraft-oss",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Python",
+        "SQLite FTS5",
+        "向量检索",
+        "实体图谱",
+        "NDCG",
+        "弱监督",
+        "参数搜索"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "spreadsheet-qa",
+      "slug": "spreadsheet-qa",
+      "name": "内部表格问答平台",
+      "subtitle": "对话式表格分析平台",
+      "role": "负责人 · 上汽内部项目",
+      "period": {
+        "start": "2026.02",
+        "end": "2026.04"
+      },
+      "summary": "将用户对上传表格提出的自然语言问题转化为经校验的 SQL、结果表与图表；以结构化规划、白名单执行和按组织与角色的数据隔离控制执行边界。",
+      "highlights": [
+        "FastAPI + SQLAlchemy 后端含 76 个模块、23,331 行代码、56 个测试文件，依赖 MySQL、Redis、MinIO 与通义千问；React 19 前端约 7,487 行，经 SSE 流式返回。上线 20+ 内部试用用户，据用户反馈估算，人均每天减少约 2 小时手工表格工作。",
+        "Planner–Executor 重构：规划器只输出意图、目标字段、动作序列、约束与失败策略等结构化计划；执行器只执行白名单动作，运行在带表级、字段级、权限级白名单的只读 SQL 层之上。",
+        "会话上下文、已生成 SQL 与图表配置持久化，使追问能承接此前轮次；数据以组织和角色为边界隔离。",
+        "合著相关专利技术交底书，2026 年 6 月申请，审查中；执行前的门控指标为 S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R，访问合规度 A 为硬性门槛。随后将核心能力重写为开源智能体运行时的原生工具，模型只看到受控的 clarify / result_table / result_chart 协议。"
+      ],
+      "metrics": [
+        {
+          "value": "20+",
+          "label": "内部试用用户",
+          "qualifier": "表格分析平台"
+        },
+        {
+          "value": "约 2 小时/天",
+          "label": "人均减少手工工作",
+          "qualifier": "据试用用户反馈估算"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/spreadsheet-qa",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "FastAPI",
+        "SQLAlchemy",
+        "Planner-Executor",
+        "SQL 安全",
+        "React",
+        "SSE",
+        "多租户隔离"
+      ],
+      "visibility": "public",
+      "detail": {
+        "confidentialityNote": "内部项目使用通用公开名称，仅展示可公开的架构与成果，不提供内部代码、文档或客户数据。"
+      }
+    },
     {
       "id": "coding-agent",
       "slug": "coding-agent",
       "name": "codeloop",
       "subtitle": "终端 Coding Agent（Python / 开源）",
       "role": "个人开源项目",
-      "period": { "start": "2026.03", "end": "进行中" },
+      "period": {
+        "start": "2026.03",
+        "end": "进行中"
+      },
       "summary": "从零实现可插拔的终端 Coding Agent，将模型调用、工具执行与代码编辑协议解耦，支持本地开发、Docker 隔离执行和可回放的 SWE-bench Verified 评测。",
       "highlights": [
         "实现约 110 行的 Agent 主循环，采用统一消息格式隔离不同模型供应商与上层逻辑，支持工具调用、错误恢复、有限步执行和运行轨迹记录；接入 Anthropic 与 OpenAI-compatible 接口，提供 11 个模型供应商预设，并支持响应缓存与 trajectory replay，便于低成本复现运行。",
@@ -160,14 +394,42 @@
         "搭建 SWE-bench Verified 批量运行、评分与 A/B 消融评测工具，在固定实例、模型和随机种子下比较 SEARCH/REPLACE 与 whole-file 的任务解决率、Token 成本和编辑失败率；仓库当前已完成脚本与 73 项测试，正式 benchmark 尚未运行。"
       ],
       "metrics": [
-        { "value": "73", "label": "自动化测试", "qualifier": "含 Docker 集成测试，CI 覆盖 Python 3.9/3.11/3.13" },
-        { "value": "11", "label": "模型供应商预设", "qualifier": "含 Anthropic、DeepSeek 及 OpenAI-compatible 接口" }
+        {
+          "value": "73",
+          "label": "自动化测试",
+          "qualifier": "含 Docker 集成测试，CI 覆盖 Python 3.9/3.11/3.13"
+        },
+        {
+          "value": "11",
+          "label": "模型供应商预设",
+          "qualifier": "含 Anthropic、DeepSeek 及 OpenAI-compatible 接口"
+        }
       ],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/coding-agent", "status": "active" },
-        { "kind": "repository", "label": "GitHub", "url": "https://github.com/Darrenus/codeloop", "status": "active" }
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/coding-agent",
+          "status": "active"
+        },
+        {
+          "kind": "repository",
+          "label": "GitHub",
+          "url": "https://github.com/Darrenus/codeloop",
+          "status": "active"
+        }
       ],
-      "tags": ["Python", "LLM Agent", "模型抽象", "Docker", "工具调用协议", "SEARCH/REPLACE", "轨迹回放", "权限分层", "SWE-bench Verified"],
+      "tags": [
+        "Python",
+        "LLM Agent",
+        "模型抽象",
+        "Docker",
+        "工具调用协议",
+        "SEARCH/REPLACE",
+        "轨迹回放",
+        "权限分层",
+        "SWE-bench Verified"
+      ],
       "visibility": "public"
     },
     {
@@ -176,7 +438,10 @@
       "name": "混合动力无人机能源管理系统",
       "subtitle": null,
       "role": "算法开发负责人",
-      "period": { "start": "2023.06", "end": "2025.06" },
+      "period": {
+        "start": "2023.06",
+        "end": "2025.06"
+      },
       "summary": "贺融独立负责混合动力无人机能源管理系统的核心算法设计与实现。",
       "highlights": [
         "独立负责能源管理系统的核心算法设计与实现，围绕多能源输入的协同工作需求，构建基于规则控制与模型预测控制相结合的功率分配策略，为飞行任务下的实时能量调度提供决策逻辑。",
@@ -186,9 +451,19 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/hybrid-uav", "status": "active" }
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/hybrid-uav",
+          "status": "active"
+        }
       ],
-      "tags": ["模型预测控制", "规则控制", "能源管理", "仿真"],
+      "tags": [
+        "模型预测控制",
+        "规则控制",
+        "能源管理",
+        "仿真"
+      ],
       "visibility": "public"
     },
     {
@@ -197,7 +472,10 @@
       "name": "Breadify",
       "subtitle": "面包爱好者移动应用",
       "role": "产品设计负责人",
-      "period": { "start": "2024.03", "end": "2024.06" },
+      "period": {
+        "start": "2024.03",
+        "end": "2024.06"
+      },
       "summary": "贺融担任面包爱好者移动应用 Breadify 的产品设计负责人。",
       "highlights": [
         "全程参与面向垂直兴趣用户的移动应用产品设计，围绕面包爱好者的内容获取、互动与记录需求，完成从用户需求调研、问题定义、创意发散到产品原型验证与用户测试的完整 UX 设计流程。",
@@ -206,9 +484,19 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/breadify", "status": "active" }
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/breadify",
+          "status": "active"
+        }
       ],
-      "tags": ["UX", "Figma", "用户研究", "交互原型"],
+      "tags": [
+        "UX",
+        "Figma",
+        "用户研究",
+        "交互原型"
+      ],
       "visibility": "public"
     },
     {
@@ -217,7 +505,10 @@
       "name": "KAIST 校园智慧食堂系统",
       "subtitle": null,
       "role": "原型设计负责人",
-      "period": { "start": "2024.03", "end": "2024.06" },
+      "period": {
+        "start": "2024.03",
+        "end": "2024.06"
+      },
       "summary": "贺融担任 KAIST 校园智慧食堂系统的原型设计负责人。",
       "highlights": [
         "作为项目负责人，主导智慧食堂系统的需求分析、系统设计与整体实现，围绕校园就餐场景抽象并构建 5 个核心使用情景，系统性引入情景感知和上下文建模方法，提升系统对用户状态与环境变化的响应能力。",
@@ -226,9 +517,19 @@
       ],
       "metrics": [],
       "links": [
-        { "kind": "internal", "label": "项目详情", "url": "/projects/kaist-smart-canteen", "status": "active" }
+        {
+          "kind": "internal",
+          "label": "项目详情",
+          "url": "/projects/kaist-smart-canteen",
+          "status": "active"
+        }
       ],
-      "tags": ["IoT", "Figma", "情景感知", "Web 前端"],
+      "tags": [
+        "IoT",
+        "Figma",
+        "情景感知",
+        "Web 前端"
+      ],
       "visibility": "public"
     }
   ],
@@ -256,41 +557,135 @@
       "title": "一种面向电子表格自然语言问答的可审计规划执行方法及系统",
       "submittedAt": "2026.06.08",
       "status": "under-examination",
-      "statusLabel": "审查中",
+      "statusLabel": "第二发明人 · 已提交受理，审查中，暂未公开",
       "links": [],
       "visibility": "public"
     }
   ],
   "awards": [
-    { "id": "nowcoder-ai-coding-top10", "title": "牛客 AI Coding 笔试挑战杯决赛 Top 10", "date": "2026.06", "links": [], "visibility": "public" },
-    { "id": "sinomach-industrial-agent", "title": "“国机杯”首届工业智能体大赛优秀奖", "date": "2026.04", "links": [], "visibility": "public" },
-    { "id": "national-innovation-project", "title": "大学生创新创业训练计划项目结题证书（国家级项目）", "date": "2025.06", "links": [], "visibility": "public" },
-    { "id": "mcm-honorable-mention", "title": "美国大学生数学建模竞赛 H 奖", "date": "2024.05", "links": [], "visibility": "public" }
+    {
+      "id": "nowcoder-ai-coding-top10",
+      "title": "牛客 AI Coding 挑战杯决赛 Top 10",
+      "date": "2026.06",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "sinomach-industrial-agent",
+      "title": "“国机杯”首届工业智能体大赛优秀奖",
+      "date": "2026.04",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "national-innovation-project",
+      "title": "大学生创新创业训练计划项目结题证书（国家级项目）",
+      "date": "2025.06",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "mcm-honorable-mention",
+      "title": "美国大学生数学建模竞赛（MCM）Honorable Mention",
+      "date": "2024.05",
+      "links": [],
+      "visibility": "public"
+    }
   ],
   "skillGroups": [
     {
       "id": "development",
-      "label": "开发",
-      "text": "精通 Python、C++，熟悉 Java，了解 Go；另使用 TypeScript、React、SQL、MySQL、MinIO 与消息队列",
-      "keywords": ["Python", "C++", "Java", "Go", "TypeScript", "React", "SQL", "MySQL", "MinIO", "消息队列"]
+      "label": "编程语言",
+      "text": "Python、TypeScript、Java、C++、SQL、Go",
+      "keywords": [
+        "Python",
+        "TypeScript",
+        "Java",
+        "C++",
+        "SQL",
+        "Go"
+      ]
     },
     {
       "id": "ai-agent",
-      "label": "AI / Agent",
-      "text": "LLM 应用、Agent 编排、工具调用协议、代码编辑、权限分层、路径逃逸防护、SWE-bench Verified、SQL 安全",
-      "keywords": ["LLM 应用", "Agent 编排", "工具调用协议", "代码编辑", "权限分层", "路径逃逸防护", "SWE-bench Verified", "SQL 安全", "异步任务"]
+      "label": "智能体",
+      "text": "Planner-Executor 架构、工具调用与 function calling、记忆与上下文工程、多智能体编排、MCP、LangGraph",
+      "keywords": [
+        "Planner-Executor 架构",
+        "工具调用与 function calling",
+        "记忆与上下文工程",
+        "多智能体编排",
+        "MCP",
+        "LangGraph"
+      ]
     },
     {
-      "id": "algorithms-tools",
-      "label": "算法与工具",
-      "text": "工业视觉、目标检测、姿态识别、模型预测控制、Figma、Blender 建模、FDM 3D 打印、达芬奇轻度视频剪辑、剪映短视频制作",
-      "keywords": ["工业视觉", "目标检测", "姿态识别", "模型预测控制", "Figma", "Blender", "FDM 3D 打印", "IoT"]
+      "id": "rag",
+      "label": "RAG",
+      "text": "全文、稠密向量与实体图谱的混合检索；查询理解、分数融合、上下文装配、KV-cache 前缀复用",
+      "keywords": [
+        "全文",
+        "稠密向量与实体图谱的混合检索",
+        "查询理解",
+        "分数融合",
+        "上下文装配",
+        "KV-cache 前缀复用"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "label": "评测",
+      "text": "评测集构建与排序指标、消融实验与参数搜索、并发压测与对抗性测试",
+      "keywords": [
+        "评测集构建与排序指标",
+        "消融实验与参数搜索",
+        "并发压测与对抗性测试"
+      ]
+    },
+    {
+      "id": "distributed",
+      "label": "分布式",
+      "text": "Python 后端服务、异步任务流水线与消息队列、SSE 流式传输、基于角色的数据隔离、CI",
+      "keywords": [
+        "Python 后端服务",
+        "异步任务流水线与消息队列",
+        "SSE 流式传输",
+        "基于角色的数据隔离",
+        "CI"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "数据",
+      "text": "MySQL、MongoDB、Redis、SQLite、MinIO、Chroma；表结构画像与数据接入流水线",
+      "keywords": [
+        "MySQL",
+        "MongoDB",
+        "Redis",
+        "SQLite",
+        "MinIO",
+        "Chroma",
+        "表结构画像与数据接入流水线"
+      ]
+    },
+    {
+      "id": "vision",
+      "label": "视觉",
+      "text": "目标检测与姿态估计、图神经网络、GPU 推理部署",
+      "keywords": [
+        "目标检测与姿态估计",
+        "图神经网络",
+        "GPU 推理部署"
+      ]
     },
     {
       "id": "languages",
       "label": "语言",
-      "text": "托福 90 分，GRE 320 分（数理满分）；韩语 TOPIK 2 级，具备日常生活场景下的基本沟通能力",
-      "keywords": ["托福 90", "GRE 320", "TOPIK 2"]
+      "text": "英语（TOEFL 90）、韩语（TOPIK 二级）",
+      "keywords": [
+        "英语（TOEFL 90）",
+        "韩语（TOPIK 二级）"
+      ]
     }
   ],
   "customSections": []

@@ -23,6 +23,14 @@ const publicContact = [
 ].map((link) => `[${link.display}](${requiredUrl(link)})`);
 
 const RUNS: Run[] = [
+  ...resume.projects.filter(project => ["coding-agent-from-scratch", "bodycraft-oss", "spreadsheet-qa"].includes(project.id)).map(project => ({
+    keywords: [project.name, project.slug, ...(project.id === "spreadsheet-qa" ? ["表格", "sql", "planner", "minio"] : [])],
+    reasoning: "读取对应项目的公开记录，保留实验范围和数据来源。",
+    steps: [{ name: "retrieve", args: `index:project ${project.name}`, result: `命中 ${project.name} 项目资料` }],
+    text: paragraphText([project.summary, ...project.highlights]),
+    sources: [{ label: project.name, url: `/projects/${project.slug}` }],
+    suggestions: ["他在上汽做了什么？", "他有哪些代表项目？"],
+  })),
   {
     keywords: ["贺融是谁", "介绍", "who", "allen", "rong"],
     reasoning: "先核对个人简介、教育背景与主要工程经历，再提炼职业主线。",
@@ -39,7 +47,7 @@ const RUNS: Run[] = [
     suggestions: ["他在上汽做了什么？", "他有哪些代表项目？"],
   },
   {
-    keywords: ["上汽", "智己", "表格", "sql", "planner", "minio", "工作"],
+    keywords: ["上汽", "智己", "工作"],
     reasoning: "这个问题涉及业务结果与系统设计，需要同时核对公开口径和技术边界。",
     steps: [
       { name: "retrieve", args: "index:profile 上汽 表格问答", result: "命中上汽 AI 应用开发经历" },
@@ -50,7 +58,7 @@ const RUNS: Run[] = [
     suggestions: ["Planner-Executor 为什么更可控？", "SQL 安全层如何限制模型？"],
   },
   {
-    keywords: ["codeloop", "coding agent", "编程助手", "工具调用协议", "swe-bench", "项目"],
+    keywords: ["codeloop", "swe-bench"],
     reasoning: "先读取 codeloop 的公开项目范围、工具协议与权限边界，再引用真实仓库地址。",
     steps: [
       { name: "retrieve", args: "index:project codeloop SWE-bench", result: "命中 codeloop 项目资料" },
@@ -63,6 +71,14 @@ const RUNS: Run[] = [
     ]),
     sources: [{ label: "项目经历", url: codeloop.links.find((link) => link.kind === "repository")?.url ?? undefined }],
     suggestions: ["codeloop 的权限分层如何设计？", "SWE-bench 评测比较什么？"],
+  },
+  {
+    keywords: ["项目", "coding agent", "编程助手", "工具调用协议"],
+    reasoning: "根据更新后的项目清单概述代表工作，区分不同代码仓库。",
+    steps: [{ name: "read_document", args: "about-projects", result: "已读取公开项目清单" }],
+    text: paragraphText(resume.projects.map(project => `**${project.name}**：${project.summary}`)),
+    sources: [{ label: "项目", url: "/projects" }],
+    suggestions: ["coding-agent-from-scratch 如何评测？", "bodycraft-oss 如何确定权重？"],
   },
   {
     keywords: ["经历", "实习", "职业", "career", "experience"],

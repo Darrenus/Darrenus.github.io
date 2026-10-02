@@ -3,6 +3,7 @@ import SiteHeader from "./SiteHeader";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod, type ContentLink, type ProfileLink } from "../content";
 import "./resume.css";
+import { PUBLICATIONS } from "../content/research";
 
 function isExternalUrl(url: string): boolean {
   return /^https?:\/\//.test(url);
@@ -189,15 +190,27 @@ export default function ResumePage() {
             </div>
           </section>
 
+          <section className="resume-section" aria-labelledby="resume-research-title">
+            <SectionHeading eyebrow="06" title="研究成果" id="resume-research-title" />
+            <div className="resume-compact-list">
+              {PUBLICATIONS.map((paper) => <article key={paper.id}>
+                <time>{paper.publishedAt.slice(0, 7).replace("-", ".")}</time>
+                <div><h3>{paper.title}</h3><p>{paper.summary}</p>
+                  <div className="resume-links">{paper.links.map(link => <a className="resume-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.platform} ↗</a>)}</div>
+                </div>
+              </article>)}
+            </div>
+          </section>
+
           <div className="resume-two-column">
             <section className="resume-section" aria-labelledby="patents-title">
-              <SectionHeading eyebrow="06" title="专利申请" id="patents-title" />
+              <SectionHeading eyebrow="07" title="专利申请" id="patents-title" />
               <div className="resume-compact-list">
                 {resume.patents.map((patent) => <article key={patent.id}><time>{patent.submittedAt}</time><div><h3>{patent.title}</h3><p>{patent.statusLabel}</p></div></article>)}
               </div>
             </section>
             <section className="resume-section" aria-labelledby="awards-title">
-              <SectionHeading eyebrow="07" title="获奖" id="awards-title" />
+              <SectionHeading eyebrow="08" title="获奖" id="awards-title" />
               <div className="resume-compact-list">
                 {resume.awards.map((award) => <article key={award.id}><time>{award.date}</time><div><h3>{award.title}</h3><LinkList links={award.links} /></div></article>)}
               </div>
@@ -205,7 +218,7 @@ export default function ResumePage() {
           </div>
 
           <section className="resume-section resume-skills" aria-labelledby="skills-title">
-            <SectionHeading eyebrow="08" title="技能与语言" id="skills-title" />
+            <SectionHeading eyebrow="09" title="技能与语言" id="skills-title" />
             <div className="resume-skills-grid">
               {resume.skillGroups.map((group) => <article key={group.id}><h3>{group.label}</h3><p>{group.text}</p></article>)}
             </div>

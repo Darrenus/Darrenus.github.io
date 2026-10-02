@@ -3,10 +3,12 @@
     {
       "id": "decomposition-integrity",
       "title": "Decomposition Buys Integrity, Not Yield",
-      "authors": ["Rong He"],
+      "authors": [
+        "Rong He"
+      ],
       "publishedAt": "2026-09-15",
       "status": "预印本 · arXiv v1",
-      "summary": "研究多智能体任务分解中，信息沿代理树逐层传递时的保留与损耗。结合理论模型和生产轨迹，分析分层结构在信息产出、根节点上下文暴露与计算成本之间的取舍。",
+      "summary": "研究多智能体分解在根节点上下文与信息回传之间的取舍：以 r(b) = 1/b 建模留存概率，在 20,000 棵不规则树上验证，并分析 600 条生产 deep-research 轨迹及 743,819 次工具调用。结论区分任务规模与架构：分解的价值在于控制上下文和成本，单看信息产出则扁平结构最优。",
       "links": [
         {
           "platform": "arXiv",
@@ -18,10 +20,12 @@
     {
       "id": "prefix-sharing",
       "title": "Prefix Sharing Is a Sorting Problem",
-      "authors": ["Rong He"],
+      "authors": [
+        "Rong He"
+      ],
       "publishedAt": "2026-09-12",
       "status": "预印本 · arXiv v1",
-      "summary": "将大语言模型服务中的提示片段排序与 KV 缓存前缀共享问题联系起来，建立请求层次结构与最优前缀树成本的等价关系，并在检索轨迹上评估排序对预填充计算开销的影响。",
+      "summary": "将可复用提示片段排序转化为请求集合上的二叉层次树选择问题，分析固定全局顺序的适用边界。在三个 BEIR 语料的 BM25 检索轨迹上，相比生产环境 RAG 排序减少 17%–36% 的 prefill 计算。",
       "links": [
         {
           "platform": "arXiv",
@@ -33,10 +37,12 @@
     {
       "id": "time-reversal-hmm",
       "title": "Sharp Limits on Time-Reversal Detection in Binary Hidden Markov Models",
-      "authors": ["Rong He"],
+      "authors": [
+        "Rong He"
+      ],
       "publishedAt": "2026-09-10",
       "status": "预印本 · Zenodo v0.10",
-      "summary": "研究二元隐马尔可夫模型中时间不可逆性的可检测边界。构造具有严格正转移与发射概率的模型，给出观测窗口长度的紧界，并刻画二元无记忆信道下检测所需的样本量尺度。",
+      "summary": "构造转移与发射均严格为正的平稳二元隐马尔可夫模型，使观测在任意 2n − 4 个采样时刻上无法分辨时间方向，并给出与构造相匹配的检测样本量紧界。",
       "links": [
         {
           "platform": "Zenodo",

@@ -29,7 +29,10 @@ const query = argv
 
 const tests = [
   { query: "贺融 NUS KAIST", hit: /^about-(about|education)#/ },
-  { query: "Planner Executor SQL 安全", hit: /^about-experience#/ },
+  { query: "Planner Executor SQL 安全", hit: /^about-(projects|experience)#/ },
+  { query: "coding-agent-from-scratch Seatbelt PageRank", hit: /^about-projects#/ },
+  { query: "bodycraft-oss NDCG 五路", hit: /^about-projects#/ },
+  { query: "Prefix Sharing Sorting Problem", hit: /^about-research#/ },
   { query: "codeloop Python SWE-bench 工具调用", hit: /^about-projects#/ },
   { query: "hanserong NUS 邮箱", hit: /^about-(contact|links)#/ },
   { query: "专利 正在审查", hit: /^about-achievements#/ },
