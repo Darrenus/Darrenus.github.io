@@ -1,3 +1,4 @@
+import { withoutLocale } from "./i18n";
 export type SiteRoute =
   | { kind: "home" }
   | { kind: "ragent" }
@@ -18,7 +19,7 @@ export function normalizePath(pathname: string): string {
 }
 
 export function parseRoute(pathname: string): SiteRoute {
-  const path = normalizePath(pathname);
+  const path = withoutLocale(normalizePath(pathname));
   if (path === "/") return { kind: "home" };
   if (path === "/ragent") return { kind: "ragent" };
   if (path === "/resume") return { kind: "resume" };

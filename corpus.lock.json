@@ -1,9 +1,12 @@
 {
   "builtAt": "2026-10-02",
   "sources": {
-    "content/profile.json": "344081620926e324",
+    "content/profile.json": "e1e808fdb4c5b7fa",
     "content/resume.json": "d17bbeac5e51ccb0",
     "content/research.json": "26153a08c011b642",
+    "content/profile.en.json": "5344c99412bb6b29",
+    "content/resume.en.json": "441c9ab021519658",
+    "content/research.en.json": "e2297734b1f941a1",
     "corpus/src/this-site.md": "a68da09ca8bb9f86"
   }
 }

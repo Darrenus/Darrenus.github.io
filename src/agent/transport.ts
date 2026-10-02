@@ -1,3 +1,4 @@
+import { isEnglish } from "../i18n";
 /* Transport selection: the seam between the UI and everything behind it.
  *
  * With a model configured, this is the real harness. Without one, it is the offline
@@ -15,7 +16,7 @@ let corpusPromise: Promise<Corpus> | null = null;
 
 /** Loaded once per page, on the first question rather than on page load. */
 function loadCorpus(): Promise<Corpus> {
-  corpusPromise ??= Corpus.load().catch((err) => {
+  corpusPromise ??= Corpus.load(isEnglish ? "/corpus/en" : "/corpus").catch((err) => {
     corpusPromise = null; // let the next question retry
     throw err;
   });
@@ -30,7 +31,7 @@ export const liveTransport: Transport = async (req) => {
     const detail = err instanceof Error ? err.message : "unknown error";
     req.onEvent({
       type: "error",
-      message: `公开资料索引加载失败（${detail}）。请刷新页面后重试。`,
+      message: isEnglish ? `Could not load the public records (${detail}). Refresh and try again.` : `公开资料索引加载失败（${detail}）。请刷新页面后重试。`,
     });
     return;
   }

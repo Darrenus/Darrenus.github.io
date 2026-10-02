@@ -1,0 +1,635 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "title": "Rong He — Résumé",
+    "subject": "AI agents, retrieval and evaluation",
+    "updatedAt": "2026.10.02",
+    "versionLabel": "Public résumé"
+  },
+  "overview": {
+    "tagline": "AI agents · Retrieval & evaluation · Singapore",
+    "summary": [
+      "Software engineer working on AI agents, retrieval systems and reproducible evaluation. Currently pursuing an M.Tech. in Software Engineering at the National University of Singapore. I build systems that turn model outputs into controlled, executable actions, then measure how well they work."
+    ],
+    "bio": [
+      "I studied Computer Science at KAIST before joining NUS. My experience spans enterprise agents, industrial computer vision and Java Web development.",
+      "My independent projects explore coding agents built from first principles, multi-path retrieval and context management. Controlled experiments, including negative results, guide the design."
+    ],
+    "focus": [
+      "Agents & tool use",
+      "Memory & context",
+      "Hybrid retrieval & query understanding",
+      "Reproducible evaluation",
+      "Load & adversarial testing",
+      "Permissions & data isolation"
+    ],
+    "careerNarrative": "From Java Web development to industrial vision and enterprise agents, my focus has remained on execution boundaries, real-world performance and reproducible evidence."
+  },
+  "education": [
+    {
+      "id": "nus-master",
+      "institution": "National University of Singapore",
+      "rankLabel": "QS 10",
+      "degree": "M.Tech.",
+      "field": "Software Engineering",
+      "period": {
+        "start": "2026.08",
+        "end": "2027.10"
+      },
+      "summary": "Enrolled August 2026; expected to graduate in October 2027.",
+      "highlights": [],
+      "links": [
+        {
+          "kind": "official",
+          "label": "University website",
+          "url": "https://nus.edu.sg/",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Software Engineering",
+        "NUS"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "kaist-bachelor",
+      "institution": "Korea Advanced Institute of Science and Technology",
+      "rankLabel": "QS 65",
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "period": {
+        "start": "2021.09",
+        "end": "2025.08"
+      },
+      "summary": "Studied Computer Science at KAIST from September 2021 to August 2025.",
+      "highlights": [
+        "GPA 86/100 · Top 5% of cohort"
+      ],
+      "links": [
+        {
+          "kind": "official",
+          "label": "University website",
+          "url": "https://www.kaist.ac.kr/en/",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Computer Science",
+        "KAIST"
+      ],
+      "visibility": "public"
+    }
+  ],
+  "experience": [
+    {
+      "id": "saic-im-ai",
+      "organization": "SAIC Motor",
+      "role": "AI Agent Developer · Intern",
+      "period": {
+        "start": "2026.02",
+        "end": "2026.07"
+      },
+      "summary": "Delivered four agents for engineering, product planning and project management teams in Shanghai, serving around 500 internal users in total.",
+      "highlights": [
+        "Built agents for connector selection, competitive analysis, PRD generation and review, and black-box testing, addressing cost-reduction briefs from three departments.",
+        "Connector selection: an 8.5k-line Python system using Flask, LangChain and MongoDB. An LLM decomposes requests into exact, fuzzy and range queries across five product collections with automatic field mapping. Engineer-confirmed results become reusable knowledge-base templates. Shipped eight releases, including a dataset migration and a simpler fallback path.",
+        "Competitive analysis: an LLM-driven crawler collects public vehicle-owner reviews into MongoDB. Six chapter-level agents form a pipeline that produces a structured, evidence-backed report.",
+        "AUT: a 3.1k-line Python black-box testing tool. Playwright locates the chat interface, captures live API calls and produces replayable request templates, with manual handoff for CAPTCHA, SSO and MFA. Staged load tests stop on success-rate, error-rate and p95 thresholds; probes check prompt injection, cross-session leakage and output stability.",
+        "Measured the connector agent at 100% success and 14.2-second p95 with 20 concurrent users. At 500 concurrent users, success fell to 94.9%, with 51 of 1,000 responses empty or malformed. These measurements identify a degradation point, not a universal performance guarantee."
+      ],
+      "metrics": [
+        {
+          "value": "~500",
+          "label": "Internal users",
+          "qualifier": "Across the four agents"
+        },
+        {
+          "value": "14.2 s",
+          "label": "p95 response time",
+          "qualifier": "Connector agent · 20 concurrent users"
+        }
+      ],
+      "links": [
+        {
+          "kind": "official",
+          "label": "Company website",
+          "url": "https://www.saicmotor.com/",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Agents",
+        "LangChain",
+        "MongoDB",
+        "Flask",
+        "Playwright",
+        "Load testing",
+        "Adversarial testing"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "jantech-industrial-ai",
+      "organization": "Zhengzhou JIEAN Hi-Tech",
+      "role": "Computer Vision Algorithm Engineer · Intern",
+      "period": {
+        "start": "2025.09",
+        "end": "2026.01"
+      },
+      "summary": "Built vision algorithms for a special-operations competency examination system in Zhengzhou, owning deployment across three production lines.",
+      "highlights": [
+        "Worked on an examination system with the municipal emergency-management bureau. Four to five synchronized cameras assess procedural compliance and completeness. The system ran live exams every working day for over a month; I owned three production lines and defined annotation standards with the data team.",
+        "Replaced YOLO detection plus hand-written rules with graph-based scoring. YOLOv8 extracts component centres, sizes, angles and classes; assembly constraints connect them into a graph, and a graph convolutional network predicts installation and step-completion states.",
+        "Models reached around 90% accuracy in internal acceptance testing. Human co-invigilation and tablet scoring provided a fallback so an algorithm failure would not interrupt an exam."
+      ],
+      "metrics": [
+        {
+          "value": "~90%",
+          "label": "Model accuracy",
+          "qualifier": "Internal acceptance testing"
+        },
+        {
+          "value": "3",
+          "label": "Production lines",
+          "qualifier": "Live examination deployment"
+        }
+      ],
+      "links": [
+        {
+          "kind": "official",
+          "label": "Company website",
+          "url": "https://www.jantech.cn/",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "YOLOv8",
+        "Graph neural networks",
+        "Industrial vision",
+        "Annotation standards",
+        "Fallback design"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "gweee-automation",
+      "organization": "Shanghai GWE Electric Group",
+      "role": "Software Development Assistant · Automation",
+      "period": {
+        "start": "2024.01",
+        "end": "2024.02"
+      },
+      "summary": "Worked on intelligent systems and automation in January and February 2024.",
+      "highlights": [
+        "Helped develop an interactive periodic-table display, connecting the visual interface, control logic and physical actuators for an educational installation.",
+        "Integrated physical exhibits with digital controls to present chemistry and safety concepts, supporting changes in display state and visitor interaction.",
+        "Taught introductory robotic-arm programming to visiting students and guided the assembly, debugging and verification of racing kits.",
+        "Independently modelled, printed and iterated FDM prototypes for the display and its structural parts. Used Yamaha robot teach programming and I/O control in basic equipment commissioning."
+      ],
+      "metrics": [],
+      "links": [],
+      "tags": [
+        "Automation",
+        "IoT",
+        "FDM 3D printing",
+        "Industrial robotics"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "apt-java-web",
+      "organization": "Shanghai Asia-Pacific MITAC Computer",
+      "role": "Java Web Software Engineer · Intern",
+      "period": {
+        "start": "2023.07",
+        "end": "2023.08"
+      },
+      "summary": "Developed and maintained enterprise Java Web features and tuned database access under peak traffic.",
+      "highlights": [
+        "Built business features, accompanying front-end pages and a WeChat Mini Program within an existing enterprise system.",
+        "Re-sized the connection pool, replaced row-by-row reads and writes with batches, and simplified queries. Peak-hour connection-wait alarms stopped after the changes.",
+        "The lasting lesson was methodological: locate where the waiting actually happens before changing a parameter."
+      ],
+      "metrics": [],
+      "links": [],
+      "tags": [
+        "Java",
+        "Web",
+        "SQL",
+        "WeChat Mini Program"
+      ],
+      "visibility": "public"
+    }
+  ],
+  "projects": [
+    {
+      "id": "coding-agent-from-scratch",
+      "slug": "coding-agent-from-scratch",
+      "name": "coding-agent-from-scratch",
+      "subtitle": "A terminal coding agent, built from first principles",
+      "role": "Independent open-source project",
+      "period": {
+        "start": "2026.09",
+        "end": "Present"
+      },
+      "summary": "A command-line coding assistant built without an agent framework. Repository maps, sandbox escape tests and A/A controls put each design decision to the test.",
+      "highlights": [
+        "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests: about 1,300 lines of core code and 52 tests, including nine escape tests.",
+        "The repository map uses tree-sitter definitions and references to build a file graph, then personalized PageRank to rank context for the task. Constraining edges by actual Python imports raised edge precision from 32% to 100% without dropping a true edge. IDF-weighted seeds addressed query understanding.",
+        "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. These figures describe that controlled experiment, not a guarantee across repositories.",
+        "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 42% more total tokens for 22% less main-loop context, without improving completion or correctness. Committed traces make the measurements reproducible."
+      ],
+      "metrics": [
+        {
+          "value": "52",
+          "label": "Automated tests",
+          "qualifier": "Including 9 sandbox escape tests"
+        },
+        {
+          "value": "33%",
+          "label": "Fewer input tokens",
+          "qualifier": "Controlled trial · 112-file repository"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/coding-agent-from-scratch",
+          "status": "active"
+        },
+        {
+          "kind": "repository",
+          "label": "GitHub",
+          "url": "https://github.com/Darrenus/coding-agent-from-scratch",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Python",
+        "ReAct",
+        "Seatbelt",
+        "tree-sitter",
+        "PageRank",
+        "Context engineering",
+        "A/A controls"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "bodycraft-oss",
+      "slug": "bodycraft-oss",
+      "name": "bodycraft-oss",
+      "subtitle": "Multi-path retrieval with measured scoring weights",
+      "role": "Independent open-source project",
+      "period": {
+        "start": "2026.04",
+        "end": "2026.07"
+      },
+      "summary": "Five retrieval paths, visible score breakdowns and repeatable experiments replace opaque weighting with a measurable ranking problem.",
+      "highlights": [
+        "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Four independent weighting strategies score the results, which merge per file with per-path scores exposed.",
+        "Moves hard-coded scoring parameters into hot-reloadable configuration. Files the model actually opens provide weak relevance labels, with provenance recorded so they are not mistaken for human annotations.",
+        "Optimizes NDCG rather than ratio-style metrics that can improve by collapsing weight onto a single path while the ranking worsens. Grid search maps the space; repeated independent genetic-algorithm runs separate gains from noise.",
+        "Index schemas, configuration and ranking metrics are covered by 17 tests. The pipeline runs offline without an API key."
+      ],
+      "metrics": [
+        {
+          "value": "5",
+          "label": "Retrieval paths",
+          "qualifier": "Per-path scores included"
+        },
+        {
+          "value": "17",
+          "label": "Automated tests",
+          "qualifier": "Offline · No API key required"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/bodycraft-oss",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Python",
+        "SQLite FTS5",
+        "Vector retrieval",
+        "Entity graphs",
+        "NDCG",
+        "Weak supervision",
+        "Parameter search"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "spreadsheet-qa",
+      "slug": "spreadsheet-qa",
+      "name": "Internal spreadsheet Q&A platform",
+      "subtitle": "Conversational spreadsheet analysis",
+      "role": "Project owner · SAIC internal project",
+      "period": {
+        "start": "2026.02",
+        "end": "2026.04"
+      },
+      "summary": "Turns natural-language questions over uploaded spreadsheets into verified SQL, result tables and charts. Structured plans, whitelisted actions and role-based isolation define what the system can execute.",
+      "highlights": [
+        "A FastAPI and SQLAlchemy backend spans 76 modules, 23,331 lines and 56 test files, using MySQL, Redis, MinIO and Qwen. A 7,487-line React 19 front end streams over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated roughly two hours of manual work saved per person per day.",
+        "Refactored a fixed LLM workflow into a Planner–Executor design. The planner emits only a structured plan: intent, target fields, actions, constraints and failure policy. The executor runs whitelisted actions over read-only SQL with table, field and permission checks.",
+        "Persists session context, generated SQL and chart configuration so follow-up questions can refer to earlier turns. Data isolation follows organization and role boundaries.",
+        "Co-authored the invention disclosure, filed in June 2026 and under examination. The pre-execution gate is S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R, with access compliance A a hard gate. Later rebuilt the core as a native tool in an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
+      ],
+      "metrics": [
+        {
+          "value": "20+",
+          "label": "Internal pilot users",
+          "qualifier": "Spreadsheet analysis platform"
+        },
+        {
+          "value": "~2 h/day",
+          "label": "Manual work saved",
+          "qualifier": "Per person · Estimated from pilot feedback"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/spreadsheet-qa",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "FastAPI",
+        "SQLAlchemy",
+        "Planner–Executor",
+        "SQL safety",
+        "React",
+        "SSE",
+        "Tenant isolation"
+      ],
+      "visibility": "public",
+      "detail": {
+        "confidentialityNote": "This internal project is described under a generic public name. Only approved architecture and results are shown; internal code, documents and customer data are not published."
+      }
+    },
+    {
+      "id": "hybrid-uav",
+      "slug": "hybrid-uav",
+      "name": "Hybrid UAV Energy Management",
+      "subtitle": null,
+      "role": "Lead algorithm developer",
+      "period": {
+        "start": "2023.06",
+        "end": "2025.06"
+      },
+      "summary": "Designed and implemented the core energy-management algorithms for a hybrid-powered UAV.",
+      "highlights": [
+        "Combined rule-based control with model predictive control to allocate power across multiple energy sources during flight.",
+        "Built system-level simulation and analysis workflows to examine power output, energy use and control response, then used the results to tune the allocation strategy.",
+        "Iterated algorithms and validated control policies to improve power-use efficiency and operating stability in representative mission conditions.",
+        "The project was selected for a national undergraduate innovation programme and received dedicated funding, spanning requirements, algorithm design, simulation and milestone evaluation."
+      ],
+      "metrics": [],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/hybrid-uav",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "Model predictive control",
+        "Rule-based control",
+        "Energy management",
+        "Simulation"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "breadify",
+      "slug": "breadify",
+      "name": "Breadify",
+      "subtitle": "A mobile app for bread enthusiasts",
+      "role": "Lead product designer",
+      "period": {
+        "start": "2024.03",
+        "end": "2024.06"
+      },
+      "summary": "Led the product design of Breadify, a mobile app for people who enjoy discovering and sharing bread.",
+      "highlights": [
+        "Worked through the full UX process: user research, problem definition, ideation, prototyping and testing, with a focus on discovery, interaction and personal records.",
+        "Designed high-fidelity interactive prototypes and organized more than ten user tests. Qualitative feedback and usability observations guided five major design iterations.",
+        "Received the course’s People’s Choice award."
+      ],
+      "metrics": [],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/breadify",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "UX",
+        "Figma",
+        "User research",
+        "Interactive prototyping"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "kaist-smart-canteen",
+      "slug": "kaist-smart-canteen",
+      "name": "KAIST Smart Canteen",
+      "subtitle": null,
+      "role": "Lead prototype designer",
+      "period": {
+        "start": "2024.03",
+        "end": "2024.06"
+      },
+      "summary": "Led the prototype design of a context-aware campus dining system at KAIST.",
+      "highlights": [
+        "Defined requirements, system design and implementation around five campus dining scenarios, modelling user context and environmental changes.",
+        "Designed and built the Web interface and integrated the IoT platform to ingest, synchronize and visualize live data.",
+        "Created a high-fidelity mobile prototype in Figma, showing dining-space layout, crowd density and food options to support dining decisions and operational analysis."
+      ],
+      "metrics": [],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project details",
+          "url": "/projects/kaist-smart-canteen",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "IoT",
+        "Figma",
+        "Context awareness",
+        "Web front end"
+      ],
+      "visibility": "public"
+    }
+  ],
+  "patents": [
+    {
+      "id": "patent-scaffold-perception",
+      "title": "Component perception for double-row steel-tube scaffolding using YOLOv8-OBB and graph convolutional networks",
+      "submittedAt": "2025.12",
+      "status": "under-examination",
+      "statusLabel": "Under examination",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "patent-pantograph-contact",
+      "title": "Contact recognition in pantograph maintenance using point-cloud and 2D-image fusion",
+      "submittedAt": "2025.10",
+      "status": "under-examination",
+      "statusLabel": "Under examination",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "patent-auditable-spreadsheet-qa",
+      "title": "An auditable planning-and-execution method and system for natural-language querying of spreadsheets",
+      "submittedAt": "2026.06.08",
+      "status": "under-examination",
+      "statusLabel": "Second inventor · Filed and accepted · Under examination · Not yet published",
+      "links": [],
+      "visibility": "public"
+    }
+  ],
+  "awards": [
+    {
+      "id": "nowcoder-ai-coding-top10",
+      "title": "Top 10 · Nowcoder AI Coding Challenge Cup",
+      "date": "2026.06",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "sinomach-industrial-agent",
+      "title": "Merit Award · “Guoji Cup” Industrial Intelligent Agent Competition",
+      "date": "2026.04",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "national-innovation-project",
+      "title": "National Undergraduate Innovation Programme · Project completion",
+      "date": "2025.06",
+      "links": [],
+      "visibility": "public"
+    },
+    {
+      "id": "mcm-honorable-mention",
+      "title": "Honorable Mention · COMAP Mathematical Contest in Modeling",
+      "date": "2024.05",
+      "links": [],
+      "visibility": "public"
+    }
+  ],
+  "skillGroups": [
+    {
+      "id": "development",
+      "label": "Programming",
+      "text": "Python, TypeScript, Go, Java, C++, SQL",
+      "keywords": [
+        "Python",
+        "TypeScript",
+        "Go",
+        "Java",
+        "C++",
+        "SQL"
+      ]
+    },
+    {
+      "id": "ai-agent",
+      "label": "Agents & LLMs",
+      "text": "Planner–executor runtimes, tool use, memory and context, multi-agent systems, MCP, LangGraph",
+      "keywords": [
+        "Planner–executor runtimes",
+        "tool use",
+        "memory and context",
+        "multi-agent systems",
+        "MCP",
+        "LangGraph"
+      ]
+    },
+    {
+      "id": "rag",
+      "label": "Retrieval",
+      "text": "Hybrid full-text, dense-vector and graph retrieval; query understanding, score fusion, context assembly and KV-cache reuse",
+      "keywords": [
+        "Hybrid full-text",
+        "dense-vector and graph retrieval; query understanding",
+        "score fusion",
+        "context assembly and KV-cache reuse"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "label": "Evaluation",
+      "text": "Evaluation-set design, ranking metrics, ablations, parameter search, load and adversarial testing",
+      "keywords": [
+        "Evaluation-set design",
+        "ranking metrics",
+        "ablations",
+        "parameter search",
+        "load and adversarial testing"
+      ]
+    },
+    {
+      "id": "distributed",
+      "label": "Distributed systems",
+      "text": "Python services, async task pipelines and queues, SSE streaming, role-based isolation and CI",
+      "keywords": [
+        "Python services",
+        "async task pipelines and queues",
+        "SSE streaming",
+        "role-based isolation and CI"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "text": "MySQL, MongoDB, Redis, SQLite, MinIO, Chroma; schema profiling and ingestion pipelines",
+      "keywords": [
+        "MySQL",
+        "MongoDB",
+        "Redis",
+        "SQLite",
+        "MinIO",
+        "Chroma; schema profiling and ingestion pipelines"
+      ]
+    },
+    {
+      "id": "vision",
+      "label": "Computer vision",
+      "text": "Object detection, pose estimation, graph neural networks and GPU inference deployment",
+      "keywords": [
+        "Object detection",
+        "pose estimation",
+        "graph neural networks and GPU inference deployment"
+      ]
+    },
+    {
+      "id": "languages",
+      "label": "Languages",
+      "text": "Mandarin (native), English (TOEFL 90), Korean (TOPIK Level 2)",
+      "keywords": [
+        "Mandarin (native)",
+        "English (TOEFL 90)",
+        "Korean (TOPIK Level 2)"
+      ]
+    }
+  ],
+  "customSections": []
+}

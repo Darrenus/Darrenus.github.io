@@ -1,3 +1,4 @@
+import { isEnglish } from "../i18n";
 /* The agent loop. Runs in the browser.
  *
  * call the model → stream deltas out as events → if it asked for tools, run them and
@@ -118,7 +119,7 @@ export async function runAgent(o: RunOptions): Promise<void> {
     return false;
   };
 
-  emit({ type: "status", text: "正在思考" });
+  emit({ type: "status", text: isEnglish ? "Thinking" : "正在思考" });
 
   try {
     let answered = false;
@@ -306,7 +307,7 @@ export async function runAgent(o: RunOptions): Promise<void> {
      * Thinking off is the load-bearing part. If the previous pass died because reasoning ate
      * the whole token budget, repeating it with reasoning on would fail the same way. */
     if ((!answered || !answer.trim()) && !stop()) {
-      emit({ type: "status", text: "正在整理回答" });
+      emit({ type: "status", text: isEnglish ? "Putting the answer together" : "正在整理回答" });
       messages.push({
         role: "user",
         content:

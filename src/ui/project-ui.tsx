@@ -1,3 +1,4 @@
+import { t, localizedHref } from "../i18n";
 import SiteHeader from "./SiteHeader";
 import { type ContentLink } from "../content";
 
@@ -6,8 +7,8 @@ function isExternalUrl(url: string): boolean {
 }
 
 function statusLabel(link: ContentLink): string {
-  if (link.status === "pending") return "待公开";
-  if (link.status === "planned") return "即将上线";
+  if (link.status === "pending") return t("待公开");
+  if (link.status === "planned") return t("即将上线");
   return "";
 }
 
@@ -31,7 +32,7 @@ export function ProjectLinks({ links, compact = false }: { links: ContentLink[];
         }
         const external = isExternalUrl(link.url);
         return (
-          <a className="project-link" href={link.url} key={`${link.kind}-${link.label}`} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+          <a className="project-link" href={localizedHref(link.url)} key={`${link.kind}-${link.label}`} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
             {link.label} <span aria-hidden="true">{external ? "↗" : "→"}</span>
           </a>
         );

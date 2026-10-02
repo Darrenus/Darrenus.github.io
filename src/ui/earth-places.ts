@@ -1,9 +1,10 @@
+import { isEnglish } from "../i18n";
 export interface EarthPlace {
   id: string;
   kind: "education" | "experience" | "academic" | "reflection";
   label: string;
   shortLabel?: string;
-  educationLevel?: "本科" | "硕士";
+  educationLevel?: "本科" | "硕士" | "B.Sc." | "M.Tech.";
   city: string;
   longitude: number;
   latitude: number;
@@ -17,7 +18,7 @@ export interface EarthPlace {
 // User-approved public records only, at city or campus level.
 // Reflections are visits, not education or employment credentials.
 // Do not infer event attendance from a competition's name or organizer address.
-export const EARTH_PLACES: EarthPlace[] = [
+const places: EarthPlace[] = [
   {
     id: "shanghai",
     kind: "experience",
@@ -110,6 +111,106 @@ export const EARTH_PLACES: EarthPlace[] = [
   },
 ];
 
+
+const englishPlaces: Record<string, Partial<EarthPlace>> = {
+  "shanghai": {
+    "label": "Shanghai",
+    "city": "Shanghai"
+  },
+  "zhengzhou": {
+    "label": "Zhengzhou",
+    "city": "Zhengzhou"
+  },
+  "kaist": {
+    "label": "Korea Advanced Institute of Science and Technology",
+    "shortLabel": "KAIST",
+    "educationLevel": "B.Sc.",
+    "city": "Daejeon",
+    "url": "https://www.kaist.ac.kr/en/"
+  },
+  "nus": {
+    "label": "National University of Singapore",
+    "shortLabel": "NUS",
+    "educationLevel": "M.Tech.",
+    "city": "Singapore"
+  },
+  "chengdu": {
+    "label": "Chengdu",
+    "city": "Chengdu",
+    "reflection": {
+      "period": "2024",
+      "note": "Slowing down reminded me that constant pressure is not the same as progress. Learning to rest matters alongside learning to work."
+    }
+  },
+  "chongqing": {
+    "label": "Chongqing",
+    "city": "Chongqing",
+    "reflection": {
+      "period": "2024",
+      "note": "Slowing down reminded me that constant pressure is not the same as progress. Learning to rest matters alongside learning to work."
+    }
+  },
+  "beijing": {
+    "label": "Beijing",
+    "city": "Beijing",
+    "reflection": {
+      "period": "2025 & 2026",
+      "note": "Luck can change an outcome. Preparation and effort are what I can keep shaping. When a wish comes true, it is worth remembering the work along the way."
+    }
+  },
+  "hong-kong": {
+    "label": "Hong Kong",
+    "city": "Hong Kong",
+    "reflection": {
+      "period": "2025",
+      "note": "Prosperity and inequality sit close together here. Seeing both made me think more concretely about the life I want, and the work I am willing to put into it."
+    }
+  },
+  "macao": {
+    "label": "Macao",
+    "city": "Macao",
+    "reflection": {
+      "period": "2025",
+      "note": "Prosperity and inequality sit close together here. Seeing both made me think more concretely about the life I want, and the work I am willing to put into it."
+    }
+  },
+  "stanford-visit": {
+    "label": "Stanford",
+    "city": "Stanford, USA",
+    "reflection": {
+      "period": "2018",
+      "visited": [
+        "Stanford University"
+      ],
+      "note": "My 2018 trip to the US introduced me to different cultures. Visiting these universities planted the idea of studying further."
+    }
+  },
+  "cambridge-visit": {
+    "label": "Cambridge",
+    "city": "Cambridge, USA",
+    "reflection": {
+      "period": "2018",
+      "visited": [
+        "Harvard University",
+        "MIT"
+      ],
+      "note": "My 2018 trip to the US introduced me to different cultures. Visiting these universities planted the idea of studying further."
+    }
+  },
+  "new-york-visit": {
+    "label": "New York",
+    "city": "New York, USA",
+    "reflection": {
+      "period": "2018",
+      "visited": [
+        "Columbia University"
+      ],
+      "note": "My 2018 trip to the US introduced me to different cultures. Visiting these universities planted the idea of studying further."
+    }
+  }
+};
+export const EARTH_PLACES: EarthPlace[] = places.map(place => isEnglish ? { ...place, ...englishPlaces[place.id] } : place);
+
 /** Same equirectangular convention as the existing land texture / SphereGeometry. */
 export function geographicPosition(
   longitude: number,
@@ -146,23 +247,24 @@ export function layoutPlaceLabels(
   points: ProjectedPlace[],
   width: number,
   height: number,
+  labelWidth = 60,
 ) {
   const boxes: { id: string; x: number; y: number }[] = [];
   const minY = width <= 480 ? 214 : 92;
   const maxY = Math.max(minY, height - 160);
-  const maxX = Math.max(10, width - 70);
+  const maxX = Math.max(10, width - labelWidth - 10);
   // Two ordered callout columns keep nearby cities from jumping across one another.
   // Real coordinates never move; arrows connect each label back to its anchor.
   const capacity = Math.floor((maxY - minY) / 50) + 1;
   for (const side of ["left", "right"] as const) {
     const eligible = points.filter(p => p.side === side &&
-      (side === "left" ? p.x >= 88 : p.x <= width - 88));
+      (side === "left" ? p.x >= labelWidth + 28 : p.x <= width - labelWidth - 28));
     // Preserve education and employment labels if a short viewport is crowded.
     const group = eligible.sort((a, b) => Number(!!a.compact) - Number(!!b.compact))
       .slice(0, capacity).sort((a, b) => a.y - b.y);
     if (!group.length) continue;
-    const x = side === "left"
-      ? Math.max(10, Math.min(...group.map(p => p.x)) - 104)
+    const x = width <= 760 ? (side === "left" ? 10 : maxX) : side === "left"
+      ? Math.max(10, Math.min(...group.map(p => p.x)) - labelWidth - 44)
       : Math.min(maxX, Math.max(...group.map(p => p.x)) + 44);
     const desired = group.map(p => p.y + p.rise - 22);
     const packed: number[] = [];

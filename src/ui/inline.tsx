@@ -1,3 +1,4 @@
+import { localizedHref } from "../i18n";
 /* Inline markdown → React nodes. Shared by the prose renderer and the diagram blocks.
  *
  * Split out of markdown.tsx so a diagram field and a paragraph resolve a link the same way.
@@ -52,7 +53,7 @@ function link(href: string, label: ReactNode, key: number): ReactNode {
     <a
       key={key}
       className="md-a"
-      href={safe}
+      href={localizedHref(safe)}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer noopener" : undefined}
     >

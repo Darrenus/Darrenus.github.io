@@ -1,0 +1,90 @@
+/* English is composed for its own line lengths, rather than fitted into Chinese boxes. */
+.language-switch { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; min-width:52px; padding:0 10px; border:1px solid #b09a7255; border-radius:24px; color:#d7c39c; font:12px var(--sans); white-space:nowrap; flex-shrink:0; }
+.language-switch:hover { color:#f2efe5; border-color:#b09a72; }
+.site-header .language-switch { margin-left:auto; }
+.site-header .site-actions { margin-left:0; }
+.earth-header > .language-switch { position:relative; z-index:5; }
+:lang(en) .research-hero h1, :lang(en) .projects-hero h1, :lang(en) .resume-hero h1 { letter-spacing:-.035em; line-height:1.08; }
+:lang(en) .research-summary, :lang(en) .project-summary, :lang(en) .resume-entry-content p, :lang(en) .resume-entry-content li { line-height:1.7; max-width:74ch; }
+:lang(en) .earth-identity h1 { font-size:clamp(27px,3.1vw,48px); line-height:1.18; letter-spacing:-.035em; }
+:lang(en) .earth-identity { max-width:38vw; }
+:lang(en) .earth-role { letter-spacing:.01em; }
+:lang(en) .earth-pin, :lang(en) .earth-pin-label, :lang(en) .earth-pin.label-left .earth-pin-label { width:96px; min-width:96px; }
+:lang(en) .earth-pin-label { letter-spacing:0; font-size:11px; }
+:lang(en) .earth-pin-label small { letter-spacing:.02em; }
+:lang(en) .earth-project-record h2 { font-size:clamp(25px,3vw,38px); line-height:1.14; }
+.earth-project-record h2, .project-row h2, .project-hero h1, .resume-project h3 { overflow-wrap:anywhere; }
+.earth-project-tabs { flex-wrap:wrap; }
+:lang(en) .earth-reflection-prose { line-height:1.65; }
+:lang(en) .earth-place-row { gap:16px; line-height:1.4; }
+:lang(en) .earth-place-row > span:first-child { min-width:0; }
+:lang(en) .earth-place-row > span:last-child { flex-shrink:0; }
+:lang(en) .resume-project-top { flex-wrap:wrap; gap:8px 16px; }
+:lang(en) .resume-education h3 { line-height:1.25; }
+:lang(en) .resume-project li, :lang(en) .resume-education p, :lang(en) .project-section-content li { line-height:1.7; }
+:lang(en) .project-facts dd { overflow-wrap:anywhere; }
+:lang(en) .blog-post-body { max-width:740px; }
+:lang(en) .blog-post-body p, :lang(en) .blog-post-body li { line-height:1.8; }
+:lang(en) .blog-post-header h1 { font-size:clamp(32px,4.7vw,60px); line-height:1.14; letter-spacing:-.025em; }
+:lang(en) .research-eyebrow, :lang(en) .projects-eyebrow { letter-spacing:.12em; }
+:lang(en) .site-footer-pages a { font-size:clamp(28px,4vw,52px); letter-spacing:-.025em; }
+:lang(en) .site-footer-bottom { gap:20px; }
+.site-nav { min-width:0; }
+.site-header { gap:24px; }
+.app .landing { justify-content:safe center; }
+.app .landing > * { flex-shrink:0; }
+@media (max-width:1150px) {
+  .site-header { flex-wrap:wrap; padding-block:14px; gap:8px 16px; }
+  .site-header .site-nav { order:4; width:100%; margin:0; justify-content:space-between; gap:8px 18px; }
+  .site-header .site-nav a { min-height:40px; display:inline-flex; align-items:center; }
+  .earth-header-caption { display:none; }
+  .earth-header { gap:16px; }
+  :lang(en) .earth-header nav { gap:18px; }
+}
+@media (max-width:1000px) {
+  .earth-side-label { display:none; }
+}
+@media (min-width:761px) and (max-width:1000px) {
+  .earth-header { flex-wrap:wrap; padding-top:16px; gap:8px; }
+  .earth-header .language-switch { position:absolute; top:16px; right:44px; }
+  .earth-header nav { order:3; width:100%; justify-content:space-between; margin-top:8px; }
+  .earth-header nav a { white-space:nowrap; }
+  .earth-places-open { top:126px; }
+}
+@media (max-width:760px) {
+  .earth-header .language-switch { position:absolute; top:16px; right:22px; }
+  .earth-header nav { order:3; }
+  :lang(en) .earth-header nav { gap:0 12px; }
+  :lang(en) .earth-identity { max-width:calc(100% - 100px); }
+  :lang(en) .earth-identity h1 { font-size:clamp(27px,5vw,36px); }
+  :lang(en) .earth-role { font-size:10px; }
+  :lang(en) .earth-near-caption p { font-size:30px; }
+  .site-header { padding-inline:22px; }
+  .site-header .wordmark-edition { display:none; }
+  .site-nav { flex-wrap:wrap; }
+  .site-header .site-nav { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 12px; }
+  .site-header .site-nav a { justify-content:center; font-size:12px; white-space:nowrap; }
+  :lang(en) .resume-hero-grid { grid-template-columns:minmax(0,1fr); }
+  :lang(en) .resume-actions { justify-self:start; }
+  :lang(en) .resume-education-grid, :lang(en) .resume-project-grid { grid-template-columns:minmax(0,1fr); }
+  :lang(en) .resume-contact { overflow-wrap:anywhere; }
+  :lang(en) .project-facts { min-width:0; }
+  :lang(en) .research-register { flex-wrap:wrap; }
+  :lang(en) .site-footer-bottom { align-items:flex-start; flex-direction:column; }
+}
+@media (max-width:380px) {
+  .site-header { padding-inline:16px; }
+  :lang(en) .earth-identity h1 { font-size:26px; }
+  :lang(en) .earth-role { max-width:200px; line-height:1.5; }
+  :lang(en) .earth-instructions { font-size:9px; gap:10px; }
+}
+.earth-project-tabs { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
+.earth-project-tabs button { width:100%; min-width:0; }
+@media (max-width:760px) {
+  .site-header:has(.site-actions) .site-actions { width:auto; margin-top:0; }
+  .site-header:has(.site-actions) .site-wordmark { margin-right:auto; }
+  .site-header:has(.site-actions) .language-switch { margin-left:0; }
+  .site-header:has(.site-actions) { gap:8px 10px; }
+  .site-actions .new-conversation { font-size:11px; }
+}
+@media print { .language-switch { display:none; } }

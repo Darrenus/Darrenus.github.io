@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "title": "RONG Ragent",
+    "wordmark": "RONG",
+    "language": "en",
+    "domain": "rong.bio",
+    "repository": "Darrenus/Darrenus.github.io",
+    "version": "V1.0.0",
+    "description": "Rong He — software engineer working on AI agents, retrieval systems and reproducible evaluation.",
+    "routes": {
+      "home": "/",
+      "ragent": "/ragent",
+      "resume": "/resume",
+      "resumePdf": "/resume-zh.pdf",
+      "projects": "/projects"
+    }
+  },
+  "person": {
+    "name": "Rong He",
+    "preferredName": "Allen",
+    "englishName": "Rong He",
+    "location": "Singapore",
+    "headline": "AI application development",
+    "current": "M.Tech. in Software Engineering · National University of Singapore"
+  },
+  "links": [
+    {
+      "id": "primary-email",
+      "kind": "email",
+      "label": "University email",
+      "display": "hanserong@u.nus.edu",
+      "url": "mailto:hanserong@u.nus.edu",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "secondary-email",
+      "kind": "email",
+      "label": "Personal email",
+      "display": "hanserong@163.com",
+      "url": "mailto:hanserong@163.com",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "github",
+      "kind": "github",
+      "label": "GitHub",
+      "display": "github.com/Darrenus",
+      "url": "https://github.com/Darrenus",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "linkedin",
+      "kind": "linkedin",
+      "label": "LinkedIn",
+      "display": "linkedin.com/in/herong",
+      "url": "https://www.linkedin.com/in/herong",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "website",
+      "kind": "website",
+      "label": "Website",
+      "display": "rong.bio",
+      "url": "https://rong.bio",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "avatar",
+      "kind": "image",
+      "label": "GitHub avatar",
+      "display": "GitHub avatar",
+      "url": "https://avatars.githubusercontent.com/u/145118468?v=4",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "resume-pdf",
+      "kind": "document",
+      "label": "Chinese résumé PDF",
+      "display": "Chinese résumé PDF",
+      "url": "/resume-zh.pdf?v=20261002",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "resume-en-pdf",
+      "kind": "document",
+      "label": "English résumé PDF",
+      "display": "English résumé PDF",
+      "url": "/resume-en.pdf?v=20261002",
+      "status": "active",
+      "visibility": "public"
+    },
+    {
+      "id": "image-defender-repository",
+      "kind": "repository",
+      "label": "Image Defender",
+      "display": "Image Defender",
+      "url": "https://github.com/Darrenus/Image-Defender-Revised-by-Rong",
+      "status": "active",
+      "visibility": "public"
+    }
+  ],
+  "github": {
+    "username": "Darrenus",
+    "accounts": [
+      "Darrenus"
+    ]
+  },
+  "privacy": {
+    "internalProjectPublicNameZh": "内部表格问答平台",
+    "internalProjectPublicNameEn": "the internal spreadsheet Q&A platform",
+    "restrictedCategories": [
+      "手机号码",
+      "家庭住址",
+      "内部项目原名",
+      "内部文档",
+      "客户数据",
+      "未发布代码"
+    ],
+    "publicClaims": [
+      "四个智能体累计服务约 500 名内部用户",
+      "内部表格问答平台上线 20+ 内部试用用户；据用户反馈估算，人均每天减少约 2 小时手工表格工作",
+      "coding-agent-from-scratch 的仓库地图在 112 文件仓库实验中使任务步数下降 21%、输入 token 下降 33%"
+    ],
+    "patentStatusRule": "三项专利均为申请且处于审查阶段，不得表述为已授权。",
+    "unpublishedRepositoryRule": "只引用内容源中记录的真实仓库地址，不猜测 bodycraft-oss 或内部项目的仓库链接。"
+  }
+}

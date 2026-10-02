@@ -5,6 +5,9 @@ import type { Plugin } from "vite";
 
 const blogPosts = JSON.parse(readFileSync(new URL("./content/blog.json", import.meta.url), "utf8")) as { slug: string; title: string }[];
 const resume = JSON.parse(readFileSync(new URL("./content/resume.json", import.meta.url), "utf8")) as { projects: { slug: string; name: string }[] };
+const englishResume = JSON.parse(readFileSync(new URL("./content/resume.en.json", import.meta.url), "utf8"));
+const englishBlog = JSON.parse(readFileSync(new URL("./content/blog.en.json", import.meta.url), "utf8"));
+const englishTitles: Record<string,string> = {"/en/":"Rong He", "/en/ragent":"Ask RONG", "/en/resume":"Résumé", "/en/projects":"Projects", "/en/research":"Research", "/en/blog":"Journal", "/en/privacy":"Privacy policy", "/en/terms":"Terms of use", ...Object.fromEntries(englishResume.projects.map((p: {slug:string;name:string})=>[`/en/projects/${p.slug}`,p.name])), ...Object.fromEntries(englishBlog.map((p: {slug:string;title:string})=>[`/en/blog/${p.slug}`,p.title]))};
 const routeTitles: Record<string, string> = {
   "/ragent": "问 RONG",
   "/resume": "简历",
@@ -34,10 +37,14 @@ function spaFallback(): Plugin {
 
       // GitHub Pages serves 404.html as a client-side fallback, but keeps the HTTP 404 status.
       // Known public routes get directory entry points so direct links return 200 as well.
-      for (const [route, title] of Object.entries(routeTitles)) {
+      for (const [route, title] of Object.entries({...routeTitles,...englishTitles})) {
         const entry = new URL(`./dist${route}/index.html`, import.meta.url);
         mkdirSync(new URL(".", entry), { recursive: true });
-        writeFileSync(entry, withPageTitle(html, `${title} · Rong He`));
+        let pageHtml = withPageTitle(html, route === "/en/" ? "Rong He" : `${title} · Rong He`);
+        if (route.startsWith('/en')) pageHtml = pageHtml.replace('lang="zh-CN"', 'lang="en"').replace(/content="[^"]*[\u3400-\u9fff][^"]*"/g, 'content="Rong He: AI agents, software engineering and research."');
+        const url = 'https://rong.bio' + route;
+        pageHtml = pageHtml.replace(/(<link rel="canonical" href=")[^"]+/, '$1' + url).replace(/(<meta property="og:url" content=")[^"]+/, '$1' + url);
+        writeFileSync(entry, pageHtml);
       }
     },
   };

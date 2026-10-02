@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import {
   useId,
   useRef,
@@ -169,7 +170,7 @@ export default function ObservationDial({
         </text>
         <path className="dial-hairline" d="M250 479h20M260 469v20" />
       </svg>
-      <div className="dial-topics" role="group" aria-label="选择观测主题">
+      <div className="dial-topics" role="group" aria-label={t("选择观测主题")}>
         {OBSERVATIONS.map((item, index) => {
           const p = point(index * 60, 184);
           return (
@@ -195,7 +196,7 @@ export default function ObservationDial({
         className="dial-handle"
         role="slider"
         tabIndex={0}
-        aria-label="转动观测指针"
+        aria-label={t("转动观测指针")}
         aria-valuemin={1}
         aria-valuemax={6}
         aria-valuenow={selected + 1}

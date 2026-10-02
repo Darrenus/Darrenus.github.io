@@ -1,3 +1,5 @@
+import { isEnglish } from "../i18n";
+import { t, localizedHref } from "../i18n";
 /* The RONG Agent interface.
  *
  * It renders the transport's event stream and owns no timing of its own. Swap the
@@ -37,10 +39,10 @@ import "./agent.css";
  * answerable than from any description of the site. The difference is that each one is now a
  * question a stranger would actually have. */
 const SEED_QUESTIONS = [
-  "贺融是谁？",
-  "介绍一下他的经历。",
-  "他做过哪些 AI 项目？",
-  "他如何设计 coding-agent-from-scratch？",
+  t("贺融是谁？"),
+  t("介绍一下他的经历。"),
+  t("他做过哪些 AI 项目？"),
+  t("他如何设计 coding-agent-from-scratch？"),
 ];
 
 /** Sources shown before the list is folded. */
@@ -49,11 +51,11 @@ const SOURCE_LIMIT = 12;
 /* One sentence. The earlier version listed what the index holds and where the loop runs, which
  * is all true and none of it the reader's problem: a visitor can ask the agent either question.
  * What a footnote owes them is the caveat they cannot discover for themselves. */
-const FOOTER_NOTE = "回答可能有误，来源均已链接。";
+const FOOTER_NOTE = t("回答可能有误，来源均已链接。");
 
 /* A build with no model configured answers from a handful of canned replies. Saying that
  * is better than a footnote promising retrieval and web search that cannot happen. */
-const OFFLINE_NOTE = "当前未配置模型，显示的是离线预设回答。公开资料仍以来源为准。";
+const OFFLINE_NOTE = t("当前未配置模型，显示的是离线预设回答。公开资料仍以来源为准。");
 
 interface Props {
   wordmark?: string;
@@ -102,7 +104,7 @@ function Composer({
       <textarea
         ref={ta}
         rows={rows}
-        aria-label="你的问题"
+        aria-label={t("你的问题")}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -114,13 +116,13 @@ function Composer({
         }}
       />
       {busy ? (
-        <button className="iconbtn" aria-label="停止回答" onClick={onStop}>
+        <button className="iconbtn" aria-label={t("停止回答")} onClick={onStop}>
           <span className="stop-square" />
         </button>
       ) : (
         <button
           className="iconbtn"
-          aria-label="发送"
+          aria-label={t("发送")}
           disabled={!value.trim()}
           onClick={onSend}
         >
@@ -160,8 +162,8 @@ function Activity({
   const n = segment.items.length;
   const secs = ((segment.endedAt || Date.now()) - segment.startedAt) / 1000;
   const label = segRunning
-    ? status || "处理中"
-    : `完成 ${n} 个步骤 · ${secs.toFixed(1)} 秒`;
+    ? status || t("处理中")
+    : (isEnglish ? `${n} step${n === 1 ? "" : "s"} · ${secs.toFixed(1)} s` : `完成 ${n} 个步骤 · ${secs.toFixed(1)} 秒`);
 
   return (
     <div className="activity">
@@ -198,7 +200,7 @@ function Activity({
                 {it.kind === "subagent" && (
                   <div className="tool">
                     <div className="tool-head">
-                      <span className="sub-label">子任务</span>
+                      <span className="sub-label">{t("子任务")}</span>
                       <span className="tool-name">{it.name}</span>
                       <span className="sub-task">{it.task}</span>
                     </div>
@@ -273,13 +275,13 @@ function AgentTurn({
 
       {message.sources.length > 0 && (
         <div className="sources">
-          <span className="sources-label">来源</span>
+          <span className="sources-label">{t("来源")}</span>
           {(allSources ? message.sources : message.sources.slice(0, SOURCE_LIMIT)).map(
             (src, i) => {
               const href = sourceHref(src);
               const label = <><span className="source-n">{i + 1}</span><span>{src.label}</span></>;
               return href ? (
-                <a className="source" key={`${src.label}-${i}`} href={href}
+                <a className="source" key={`${src.label}-${i}`} href={localizedHref(href)}
                   target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
                   {label}
                 </a>
@@ -290,8 +292,7 @@ function AgentTurn({
               unreadable, so the count stays visible and the rest are one click away. */}
           {!allSources && message.sources.length > SOURCE_LIMIT && (
             <button className="source source--more" onClick={() => setAllSources(true)}>
-              +{message.sources.length - SOURCE_LIMIT} 个来源
-            </button>
+              +{message.sources.length - SOURCE_LIMIT} {t("个来源")}</button>
           )}
         </div>
       )}
@@ -338,7 +339,7 @@ export default function RongAgent({
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   useEffect(() => {
-    document.title = "问 RONG · Rong He";
+    document.title = t("问 RONG · Rong He");
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
   }, [wordmark]);
 
@@ -384,7 +385,7 @@ export default function RongAgent({
         const detail = err instanceof Error ? err.message : "unknown error";
         emit({
           type: "error",
-          message: `回答提前终止：${detail}。请重试或缩小问题范围。`,
+          message: (isEnglish ? `Response interrupted: ${detail}. Try again or narrow the question.` : `回答提前终止：${detail}。请重试或缩小问题范围。`),
         });
       }
 
@@ -455,13 +456,13 @@ export default function RongAgent({
   return (
     <div className="app" ref={appRef}>
       <SiteHeader current="ragent" actions={<>
-          {state.started && <button className="new-conversation" onClick={reset}>新对话</button>}
+          {state.started && <button className="new-conversation" onClick={reset}>{t("新对话")}</button>}
           <button
             className="sound-toggle"
             type="button"
-            aria-label={soundMuted ? "开启音效" : "静音"}
+            aria-label={soundMuted ? t("开启音效") : t("静音")}
             aria-pressed={soundMuted}
-            title={soundMuted ? "开启音效" : "静音"}
+            title={soundMuted ? t("开启音效") : t("静音")}
             onClick={toggleSound}
           >
             <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -477,22 +478,21 @@ export default function RongAgent({
 
       {!state.started ? (
         <main className="landing" id="main-content">
-          <p className="eyebrow question-eyebrow">问答 / 从一个问题开始</p>
+          <p className="eyebrow question-eyebrow">{t("问答 / 从一个问题开始")}</p>
 
           <h1 className="h1">
-            关于{" "}
+            {t("关于")}{" "}
             <span className="tilt">
               {PROFILE.site.wordmark}
             </span>
-            ，尽管问
-          </h1>
+            {t("，尽管问")}</h1>
 
 
-          <p className="question-intro">从一个问题开始，沿着公开资料，了解我的工作。</p>
+          <p className="question-intro">{t("从一个问题开始，沿着公开资料，了解我的工作。")}</p>
           <div className="composer-wrap">
             <Composer
               value={state.draft}
-              placeholder="想了解贺融的什么经历？"
+              placeholder={t("想了解贺融的什么经历？")}
               rows={2}
               busy={false}
               onChange={(v) => dispatch({ type: "draft", value: v })}
@@ -514,7 +514,7 @@ export default function RongAgent({
               </div>
             )}
           </div>
-          <p className="question-mode">{live ? "在线问答 · 回答附有来源，请结合原文判断。" : OFFLINE_NOTE}</p>
+          <p className="question-mode">{live ? t("在线问答 · 回答附有来源，请结合原文判断。") : OFFLINE_NOTE}</p>
         </main>
       ) : (
         <main className="chat" id="main-content">
@@ -547,7 +547,7 @@ export default function RongAgent({
           <div className="dock">
             <Composer
               value={state.draft}
-              placeholder="继续提问…"
+              placeholder={t("继续提问…")}
               rows={1}
               busy={state.busy}
               dock

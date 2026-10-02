@@ -1,3 +1,5 @@
+import researchEn from "../../content/research.en.json";
+import { isEnglish } from "../i18n";
 import research from "../../content/research.json";
 
 export interface Publication {
@@ -10,4 +12,4 @@ export interface Publication {
   links: { platform: "arXiv" | "Zenodo"; url: string; identifier: string }[];
 }
 export const PUBLICATIONS: Publication[] =
-  research.publications as Publication[];
+  (isEnglish ? researchEn : research).publications as Publication[];

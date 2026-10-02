@@ -1,3 +1,4 @@
+import { isEnglish } from "../i18n";
 import type { AgentEvent, Transport } from "./events";
 import { CONTENT, profileLink, requiredUrl } from "../content";
 
@@ -113,7 +114,16 @@ const FALLBACK: Run = {
   suggestions: ["贺融是谁？", "他做过哪些 AI 项目？"],
 };
 
+const ENGLISH_RUNS: Run[] = [
+  ...resume.projects.map(project => ({keywords:[project.name,project.slug], reasoning:'Read the public project record and preserve the scope of each result.',steps:[],text:paragraphText([project.summary,...project.highlights]),sources:[{label:project.name,url:`/en/projects/${project.slug}`}],suggestions:['What else has he built?','Tell me about his experience.']})),
+  {keywords:['project','built','build'],reasoning:'Read the public project list.',steps:[],text:paragraphText(resume.projects.map(p=>`**${p.name}**: ${p.summary}`)),sources:[{label:'Projects',url:'/en/projects'}],suggestions:['How did he build coding-agent-from-scratch?']},
+  {keywords:['experience','work','saic'],reasoning:'Read the public experience records.',steps:[],text:paragraphText(resume.experience.map(e=>`**${e.organization} · ${e.role}**\n\n${e.summary}`)),sources:[{label:'Experience',url:'/en/resume#experience-title'}],suggestions:['What AI projects has he built?']},
+  {keywords:['education','study','university','nus','kaist'],reasoning:'Check the education records.',steps:[],text:paragraphText(resume.education.map(e=>`${e.institution}: ${e.degree} in ${e.field}. ${e.summary}`)),sources:[{label:'Education',url:'/en/resume#education-title'}],suggestions:['Tell me about his experience.']},
+  {keywords:['contact','email'],reasoning:'Return approved contact details.',steps:[],text:publicContact.join(' · '),sources:[{label:'Contact',url:'/en/resume#intro-title'}],suggestions:[]},
+  {keywords:['who','rong','introduce'],reasoning:'Read the public profile.',steps:[],text:paragraphText(resume.overview.summary).replace("I build", "He builds"),sources:[{label:'Profile',url:'/en/resume'}],suggestions:['Tell me about his experience.','What AI projects has he built?']},
+];
 function pick(message: string): Run {
+  if (isEnglish) return ENGLISH_RUNS.find(run=>run.keywords.some(k=>message.toLowerCase().includes(k.toLowerCase()))) ?? {keywords:[],reasoning:'No matching offline response.',steps:[],text:'No live model is configured. This offline preview can answer a few preset questions about Rong’s experience, projects, education and contact details.',sources:[],suggestions:['Who is Rong He?','What AI projects has he built?']};
   const normalized = message.toLowerCase();
   return RUNS.find((run) =>
     run.keywords.some((keyword) => normalized.includes(keyword.toLowerCase())),
@@ -125,7 +135,7 @@ export const mockTransport: Transport = async ({ message, onEvent, isCancelled }
   const startedAt = Date.now();
   const emit = (event: AgentEvent) => onEvent(event);
 
-  emit({ type: "status", text: "正在检索" });
+  emit({ type: "status", text: isEnglish ? "Searching" : "正在检索" });
   for (const part of run.reasoning.split(/(?<=[，。；])/)) {
     if (isCancelled()) return;
     await wait(70);

@@ -23,3 +23,25 @@
 | `personalization/build_public_resume.py` | 两个 JSON 文件 | DOCX 生成器 |
 
 `corpus/src/` 只保留不属于个人履历事实的补充叙述，例如网站实现说明。构建脚本会把统一内容源和这些补充 Markdown 一起生成公开检索索引。
+
+## English edition
+
+Chinese pages keep their existing URLs; English pages use `/en/` (for example,
+`/en/research`). The language control retains the current page, query and fragment.
+Page links retain the selected language; PDF, image and external URLs are unchanged.
+
+- Edit `resume.json` and `resume.en.json` together, preserving record IDs and slugs.
+  The English text is edited for reading, not generated at runtime.
+- Keep `research.json` and `research.en.json` aligned on IDs, dates and source URLs.
+- Blog posts have matching slugs and block structure in `blog.json` and `blog.en.json`.
+  English figures may have separate assets; retain their real intrinsic dimensions.
+- Interface copy lives in `ui.en.json`; `t()` keeps the Chinese source as its key.
+- The English PDF is `public/resume-en.pdf`, a public copy of the supplied two-page CV.
+  The original attachment is unchanged. Apply the same public-content policy as the
+  Chinese PDF: exclude private contact details and internal project names.
+- `npm run corpus` builds separate Chinese and English retrieval indexes.
+  Run `npm test` and `npm run build` after content changes.
+
+English editions should be reviewed at 320px, 390px, tablet and desktop widths,
+including long project titles, globe labels and open dialogs. Do not shrink text
+indefinitely to fit: wrap navigation, use content-sized rows and adjust line lengths.

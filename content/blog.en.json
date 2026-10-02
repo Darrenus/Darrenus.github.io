@@ -1,0 +1,885 @@
+[
+  {
+    "slug": "ai-starts-working",
+    "title": "When AI Goes to Work: What an Economics Paper Helped Me See",
+    "subtitle": "Reflections on “Economic Scenarios for Transformative AI”, an Anthropic Institute working paper (September 2026)",
+    "category": "Reading & reflection",
+    "publishedAt": "2026-09-28",
+    "blocks": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "A note before we begin: this paper comes from Anthropic, the company behind Claude. I will try to distinguish what the paper says from my own interpretation, so you can judge each on its own terms."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": [
+          {
+            "text": "1. An economy 32% larger—and a smaller pay cheque"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Imagine opening the news one morning in 2030: US GDP is growing at 15% a year, more than three times the 4.7% recorded in 1999 at the height of the dot-com boom. At that pace, income per person doubles roughly every five years."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "It sounds extraordinary. But another page of the same report says that cognitive workers—programmers, lawyers, accountants, analysts, salespeople and administrators—earn 11.5% less than they would in a world without AI. Almost one in five is unemployed."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "This is not science fiction; it is the paper’s transformative scenario. What struck me is the distinction: "
+          },
+          {
+            "text": "a richer economy and a richer individual are two very different things.",
+            "bold": true
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image1.png",
+        "width": 1832,
+        "height": 900,
+        "caption": "Paper, Figure 2: GDP (left) and GDP growth (right), 2025–2030. Dashed lines show the no-AI baseline.",
+        "alt": "Paper, Figure 2: GDP (left) and GDP growth (right), 2025–2030. Dashed lines show the no-AI baseline."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": [
+          {
+            "text": "2. What the paper actually does"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Predictions about AI’s economic impact are difficult to compare. Some put the extra GDP gain near 1%; others expect explosive growth. Some see little effect on jobs; others see mass unemployment. They use different models, so their conclusions are not directly comparable."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The paper takes a useful approach: rather than predicting the future, it builds a common translation framework. Give it a few assumptions about AI, and it shows the economy those assumptions imply."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "In plain language, the five main inputs are:"
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "items": [
+          [
+            {
+              "text": "How much work can AI handle?"
+            }
+          ],
+          [
+            {
+              "text": "How much of that work is it actually used for?"
+            }
+          ],
+          [
+            {
+              "text": "How much more efficient does the work become?"
+            }
+          ],
+          [
+            {
+              "text": "Does AI "
+            },
+            {
+              "text": "do the work for you",
+              "bold": true
+            },
+            {
+              "text": " (automation), or "
+            },
+            {
+              "text": "help you do it",
+              "bold": true
+            },
+            {
+              "text": " (augmentation)?"
+            }
+          ],
+          [
+            {
+              "text": "As AI takes over old tasks, does it create new ones for people?"
+            }
+          ]
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Two further parameters describe labour-market adjustment: how hard it is for displaced workers to switch occupations, and how quickly new positions appear."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image2-en.png",
+        "width": 1847,
+        "height": 1062,
+        "caption": "A reading framework: measurable assumptions about AI translate into macroeconomic outcomes. Adapted by the author from Section 2.",
+        "alt": "A reading framework: measurable assumptions about AI translate into macroeconomic outcomes. Adapted by the author from Section 2."
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors use three sets of parameters to define three scenarios:"
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "rows": [
+          [
+            [],
+            [
+              {
+                "text": "Modest"
+              }
+            ],
+            [
+              {
+                "text": "Substantial"
+              }
+            ],
+            [
+              {
+                "text": "Transformative"
+              }
+            ]
+          ],
+          [
+            [
+              {
+                "text": "Additional GDP in 2030"
+              }
+            ],
+            [
+              {
+                "text": "1.6%"
+              }
+            ],
+            [
+              {
+                "text": "8.3%"
+              }
+            ],
+            [
+              {
+                "text": "32.4%"
+              }
+            ]
+          ],
+          [
+            [
+              {
+                "text": "Labour share"
+              }
+            ],
+            [
+              {
+                "text": "60% → 59.4%"
+              }
+            ],
+            [
+              {
+                "text": "→ 56.1%"
+              }
+            ],
+            [
+              {
+                "text": "→ 45.2%"
+              }
+            ]
+          ],
+          [
+            [
+              {
+                "text": "Cognitive unemployment"
+              }
+            ],
+            [
+              {
+                "text": "2.9% (little change)"
+              }
+            ],
+            [
+              {
+                "text": "4.5%"
+              }
+            ],
+            [
+              {
+                "text": "17.9%"
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image3-en.png",
+        "width": 2419,
+        "height": 934,
+        "caption": "The three scenarios in 2030. Drawn by the author from Table 3.",
+        "alt": "The three scenarios in 2030. Drawn by the author from Table 3."
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors repeatedly stress that these are "
+          },
+          {
+            "text": "not forecasts, and have no assigned probabilities",
+            "bold": true
+          },
+          {
+            "text": ". Their purpose is to make a chain of reasoning explicit: if you believe assumption A, you must also confront consequence B."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": [
+          {
+            "text": "3. What stayed with me"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "GDP growth does not automatically become wage growth"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "This is the central point. AI’s productivity gains are divided between "
+          },
+          {
+            "text": "people who earn wages",
+            "bold": true
+          },
+          {
+            "text": " and "
+          },
+          {
+            "text": "people who own capital",
+            "bold": true
+          },
+          {
+            "text": "—servers, computing infrastructure and company shares."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "In the long run, capital can be built up, allowing gains to flow to workers. Over the next few years, however, data centres and chips cannot appear on demand. Scarce capital earns higher returns, leaving a smaller share for labour."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "One number in the transformative scenario stands out: in 2030, total labour income is "
+          },
+          {
+            "text": "almost unchanged",
+            "bold": true
+          },
+          {
+            "text": " from the no-AI baseline. The additional third of GDP accrues to capital income, which rises by 81%."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The pie gets larger, but the workers’ slice stays the same size."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image4-en.png",
+        "width": 1939,
+        "height": 1001,
+        "caption": "Changes in income relative to the no-AI baseline, transformative scenario. Drawn by the author from Table 3.",
+        "alt": "Changes in income relative to the no-AI baseline, transformative scenario. Drawn by the author from Table 3."
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "An electrician may be less exposed than a programmer"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The model divides work into two groups: cognitive occupations, and everything else—construction, repair, food service, care support, transport and so on."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The mechanism is straightforward. AI displaces cognitive work, pushing workers to seek jobs elsewhere. Meanwhile, a richer economy demands more plumbers, electricians and cooks. In the transformative scenario, cognitive wages are 11.5% below baseline, while wages in other occupations are "
+          },
+          {
+            "text": "33.6% higher",
+            "bold": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "That runs against decades of intuition about education, white-collar work and earnings. The paper does, however, explicitly exclude advances in robotics—one reason its horizon ends in 2030."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image5.png",
+        "width": 1832,
+        "height": 1593,
+        "caption": "Paper, Figure 3: average wages, cognitive wages, net capital returns and the labour share, 2025–2030.",
+        "alt": "Paper, Figure 3: average wages, cognitive wages, net capital returns and the labour share, 2025–2030."
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Lower wages or fewer jobs?"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The trade-off is harsh but clear. When AI reduces demand for cognitive labour, the shock has to show up somewhere:"
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "items": [
+          [
+            {
+              "text": "If wages can fall freely, most people stay employed, but pay drops sharply. In the transformative scenario, cognitive wages fall by more than 42%, while unemployment is only 2.6%."
+            }
+          ],
+          [
+            {
+              "text": "If wages are sticky and cannot adjust downwards, pay looks better—but unemployment reaches 24%."
+            }
+          ]
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "No setting leaves cognitive workers untouched in both pay and employment.",
+            "bold": true
+          },
+          {
+            "text": " The paper’s baseline adjustment splits the burden between them."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image6-en.png",
+        "width": 2099,
+        "height": 980,
+        "caption": "Wages and unemployment under different degrees of cognitive wage rigidity, ξ, in the transformative scenario. Drawn by the author from Table 6.",
+        "alt": "Wages and unemployment under different degrees of cognitive wage rigidity, ξ, in the transformative scenario. Drawn by the author from Table 6."
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Faster science, but not as fast as you might expect"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Many people see accelerated scientific discovery as AI’s greatest source of growth. In this model, that channel contributes relatively little by 2030: even in the transformative scenario, the technology level is only 0.6% above the no-AI baseline."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Good ideas become harder to find, and research remains constrained by physical experiments and equipment."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors are candid about a limitation: the model excludes recursive feedback such as AI improving AI. That may mean "
+          },
+          {
+            "text": "the effect is understated",
+            "bold": true
+          },
+          {
+            "text": ". I return to this below."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Public expectations map surprisingly closely to the substantial scenario"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors surveyed almost 11,000 US adults. A few responses caught my attention:"
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "items": [
+          [
+            {
+              "text": "58% expect AI to independently build a usable software product by 2030."
+            }
+          ],
+          [
+            {
+              "text": "39% expect AI to make a Nobel-level discovery; 40% think it will never happen."
+            }
+          ],
+          [
+            {
+              "text": "Around 30% believe AI saves no time even on tasks it can do well, while 49% believe it saves more than half."
+            }
+          ]
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image7.png",
+        "width": 1832,
+        "height": 990,
+        "caption": "Paper, Figure 1: when US adults expect AI to perform four tasks as well as skilled professionals (cumulative shares).",
+        "alt": "Paper, Figure 1: when US adults expect AI to perform four tasks as well as skilled professionals (cumulative shares)."
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The disagreement is enormous. Yet feeding the median responses into the model produces results close to the substantial scenario: roughly 8% more GDP and cognitive unemployment of 4.6%."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": [
+          {
+            "text": "4. Questions the paper left me with"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "What follows is my own thinking, rather than the paper’s conclusions."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "“Everything looks normal” tells us very little"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The paper makes an interesting observation: AI’s effect on employment is not yet obvious in macroeconomic data. That is consistent with two very different futures. We could be in the modest scenario, or at the beginning of the transformative one."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The curves below nearly coincide until 2027 and diverge afterwards. Standing at the start of a road, you cannot tell from the ground beneath your feet whether it leads to a plain or a cliff."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image8.png",
+        "width": 1832,
+        "height": 900,
+        "caption": "Paper, Figure 4: cognitive employment, cognitive-worker unemployment and aggregate unemployment, 2025–2030.",
+        "alt": "Paper, Figure 4: cognitive employment, cognitive-worker unemployment and aggregate unemployment, 2025–2030."
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "So I do not see “things are fine so far” as grounds for complacency. It may simply mean "
+          },
+          {
+            "text": "the decisive observation window has not arrived yet",
+            "bold": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Some of these parameters are being shaped by what we build"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "One detail I like is that each parameter is, in principle, measurable. That makes the framework not just a model, but a "
+          },
+          {
+            "text": "dashboard",
+            "bold": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Take the automation share. Citing Anthropic data, the authors note that about half of chat-interface use looks like doing work in place of a person; for API use, the share is around three quarters. The modest scenario sets it to 0.5, close to today’s chat usage. The transformative scenario sets it to 0.9, closer to a world where "
+          },
+          {
+            "text": "agents are the norm",
+            "bold": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "figure",
+        "src": "/blog/ai-starts-working/image9-en.png",
+        "width": 1939,
+        "height": 621,
+        "caption": "Automation share ψ across the three scenarios and its real-world reference points. Adapted by the author from Section 3.4.",
+        "alt": "Automation share ψ across the three scenarios and its real-world reference points. Adapted by the author from Section 3.4."
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "For an agent developer, this is uncomfortable in a useful way. Each more capable automation agent nudges that parameter towards the transformative end. That is not an argument against building them. It is a reminder that a technological trajectory is not the weather: it is assembled from specific product decisions."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Likewise, whether AI creates new human tasks is not entirely outside our control. The transformative scenario assumes it creates none. Whether new work emerges depends in part on how we design collaboration between people and AI."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Cognitive workers are not a single group"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors acknowledge how coarse the two-group simplification is. One telling figure: 28% of displaced sales and administrative workers moved to non-cognitive occupations, compared with only 10% of managers and professionals."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "My guess is that the shock will be highly uneven within cognitive work. The literature review discusses Autor and Thompson: if AI automates an occupation’s entry-level tasks, the remaining work may demand more expertise and command higher wages. If it automates the expert tasks, the opposite may happen."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "For someone about to enter the workforce, or just starting out, this seems a crucial question: which parts of your intended job will AI take first? Will what remains become more valuable, or cheaper?"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "Enough money does not mean automatic compensation"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The transformative scenario contains a clear calculation: aggregate gains are about three times the losses borne by cognitive workers. In principle, transferring roughly 9% of GDP—about the scale of US Social Security and Medicare combined—to those who lose out could leave everyone better off than without AI."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The paper immediately notes that transfers of this scale have no precedent. The experience of US manufacturing regions affected by the “China shock” suggests that compensation "
+          },
+          {
+            "text": "usually does not happen by itself",
+            "bold": true
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Perhaps the paper’s most consequential point sits behind those figures: "
+          },
+          {
+            "text": "technology helps determine the size of the pie; how it is divided is a social choice.",
+            "bold": true
+          },
+          {
+            "text": " Retraining, income support, universal basic income and universal basic capital may feel supplementary in the modest scenario. In the transformative one, they become central policy questions."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": [
+          {
+            "text": "What is outside the model may matter most"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors list many omitted factors. Several deserve particular attention:"
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "items": [
+          [
+            {
+              "text": "Robotics:",
+              "bold": true
+            },
+            {
+              "text": " the model assumes non-cognitive work is unaffected. That may be reasonable before 2030, but how long “become an electrician” remains a refuge is an open question."
+            }
+          ],
+          [
+            {
+              "text": "Demand spirals:",
+              "bold": true
+            },
+            {
+              "text": " the model excludes unemployment reducing consumption and causing further unemployment. Real-world shocks could be amplified."
+            }
+          ],
+          [
+            {
+              "text": "AI improving AI:",
+              "bold": true
+            },
+            {
+              "text": " as noted above, the effect on research productivity may be understated."
+            }
+          ],
+          [
+            {
+              "text": "The link between capital returns and growth:",
+              "bold": true
+            },
+            {
+              "text": " a footnote notes that including this mechanism could substantially raise capital returns, sharpening the distributional problem."
+            }
+          ]
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Some omissions could soften the outcome; others could intensify it. I would not treat the three scenarios as best-case, middle-case and worst-case boundaries. They are reference points."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": [
+          {
+            "text": "5. Where I landed"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "My main takeaway is not a number. It is a way to think."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "When I used to hear “AI will leave X% unemployed” or “AI will double the economy”, I struggled to assess the claim. Now I would ask: "
+          },
+          {
+            "text": "How much work can AI do? How widely is it used? Does it replace people or assist them? How long does switching occupations take?",
+            "bold": true
+          },
+          {
+            "text": " Breaking disagreement into observable questions turns a debate about belief into one about measurement."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "The authors conclude that we may know more within a year or two about which world we are entering, and that preparing for plausible disruption is prudent."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "I agree. We do not need to panic, but we should pay attention."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Source: Korinek, Jones, Sacher, Cotter & McCrory (2026), “Economic Scenarios for Transformative AI”, The Anthropic Institute Working Paper No. 2026-02. The authors provide an interactive scenario explorer: ",
+            "italic": true
+          },
+          {
+            "text": "anthropic.com/institute/econ-scenarios",
+            "italic": true,
+            "href": "https://anthropic.com/institute/econ-scenarios"
+          }
+        ]
+      }
+    ]
+  }
+]

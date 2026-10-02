@@ -1,3 +1,5 @@
+import LocaleMetadata from "./ui/LocaleMetadata";
+import { isEnglish } from "./i18n";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import RongAgent from "./ui/RongAgent";
@@ -20,6 +22,7 @@ import "@fontsource/ibm-plex-sans/latin-500.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
 import "./ui/agent.css";
 import "./ui/observatory.css";
+import "./ui/i18n.css";
 
 /* Local development without the proxy: paste a DeepSeek key once from the console.
  *
@@ -50,6 +53,8 @@ try {
 const root = document.getElementById("root");
 if (!root) throw new Error("no #root element");
 
+document.documentElement.lang = isEnglish ? "en" : "zh-CN";
+
 const route = parseRoute(window.location.pathname);
 const project = route.kind === "project"
   ? CONTENT.resume.projects.find((candidate) => candidate.slug === route.slug)
@@ -74,5 +79,6 @@ const page = (() => {
 createRoot(root).render(
   <StrictMode>
     {page}
+    <LocaleMetadata />
   </StrictMode>,
 );

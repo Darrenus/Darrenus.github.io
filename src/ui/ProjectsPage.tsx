@@ -1,3 +1,4 @@
+import { t, localizedHref } from "../i18n";
 import SiteFooter from "./SiteFooter";
 import { useEffect } from "react";
 import { CONTENT, formatPeriod } from "../content";
@@ -8,10 +9,10 @@ export default function ProjectsPage() {
   const { profile, resume } = CONTENT;
 
   useEffect(() => {
-    document.title = "项目 · Rong He";
+    document.title = t("项目 · Rong He");
     document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
       "content",
-      "贺融的 AI 应用开发、算法与产品设计项目。",
+      t("贺融的 AI 应用开发、算法与产品设计项目。"),
     );
     document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute(
       "href",
@@ -19,7 +20,7 @@ export default function ProjectsPage() {
     );
     document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute(
       "content",
-      "项目 · Rong He",
+      t("项目 · Rong He"),
     );
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute(
       "content",
@@ -33,13 +34,13 @@ export default function ProjectsPage() {
       <main id="main-content">
         <section className="projects-hero" aria-labelledby="projects-title">
           <div className="projects-container">
-            <p className="projects-eyebrow">精选项目</p>
-            <h1 id="projects-title">项目</h1>
-            <p>围绕 AI Agent、算法系统、产品体验与智能硬件的公开项目记录。</p>
+            <p className="projects-eyebrow">{t("精选项目")}</p>
+            <h1 id="projects-title">{t("项目")}</h1>
+            <p>{t("围绕 AI Agent、算法系统、产品体验与智能硬件的公开项目记录。")}</p>
           </div>
         </section>
 
-        <section className="projects-container projects-list" aria-label="项目列表">
+        <section className="projects-container projects-list" aria-label={t("项目列表")}>
           {resume.projects.map((project, index) => (
             <article className="project-row" key={project.id}>
               <div className="project-row-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
@@ -48,7 +49,7 @@ export default function ProjectsPage() {
                   <time>{formatPeriod(project.period)}</time>
                   <span>{project.role}</span>
                 </div>
-                <h2><a href={`/projects/${project.slug}`}>{project.name}</a></h2>
+                <h2><a href={localizedHref(`/projects/${project.slug}`)}>{project.name}</a></h2>
                 {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
                 <p className="project-summary">{project.summary}</p>
                 <ProjectTags tags={project.tags} />
@@ -65,8 +66,8 @@ export default function ProjectsPage() {
                     ))}
                   </div>
                 )}
-                <a className="project-detail-link" href={`/projects/${project.slug}`}>
-                  查看项目 <span aria-hidden="true">→</span>
+                <a className="project-detail-link" href={localizedHref(`/projects/${project.slug}`)}>
+                  {t("查看项目")}<span aria-hidden="true">→</span>
                 </a>
                 <ProjectLinks links={project.links.filter((link) => link.kind !== "internal")} compact />
               </div>

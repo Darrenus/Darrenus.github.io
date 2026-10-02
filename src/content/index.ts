@@ -1,3 +1,6 @@
+import profileEn from "../../content/profile.en.json";
+import resumeEn from "../../content/resume.en.json";
+import { isEnglish } from "../i18n";
 import profileJson from "../../content/profile.json";
 import resumeJson from "../../content/resume.json";
 import type {
@@ -85,10 +88,12 @@ export function validateContent(value: SiteContent): SiteContent {
   return value;
 }
 
-export const CONTENT = validateContent({
+export const CHINESE_CONTENT = validateContent({
   profile: profileJson as ProfileContent,
   resume: resumeJson as ResumeContent,
 });
+
+export const CONTENT: SiteContent = isEnglish ? { profile: profileEn as ProfileContent, resume: resumeEn as ResumeContent } : CHINESE_CONTENT;
 
 export function profileLink(id: string): ProfileLink {
   const link = CONTENT.profile.links.find((candidate) => candidate.id === id);
@@ -102,6 +107,12 @@ export function requiredUrl(link: ContentLink): string {
 }
 
 export function formatPeriod(period: { start: string; end: string }): string {
+  if (isEnglish) {
+    const month = (value: string) => /^\d{4}\.\d{2}$/.test(value)
+      ? new Intl.DateTimeFormat('en-GB', {month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(value.replace('.', '-') + '-01'))
+      : value;
+    return `${month(period.start)} – ${month(period.end)}`;
+  }
   return `${period.start} - ${period.end}`;
 }
 

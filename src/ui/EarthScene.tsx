@@ -1,3 +1,5 @@
+import { isEnglish } from "../i18n";
+import { t, localizedHref } from "../i18n";
 import { layoutPlaceLabels, type ProjectedPlace } from "./earth-places";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
@@ -613,6 +615,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         projectedPlaces,
         host.clientWidth,
         host.clientHeight,
+        isEnglish ? 96 : 60,
       );
       const placed = new Set(labels.map(label => label.id));
       for (const pin of pins) {
@@ -626,7 +629,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         pin.element.style.setProperty("--dot-y", `${anchor.y - label.y}px`);
         const leader = pin.element.querySelector("line");
         if (leader) {
-          const startX = pin.place.labelSide === "left" ? 60 : 0;
+          const startX = pin.place.labelSide === "left" ? (isEnglish ? 96 : 60) : 0;
           const dx = anchor.x - label.x - startX;
           const dy = anchor.y - label.y - 22;
           const length = Math.max(1, Math.hypot(dx, dy));
@@ -705,10 +708,10 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       ref={mount}
       tabIndex={0}
       role="group"
-      aria-label="交互地球：滚轮靠近或远离，拖动旋转；方向键转动与缩放，Home 复位"
+      aria-label={t("交互地球：滚轮靠近或远离，拖动旋转；方向键转动与缩放，Home 复位")}
     >
       {EARTH_PLACES.map((place) => {
-        const label = `${place.label} · ${place.city}，${place.url ? "进入学校官网" : "查看" + (place.kind === "experience" ? "实习经历" : place.kind === "reflection" ? "城市思考" : "学术活动")}`;
+        const label = `${place.label} · ${place.city}，${place.url ? t("进入学校官网") : t("查看") + (place.kind === "experience" ? t("实习经历") : place.kind === "reflection" ? t("城市思考") : t("学术活动"))}`;
         const contents = (
           <>
             <svg className="earth-place-leader" width="60" height="44" aria-hidden="true">
@@ -720,10 +723,10 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
               <span>{place.shortLabel ?? place.label}</span>
               <small>
                 {place.kind === "education"
-                  ? `${place.educationLevel ?? "学校"} ↗`
+                  ? `${place.educationLevel ?? t("学校")} ↗`
                   : place.kind === "experience"
-                    ? "实习 +"
-                    : place.kind === "reflection" ? "思考 +" : "学术 +"}
+                    ? t("实习 +")
+                    : place.kind === "reflection" ? t("思考 +") : t("学术 +")}
               </small>
             </span>
           </>
@@ -738,7 +741,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
           } as React.CSSProperties,
         };
         return place.url ? (
-          <a {...common} href={place.url} key={place.id}>
+          <a {...common} href={localizedHref(place.url)} key={place.id}>
             {contents}
           </a>
         ) : (

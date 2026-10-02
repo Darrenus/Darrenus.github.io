@@ -1,3 +1,5 @@
+import { t, localizedHref } from "../i18n";
+import { isEnglish } from "../i18n";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import { useEffect } from "react";
@@ -10,8 +12,8 @@ function isExternalUrl(url: string): boolean {
 }
 
 function statusLabel(link: ContentLink): string {
-  if (link.status === "pending") return "待公开";
-  if (link.status === "planned") return "即将上线";
+  if (link.status === "pending") return t("待公开");
+  if (link.status === "planned") return t("即将上线");
   return "";
 }
 
@@ -35,7 +37,7 @@ function LinkList({ links, className = "" }: { links: ContentLink[]; className?:
         return (
           <a
             className="resume-link"
-            href={link.url}
+            href={localizedHref(link.url)}
             key={`${link.kind}-${link.label}`}
             target={isExternalUrl(link.url) ? "_blank" : undefined}
             rel={isExternalUrl(link.url) ? "noreferrer" : undefined}
@@ -55,7 +57,7 @@ function ProfileContact({ link }: { link: ProfileLink }) {
   return (
     <a
       className="resume-contact"
-      href={link.url}
+      href={localizedHref(link.url)}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
     >
@@ -80,12 +82,12 @@ export default function ResumePage() {
   useEffect(() => {
     // The static HTML has no résumé sections until React mounts.
     document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "instant" });
-    document.title = "简历 · Rong He";
+    document.title = t("简历 · Rong He");
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     description?.setAttribute("content", profile.site.description);
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     canonical?.setAttribute("href", `https://${profile.site.domain}/resume`);
-    document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute("content", "简历 · Rong He");
+    document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute("content", t("简历 · Rong He"));
     document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute("content", `https://${profile.site.domain}/resume`);
   }, [profile.site.description, profile.site.domain, profile.site.wordmark, resume.meta.title]);
 
@@ -102,9 +104,9 @@ export default function ResumePage() {
               <p className="resume-tagline">{resume.overview.tagline}</p>
               <p className="resume-current">{profile.person.current}</p>
             </div>
-            <div className="resume-actions" aria-label="简历操作">
-              <a className="resume-action resume-action--primary" href={profile.links.find((link) => link.id === "resume-pdf")?.url ?? "/resume-zh.pdf"} target="_blank" rel="noreferrer">查看 PDF <span aria-hidden="true">↗</span></a>
-              <a className="resume-action" href={profile.links.find((link) => link.id === "resume-pdf")?.url ?? "/resume-zh.pdf"} download>下载 PDF <span aria-hidden="true">↓</span></a>
+            <div className="resume-actions" aria-label={t("简历操作")}>
+              <a className="resume-action resume-action--primary" href={localizedHref(profile.links.find((link) => link.id === (isEnglish ? "resume-en-pdf" : "resume-pdf"))?.url ?? "/resume-zh.pdf")} target="_blank" rel="noreferrer">{t("查看 PDF")}<span aria-hidden="true">↗</span></a>
+              <a className="resume-action" href={localizedHref(profile.links.find((link) => link.id === (isEnglish ? "resume-en-pdf" : "resume-pdf"))?.url ?? "/resume-zh.pdf")} download>{t("下载 PDF")}<span aria-hidden="true">↓</span></a>
             </div>
           </div>
         </section>
@@ -112,26 +114,26 @@ export default function ResumePage() {
         <div className="resume-container resume-body">
           <section className="resume-intro" aria-labelledby="intro-title">
             <div>
-              <SectionHeading eyebrow="01" title="简介" id="intro-title" />
+              <SectionHeading eyebrow="01" title={t("简介")} id="intro-title" />
               {resume.overview.summary.map((paragraph) => <p className="resume-lead" key={paragraph}>{paragraph}</p>)}
               {resume.overview.bio.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
-            <aside className="resume-contact-panel" aria-label="公开联系方式">
-              <p className="resume-aside-label">公开联系方式</p>
+            <aside className="resume-contact-panel" aria-label={t("公开联系方式")}>
+              <p className="resume-aside-label">{t("公开联系方式")}</p>
               {emailLinks.map((link) => <ProfileContact key={link.id} link={link} />)}
               <p className="resume-location">{profile.person.location}</p>
             </aside>
           </section>
 
           <section className="resume-section" aria-labelledby="focus-title">
-            <SectionHeading eyebrow="02" title="关注方向" id="focus-title" />
+            <SectionHeading eyebrow="02" title={t("关注方向")} id="focus-title" />
             <div className="resume-focus-list">
               {resume.overview.focus.map((item) => <span key={item}>{item}</span>)}
             </div>
           </section>
 
           <section className="resume-section" aria-labelledby="experience-title">
-            <SectionHeading eyebrow="03" title="经历" id="experience-title" />
+            <SectionHeading eyebrow="03" title={t("经历")} id="experience-title" />
             <div className="resume-timeline">
               {resume.experience.map((entry) => (
                 <article className="resume-entry" id={entry.id} key={entry.id}>
@@ -157,7 +159,7 @@ export default function ResumePage() {
           </section>
 
           <section className="resume-section" aria-labelledby="education-title">
-            <SectionHeading eyebrow="04" title="教育" id="education-title" />
+            <SectionHeading eyebrow="04" title={t("教育")} id="education-title" />
             <div className="resume-education-grid">
               {resume.education.map((entry) => (
                 <article className="resume-education" id={entry.id} key={entry.id}>
@@ -173,7 +175,7 @@ export default function ResumePage() {
           </section>
 
           <section className="resume-section" aria-labelledby="projects-title">
-            <SectionHeading eyebrow="05" title="项目" id="projects-title" />
+            <SectionHeading eyebrow="05" title={t("项目")} id="projects-title" />
             <div className="resume-project-grid">
               {resume.projects.map((project) => (
                 <article className="resume-project" key={project.id}>
@@ -191,12 +193,12 @@ export default function ResumePage() {
           </section>
 
           <section className="resume-section" aria-labelledby="resume-research-title">
-            <SectionHeading eyebrow="06" title="研究成果" id="resume-research-title" />
+            <SectionHeading eyebrow="06" title={t("研究成果")} id="resume-research-title" />
             <div className="resume-compact-list">
               {PUBLICATIONS.map((paper) => <article key={paper.id}>
                 <time>{paper.publishedAt.slice(0, 7).replace("-", ".")}</time>
                 <div><h3>{paper.title}</h3><p>{paper.summary}</p>
-                  <div className="resume-links">{paper.links.map(link => <a className="resume-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.platform} ↗</a>)}</div>
+                  <div className="resume-links">{paper.links.map(link => <a className="resume-link" key={link.url} href={localizedHref(link.url)} target="_blank" rel="noreferrer">{link.platform} ↗</a>)}</div>
                 </div>
               </article>)}
             </div>
@@ -204,13 +206,13 @@ export default function ResumePage() {
 
           <div className="resume-two-column">
             <section className="resume-section" aria-labelledby="patents-title">
-              <SectionHeading eyebrow="07" title="专利申请" id="patents-title" />
+              <SectionHeading eyebrow="07" title={t("专利申请")} id="patents-title" />
               <div className="resume-compact-list">
                 {resume.patents.map((patent) => <article key={patent.id}><time>{patent.submittedAt}</time><div><h3>{patent.title}</h3><p>{patent.statusLabel}</p></div></article>)}
               </div>
             </section>
             <section className="resume-section" aria-labelledby="awards-title">
-              <SectionHeading eyebrow="08" title="获奖" id="awards-title" />
+              <SectionHeading eyebrow="08" title={t("获奖")} id="awards-title" />
               <div className="resume-compact-list">
                 {resume.awards.map((award) => <article key={award.id}><time>{award.date}</time><div><h3>{award.title}</h3><LinkList links={award.links} /></div></article>)}
               </div>
@@ -218,7 +220,7 @@ export default function ResumePage() {
           </div>
 
           <section className="resume-section resume-skills" aria-labelledby="skills-title">
-            <SectionHeading eyebrow="09" title="技能与语言" id="skills-title" />
+            <SectionHeading eyebrow="09" title={t("技能与语言")} id="skills-title" />
             <div className="resume-skills-grid">
               {resume.skillGroups.map((group) => <article key={group.id}><h3>{group.label}</h3><p>{group.text}</p></article>)}
             </div>

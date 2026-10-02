@@ -1,3 +1,5 @@
+import { isEnglish } from "../i18n";
+import { t, localizedHref } from "../i18n";
 import { Fragment, useEffect, type ReactNode } from "react";
 import { blogDate, type BlogPost, type BlogSpan } from "../content/blog";
 import SiteHeader from "./SiteHeader";
@@ -11,7 +13,7 @@ function RichText({ spans }: { spans: BlogSpan[] }) {
     if (span.bold) node = <strong>{node}</strong>;
     if (span.italic) node = <em>{node}</em>;
     if (span.href && /^https:\/\//.test(span.href)) {
-      node = <a href={span.href} target="_blank" rel="noopener noreferrer">{node}</a>;
+      node = <a href={localizedHref(span.href)} target="_blank" rel="noopener noreferrer">{node}</a>;
     }
     return <Fragment key={index}>{node}</Fragment>;
   });
@@ -40,7 +42,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
         <article aria-labelledby="post-title">
           <header className="research-hero blog-post-header">
             <div className="research-container">
-              <a className="blog-back" href="/blog">← 个人博客</a>
+              <a className="blog-back" href={localizedHref("/blog")}>{t("← 个人博客")}</a>
               <div className="blog-post-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{blogDate(post.publishedAt)}</time></div>
               <h1 id="post-title">{post.title}</h1>
               {post.subtitle && <p className="blog-post-subtitle">{post.subtitle}</p>}
@@ -56,7 +58,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
                 }
                 case "list": return <ul key={index}>{block.items.map((item, i) => <li key={i}><RichText spans={item} /></li>)}</ul>;
                 case "table": return (
-                  <div key={index} className="blog-table-scroll" role="region" aria-label="三个情景的核心结果对比表，可横向滚动" tabIndex={0}>
+                  <div key={index} className="blog-table-scroll" role="region" aria-label={t("三个情景的核心结果对比表，可横向滚动")} tabIndex={0}>
                     <table>
                       <thead><tr>{block.rows[0].map((cell, i) => <th scope="col" key={i}><RichText spans={cell} /></th>)}</tr></thead>
                       <tbody>{block.rows.slice(1).map((row, r) => <tr key={r}>{row.map((cell, c) => c === 0 ? <th scope="row" key={c}><RichText spans={cell} /></th> : <td key={c}><RichText spans={cell} /></td>)}</tr>)}</tbody>
@@ -65,7 +67,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
                 );
                 case "figure": return (
                   <figure key={index}>
-                    <a href={block.src} target="_blank" rel="noopener noreferrer" aria-label={`查看原图（新窗口）：${block.alt}`}>
+                    <a href={localizedHref(block.src)} target="_blank" rel="noopener noreferrer" aria-label={`${isEnglish ? "Open original image: " : "查看原图（新窗口）："}${block.alt}`}>
                       <img src={block.src} alt={block.alt} width={block.width} height={block.height} loading="lazy" decoding="async" />
                     </a>
                     <figcaption>{block.caption}</figcaption>
@@ -73,7 +75,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
                 );
               }
             })}
-            <nav className="blog-post-end" aria-label="文章导航"><a href="/blog">← 返回个人博客</a><a href="#post-title">回到标题 ↑</a></nav>
+            <nav className="blog-post-end" aria-label={t("文章导航")}><a href={localizedHref("/blog")}>{t("← 返回个人博客")}</a><a href={localizedHref("#post-title")}>{t("回到标题 ↑")}</a></nav>
           </div>
         </article>
       </main>

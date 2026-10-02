@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -545,7 +546,7 @@ export function ParticleSphere({ phase, nodes = [], onExpand, onComplete }: Prop
       className={`particle-sphere particle-sphere--${phase}`}
       role="button"
       tabIndex={phase === "sphere" ? 0 : -1}
-      aria-label={phase === "sphere" ? "拖动旋转粒子球" : "粒子球正在变化"}
+      aria-label={phase === "sphere" ? t("拖动旋转粒子球") : t("粒子球正在变化")}
     >
       <span ref={labelRef} className="particle-node-label" aria-hidden="true" />
     </div>

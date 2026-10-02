@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 import { useEffect, useState } from "react";
 import { hasModel, LIMITS } from "../agent/config";
 import "./portal.css";
@@ -103,7 +104,7 @@ export default function PortalTelemetry({ repository, version }: { repository: s
   const commitAge = commit ? relativeTime(commitDate, now) : failed ? "UNAVAILABLE" : "SYNCING";
 
   return (
-    <aside className="portal-hud" aria-label="RONG 实时状态">
+    <aside className="portal-hud" aria-label={t("RONG 实时状态")}>
       <div className="portal-hud-block portal-hud-block--top-left">
         <strong>NUS · SINGAPORE</strong>
         <span>1°17'N 103°51'E</span>

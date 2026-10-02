@@ -1,3 +1,5 @@
+import { isEnglish } from "../i18n";
+import { t, localizedHref } from "../i18n";
 import type { ReactNode } from "react";
 import { CONTENT } from "../content";
 import "./site-footer.css";
@@ -20,28 +22,28 @@ const socials = [
 
 export default function SiteFooter() {
   return (
-    <footer id="site-footer" className="site-footer" aria-label="联系与链接" tabIndex={-1}>
+    <footer id="site-footer" className="site-footer" aria-label={t("联系与链接")} tabIndex={-1}>
       <div className="site-footer-grid">
-        <nav className="site-footer-pages" aria-label="页脚导航">
-          <a href="/projects">项目</a>
-          <a href="/resume">简历</a>
-          <a href="/research">学术研究</a>
-          <a href="/blog">个人博客</a>
-          <a href="/ragent">问 RONG</a>
+        <nav className="site-footer-pages" aria-label={t("页脚导航")}>
+          <a href={localizedHref("/projects")}>{t("项目")}</a>
+          <a href={localizedHref("/resume")}>{t("简历")}</a>
+          <a href={localizedHref("/research")}>{t("学术研究")}</a>
+          <a href={localizedHref("/blog")}>{t("个人博客")}</a>
+          <a href={localizedHref("/ragent")}>{t("问 RONG")}</a>
         </nav>
         <div className="site-footer-contact">
-          <div className="site-footer-socials" aria-label="公开主页">
+          <div className="site-footer-socials" aria-label={t("公开主页")}>
             {socials.map(link => (
-              <a key={link.id} href={link.url!} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}（新窗口）`} title={link.label}>
+              <a key={link.id} href={localizedHref(link.url!)} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}${isEnglish ? " (opens in a new tab)" : "（新窗口）"}`} title={link.label}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icons[link.id]}</svg>
               </a>
             ))}
           </div>
-          <a className="site-footer-email" href="mailto:hanserong@163.com">hanserong@163.com <span aria-hidden="true">↗</span></a>
+          <a className="site-footer-email" href={localizedHref("mailto:hanserong@163.com")}>hanserong@163.com <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <div className="site-footer-bottom">
-        <nav aria-label="网站政策"><a href="/privacy">隐私政策</a><a href="/terms">使用条款</a></nav>
+        <nav aria-label={t("网站政策")}><a href={localizedHref("/privacy")}>{t("隐私政策")}</a><a href={localizedHref("/terms")}>{t("使用条款")}</a></nav>
         <span>© 2026 Rong He. All rights reserved.</span>
       </div>
     </footer>

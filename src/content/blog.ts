@@ -1,3 +1,5 @@
+import recordsEn from "../../content/blog.en.json";
+import { isEnglish, formatDate } from "../i18n";
 import records from "../../content/blog.json";
 
 export interface BlogSpan {
@@ -20,9 +22,10 @@ export interface BlogPost {
   publishedAt: string;
   blocks: BlogBlock[];
 }
-export const BLOG_POSTS = [...records as BlogPost[]].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+export const BLOG_POSTS = [...(isEnglish ? recordsEn : records) as BlogPost[]].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
 export function blogDate(date: string): string {
+  if (isEnglish) return formatDate(date);
   const [year, month, day] = date.split("-");
   return `${year}年${Number(month)}月${Number(day)}日`;
 }

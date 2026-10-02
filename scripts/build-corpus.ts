@@ -1,3 +1,6 @@
+import profileEn from "../content/profile.en.json";
+import resumeEn from "../content/resume.en.json";
+import researchEn from "../content/research.en.json";
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -221,13 +224,37 @@ function canonicalDocs(): Doc[] {
   return [about, achievements, contact, education, experience, links, projects, research, website];
 }
 
+function englishDocs(): Doc[] {
+  const r = resumeEn as ResumeContent, p = profileEn as ProfileContent;
+  const doc = (id:string,title:string,kind:Kind,url:string,sections:Section[]):Doc => ({id,title,kind,lang:'en',url,sections});
+  const allLinks = [...p.links, ...r.education.flatMap(e=>e.links), ...r.experience.flatMap(e=>e.links), ...r.projects.flatMap(e=>e.links)].filter(l=>l.url && l.status==='active');
+  return [
+    doc('about-about','About Rong He','profile','/en/resume#intro-title',[
+      section('Profile',[...r.overview.summary,...r.overview.bio,r.overview.careerNarrative]),
+      section('Focus',r.overview.focus),
+      section('Skills',r.skillGroups.map(g=>`${g.label}: ${g.text}`))]),
+    doc('about-education','Education','profile','/en/resume#education-title',r.education.map(e=>section(e.institution,[`${e.degree} in ${e.field} | ${period(e.period)}`,e.summary,...e.highlights]))),
+    doc('about-experience','Experience','profile','/en/resume#experience-title',r.experience.map(e=>section(entryHeading(e),[e.summary,...e.highlights]))),
+    doc('about-projects','Projects','project','/en/projects',r.projects.map(e=>section(`${e.name} | ${e.role} | ${period(e.period)}`,[e.summary,...e.highlights,...e.links.filter(l=>l.url).map(l=>`${l.label}: ${l.url}`)]))),
+    doc('about-achievements','Patent applications and honours','profile','/en/resume#patents-title',[
+      section('Patent applications',r.patents.map(e=>`${e.title} | Filed ${e.submittedAt} | ${e.statusLabel}. These are applications, not granted patents.`)),
+      section('Honours',r.awards.map(e=>`${e.title} | ${e.date}`))]),
+    doc('about-contact','Contact','profile','/en/resume#intro-title',[section('Public contact details',p.links.filter(l=>['email','github','linkedin','website'].includes(l.kind)).map(l=>`${l.label}: [${l.display}](${l.url})`))]),
+    doc('about-links','Official links','profile','/en/resume#intro-title',[section('Verified links',allLinks.map(l=>`${l.label}: [${l.url}](${l.url?.startsWith('/projects') ? '/en'+l.url : l.url})`))]),
+    doc('about-research','Research','paper','/en/research',researchEn.publications.map(e=>section(e.title,[`${e.authors.join(', ')} | ${e.publishedAt} | ${e.status}`,e.summary,...e.links.map(l=>`${l.platform}: [${l.identifier}](${l.url})`)]))),
+    doc('about-this-site','About this website','profile','https://github.com/Darrenus/Darrenus.github.io',[
+      section('Architecture','A React and TypeScript static site hosted on GitHub Pages. The globe uses Three.js. Public profile data is stored in version-controlled JSON and compiled into a MiniSearch retrieval index.'),
+      section('Assistant','The assistant runs in the browser and retrieves public records before answering. Live model requests use the configured proxy; without a model, the site labels its preset offline responses. The English and Chinese editions share record IDs and have separate text and retrieval indexes.')])
+  ];
+}
+
 function readDocs(): { docs: Doc[]; hashes: Record<string, string> } {
   if (!fs.existsSync(SOURCE_DIR)) {
     throw new Error(`Missing corpus source directory: ${SOURCE_DIR}`);
   }
 
   const hashes: Record<string, string> = {};
-  for (const source of ["content/profile.json", "content/resume.json", "content/research.json", "corpus/src/this-site.md"]) {
+  for (const source of ["content/profile.json", "content/resume.json", "content/research.json", "content/profile.en.json", "content/resume.en.json", "content/research.en.json", "corpus/src/this-site.md"]) {
     const raw = fs.readFileSync(path.join(ROOT, source), "utf8");
     hashes[source] = createHash("sha256").update(raw).digest("hex").slice(0, 16);
   }
@@ -293,8 +320,11 @@ function writeKeywords(): void {
   );
 }
 
-function main(): void {
-  const { docs, hashes } = readDocs();
+function main(english = false): void {
+  const source = readDocs();
+  const docs = english ? englishDocs() : source.docs;
+  const hashes = source.hashes;
+  const output = english ? path.join(OUTPUT_DIR, "en") : OUTPUT_DIR;
   const chunks = chunkDocs(docs);
 
   const index = new MiniSearch<Chunk>({
@@ -306,8 +336,8 @@ function main(): void {
   });
   index.addAll(chunks);
 
-  fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
-  fs.mkdirSync(path.join(OUTPUT_DIR, "docs"), { recursive: true });
+  fs.rmSync(output, { recursive: true, force: true });
+  fs.mkdirSync(path.join(output, "docs"), { recursive: true });
 
   const manifest = docs.map((doc) => ({
     id: doc.id,
@@ -328,15 +358,16 @@ function main(): void {
     index: index.toJSON(),
   };
 
-  fs.writeFileSync(path.join(OUTPUT_DIR, "index.json"), JSON.stringify(bundle), "utf8");
+  fs.writeFileSync(path.join(output, "index.json"), JSON.stringify(bundle), "utf8");
   for (const doc of docs) {
     fs.writeFileSync(
-      path.join(OUTPUT_DIR, "docs", `${doc.id}.json`),
+      path.join(output, "docs", `${doc.id}.json`),
       JSON.stringify(doc),
       "utf8",
     );
   }
 
+  if (!english) {
   writeKeywords();
   fs.writeFileSync(
     path.join(ROOT, "corpus.lock.json"),
@@ -344,8 +375,10 @@ function main(): void {
     "utf8",
   );
 
-  const kb = fs.statSync(path.join(OUTPUT_DIR, "index.json")).size / 1024;
+  }
+  const kb = fs.statSync(path.join(output, "index.json")).size / 1024;
   console.log(`Built ${docs.length} documents and ${chunks.length} chunks (${kb.toFixed(0)} KB).`);
 }
 
 main();
+main(true);
