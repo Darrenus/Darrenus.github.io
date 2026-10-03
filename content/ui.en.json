@@ -205,5 +205,7 @@
   "贺融从 Java Web、自动化开发到 AI 工程的经历如何连接？": "How do Rong’s Java Web, automation and AI engineering experiences connect?",
   "学习轨迹": "Learning path",
   "从计算机科学，走向软件工程。": "From computer science to software engineering.",
-  "介绍贺融在 KAIST 与 NUS 的教育经历，以及他的技术发展方向。": "Tell me about Rong’s studies at KAIST and NUS and his technical interests."
+  "介绍贺融在 KAIST 与 NUS 的教育经历，以及他的技术发展方向。": "Tell me about Rong’s studies at KAIST and NUS and his technical interests.",
+  "球体上滚轮缩放，球体外滚动页面": "On globe: zoom · Outside: scroll page",
+  "交互地球：球体上滚轮缩放，球体外滚动页面；拖动旋转，方向键转动与缩放，Home 复位": "Interactive globe: scroll over the globe to zoom, or outside it to scroll the page. Drag to rotate; use arrow keys to rotate and zoom, Home to reset."
 }

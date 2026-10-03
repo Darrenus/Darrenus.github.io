@@ -5,6 +5,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
 import { EARTH_PLACES, geographicPosition, facesCamera } from "./earth-places";
 import { cameraDistance, clampZoom, wheelStep } from "./earth-navigation";
+import { hitsEarthSurface } from "./earth-hit-test";
 
 export interface EarthControls {
   zoomBy: (amount: number) => void;
@@ -312,6 +313,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       }),
     );
     scene.add(stars);
+    let surfaceReady = false;
     let disposed = false,
       failed = false,
       frame = 0,
@@ -437,6 +439,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
           }),
         );
         planet.add(dots);
+        surfaceReady = true;
         onReady("ready");
       })
       .catch(() => {
@@ -448,7 +451,10 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         }
       });
     const wheel = (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey || host.getBoundingClientRect().top < -1) return;
+      if (!surfaceReady || failed || e.ctrlKey || e.metaKey || e.deltaY === 0) return;
+      sphere.center.copy(planet.position);
+      if (!hitsEarthSurface(e.clientX, e.clientY, host.getBoundingClientRect(), camera, sphere, ray)) return;
+      // Only the visible sphere owns the wheel; transparent canvas keeps native page scroll.
       e.preventDefault();
       const delta = wheelStep(e.deltaY, e.deltaMode, host.clientHeight);
       if (targetZoom > 0.995 && delta > 0) targetYaw += delta * 0.0013;
@@ -708,7 +714,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       ref={mount}
       tabIndex={0}
       role="group"
-      aria-label={t("交互地球：滚轮靠近或远离，拖动旋转；方向键转动与缩放，Home 复位")}
+      aria-label={t("交互地球：球体上滚轮缩放，球体外滚动页面；拖动旋转，方向键转动与缩放，Home 复位")}
     >
       {EARTH_PLACES.map((place) => {
         const label = `${place.label} · ${place.city}，${place.url ? t("进入学校官网") : t("查看") + (place.kind === "experience" ? t("实习经历") : place.kind === "reflection" ? t("城市思考") : t("学术活动"))}`;

@@ -169,7 +169,7 @@ export default function PortalHome() {
               ? t("正在构建地球…")
               : status === "fallback"
                 ? t("当前设备使用静态视图")
-                : t("向下转动地表，向上拉远")}
+                : t("球体上滚轮缩放，球体外滚动页面")}
           </span>
         </div>
         <div className="earth-controls" aria-label={t("地球视角控制")}>

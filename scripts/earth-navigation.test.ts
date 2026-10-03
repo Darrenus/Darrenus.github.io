@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { PerspectiveCamera, Raycaster, Sphere, Vector3 } from "three";
+import { hitsEarthSurface } from "../src/ui/earth-hit-test";
 import {
   cameraDistance,
   clampZoom,
@@ -28,4 +30,31 @@ for (const aspect of [320 / 568, 390 / 844, 1, 1280 / 720]) {
   assert.equal(cameraDistance(-1, aspect), far);
   assert.equal(cameraDistance(2, aspect), cameraDistance(1, aspect));
 }
-console.log("Earth wheel normalization, framing and zoom boundaries passed");
+// Wheel ownership follows the projected sphere, not the canvas rectangle.
+const camera = new PerspectiveCamera(38, 1280 / 800, 0.05, 60);
+camera.position.set(0, 0, 6);
+camera.lookAt(0, 0, 0);
+const sphere = new Sphere(new Vector3(), 1.4);
+const ray = new Raycaster();
+const bounds = { left: 0, top: 0, width: 1280, height: 800 };
+const hit = (x: number, y: number, rect = bounds) => hitsEarthSurface(x, y, rect, camera, sphere, ray);
+const radius = 400 * Math.tan(Math.asin(1.4 / 6)) / Math.tan(19 * Math.PI / 180);
+assert.ok(hit(640, 400));
+assert.ok(hit(640 + radius - 1, 400), "Just inside the silhouette zooms");
+assert.ok(!hit(640 + radius + 1, 400), "Just outside the silhouette scrolls the page");
+assert.ok(!hit(640 + radius * 0.8, 400 + radius * 0.8), "Transparent corners inside the sphere's bounding box remain page scroll");
+assert.ok(!hit(10, 10));
+assert.ok(hit(640, 150, { ...bounds, top: -250 }), "A partially scrolled globe still responds at its visible position");
+assert.ok(!hit(640, 600, { ...bounds, top: -250 }), "Off-canvas positions cannot capture wheel input");
+assert.ok(hit(690, 450, { ...bounds, left: 50, top: 50 }));
+assert.ok(!hit(640, 400, { ...bounds, width: 0 }));
+assert.ok(!hit(1050, 400));
+camera.position.z = cameraDistance(1, camera.aspect);
+assert.ok(hit(1050, 400), "The hit region grows with the rendered globe");
+camera.position.set(0.07, -0.04, cameraDistance(0.6, camera.aspect));
+camera.lookAt(0, 0, 0);
+camera.updateMatrixWorld();
+sphere.center.set(0.104, -0.506, 0);
+const projected = sphere.center.clone().project(camera);
+assert.ok(hit((projected.x + 1) * 640, (1 - projected.y) * 400), "Camera parallax and translated globe retain correct hit detection");
+console.log("Earth wheel normalization, framing, zoom and sphere-only wheel boundaries passed");
