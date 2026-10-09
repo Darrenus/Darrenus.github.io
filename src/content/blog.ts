@@ -1,6 +1,7 @@
 import recordsEn from "../../content/blog.en.json";
 import { isEnglish, formatDate } from "../i18n";
 import records from "../../content/blog.json";
+import standalonePages from "../../content/blog-pages.json";
 
 export interface BlogSpan {
   text: string;
@@ -23,6 +24,16 @@ export interface BlogPost {
   blocks: BlogBlock[];
 }
 export const BLOG_POSTS = [...(isEnglish ? recordsEn : records) as BlogPost[]].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+// Standalone HTML is served verbatim from public/, outside the article renderer.
+export const BLOG_ENTRIES = [
+  ...BLOG_POSTS.map(post => ({ ...post, href: `/blog/${post.slug}` })),
+  ...standalonePages.map(page => ({
+    ...page,
+    title: isEnglish ? page.titleEn : page.title,
+    category: isEnglish ? page.categoryEn : page.category,
+  })),
+].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
 export function blogDate(date: string): string {
   if (isEnglish) return formatDate(date);

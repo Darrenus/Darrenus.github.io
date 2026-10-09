@@ -1,6 +1,6 @@
 import { t, localizedHref } from "../i18n";
 import { useEffect } from "react";
-import { BLOG_POSTS, blogDate } from "../content/blog";
+import { BLOG_ENTRIES, blogDate } from "../content/blog";
 import SiteHeader from "./SiteHeader";
 import SiteFooter from "./SiteFooter";
 import "./research.css";
@@ -32,17 +32,17 @@ export default function BlogPage() {
             <p className="research-intro">{t("记录学习的过程，也留下一些自己的思考。")}</p>
             <div className="research-register">
               <span>{t("文章归档")}</span>
-              <span>{BLOG_POSTS.length} {t("篇")}</span>
+              <span>{BLOG_ENTRIES.length} {t("篇")}</span>
             </div>
           </div>
         </section>
         <section className="research-container blog-archive" aria-label={t("博客文章")}>
-          {BLOG_POSTS.length ? BLOG_POSTS.map((post, index) => (
+          {BLOG_ENTRIES.length ? BLOG_ENTRIES.map((post, index) => (
             <article className="blog-entry" key={post.slug}>
               <span className="blog-entry-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               <div>
                 <div className="blog-entry-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{blogDate(post.publishedAt)}</time></div>
-                <h2><a href={localizedHref(`/blog/${post.slug}`)}>{post.title}<span aria-hidden="true">↗</span></a></h2>
+                <h2><a href={localizedHref(post.href)}>{post.title}<span aria-hidden="true">↗</span></a></h2>
               </div>
             </article>
           )) : (
