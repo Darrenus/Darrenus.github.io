@@ -7,13 +7,13 @@ const blogPosts = JSON.parse(readFileSync(new URL("./content/blog.json", import.
 const resume = JSON.parse(readFileSync(new URL("./content/resume.json", import.meta.url), "utf8")) as { projects: { slug: string; name: string }[] };
 const englishResume = JSON.parse(readFileSync(new URL("./content/resume.en.json", import.meta.url), "utf8"));
 const englishBlog = JSON.parse(readFileSync(new URL("./content/blog.en.json", import.meta.url), "utf8"));
-const englishTitles: Record<string,string> = {"/en/":"Rong He", "/en/ragent":"Ask RONG", "/en/resume":"Résumé", "/en/projects":"Projects", "/en/research":"Research", "/en/blog":"Journal", "/en/privacy":"Privacy policy", "/en/terms":"Terms of use", ...Object.fromEntries(englishResume.projects.map((p: {slug:string;name:string})=>[`/en/projects/${p.slug}`,p.name])), ...Object.fromEntries(englishBlog.map((p: {slug:string;title:string})=>[`/en/blog/${p.slug}`,p.title]))};
+const englishTitles: Record<string,string> = {"/en/":"Rong He", "/en/ragent":"Ask RONG", "/en/resume":"Résumé", "/en/projects":"Projects", "/en/research":"Research", "/en/blog":"Drafts", "/en/privacy":"Privacy policy", "/en/terms":"Terms of use", ...Object.fromEntries(englishResume.projects.map((p: {slug:string;name:string})=>[`/en/projects/${p.slug}`,p.name])), ...Object.fromEntries(englishBlog.map((p: {slug:string;title:string})=>[`/en/blog/${p.slug}`,p.title]))};
 const routeTitles: Record<string, string> = {
   "/ragent": "问 RONG",
   "/resume": "简历",
   "/projects": "项目",
   "/research": "学术研究",
-  "/blog": "个人博客",
+  "/blog": "杂记",
   "/privacy": "隐私政策",
   "/terms": "使用条款",
   ...Object.fromEntries(blogPosts.map(post => [`/blog/${post.slug}`, post.title])),

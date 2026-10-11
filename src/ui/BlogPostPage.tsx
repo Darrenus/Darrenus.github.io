@@ -42,7 +42,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
         <article aria-labelledby="post-title">
           <header className="research-hero blog-post-header">
             <div className="research-container">
-              <a className="blog-back" href={localizedHref("/blog")}>{t("← 个人博客")}</a>
+              <a className="blog-back" href={localizedHref("/blog")}>{t("← 杂记")}</a>
               <div className="blog-post-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{blogDate(post.publishedAt)}</time></div>
               <h1 id="post-title">{post.title}</h1>
               {post.subtitle && <p className="blog-post-subtitle">{post.subtitle}</p>}
@@ -75,7 +75,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
                 );
               }
             })}
-            <nav className="blog-post-end" aria-label={t("文章导航")}><a href={localizedHref("/blog")}>{t("← 返回个人博客")}</a><a href={localizedHref("#post-title")}>{t("回到标题 ↑")}</a></nav>
+            <nav className="blog-post-end" aria-label={t("文章导航")}><a href={localizedHref("/blog")}>{t("← 返回杂记")}</a><a href={localizedHref("#post-title")}>{t("回到标题 ↑")}</a></nav>
           </div>
         </article>
       </main>

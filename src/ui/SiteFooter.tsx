@@ -28,7 +28,7 @@ export default function SiteFooter() {
           <a href={localizedHref("/projects")}>{t("项目")}</a>
           <a href={localizedHref("/resume")}>{t("简历")}</a>
           <a href={localizedHref("/research")}>{t("学术研究")}</a>
-          <a href={localizedHref("/blog")}>{t("个人博客")}</a>
+          <a href={localizedHref("/blog")}>{t("杂记")}</a>
           <a href={localizedHref("/ragent")}>{t("问 RONG")}</a>
         </nav>
         <div className="site-footer-contact">

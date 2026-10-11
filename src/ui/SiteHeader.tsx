@@ -26,7 +26,7 @@ export default function SiteHeader({
               { id: "home", href: "/", label: t("观测台") },
               { id: "projects", href: "/projects", label: t("项目") },
               { id: "research", href: "/research", label: t("学术研究") },
-              { id: "blog", href: "/blog", label: t("个人博客") },
+              { id: "blog", href: "/blog", label: t("杂记") },
               { id: "resume", href: "/resume", label: t("简历") },
               { id: "ragent", href: "/ragent", label: t("问 RONG") },
             ] as const

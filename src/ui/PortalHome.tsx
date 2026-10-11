@@ -104,7 +104,7 @@ export default function PortalHome() {
             {t("学术研究")}<span aria-hidden="true">↗</span>
           </a>
           <a href={localizedHref("/blog")}>
-            {t("个人博客")}<span aria-hidden="true">↗</span>
+            {t("杂记")}<span aria-hidden="true">↗</span>
           </a>
           <a href={localizedHref("/resume")}>
             {t("简历")}<span aria-hidden="true">↗</span>
