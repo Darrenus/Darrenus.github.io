@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { isEnglish } from "../i18n";
 import type { AgentEvent, Transport } from "./events";
 import { CONTENT, profileLink, requiredUrl } from "../content";
@@ -23,7 +24,7 @@ const publicContact = [
 ].map((link) => `[${link.display}](${requiredUrl(link)})`);
 
 const RUNS: Run[] = [
-  ...resume.projects.filter(project => ["coding-agent-from-scratch", "bodycraft-oss", "spreadsheet-qa"].includes(project.id)).map(project => ({
+  ...PROJECTS.map(project => ({
     keywords: [project.name, project.slug, ...(project.id === "spreadsheet-qa" ? ["表格", "sql", "planner", "minio"] : [])],
     reasoning: "读取对应项目的公开记录，保留实验范围和数据来源。",
     steps: [{ name: "retrieve", args: `index:project ${project.name}`, result: `命中 ${project.name} 项目资料` }],
@@ -61,7 +62,7 @@ const RUNS: Run[] = [
     keywords: ["项目", "coding agent", "编程助手", "工具调用协议"],
     reasoning: "根据更新后的项目清单概述代表工作，区分不同代码仓库。",
     steps: [{ name: "read_document", args: "about-projects", result: "已读取公开项目清单" }],
-    text: paragraphText(resume.projects.map(project => `**${project.name}**：${project.summary}`)),
+    text: paragraphText(PROJECTS.map(project => `**${project.name}**：${project.summary}`)),
     sources: [{ label: "项目", url: "/projects" }],
     suggestions: ["coding-agent-from-scratch 如何评测？", "bodycraft-oss 如何确定权重？"],
   },
@@ -115,8 +116,8 @@ const FALLBACK: Run = {
 };
 
 const ENGLISH_RUNS: Run[] = [
-  ...resume.projects.map(project => ({keywords:[project.name,project.slug], reasoning:'Read the public project record and preserve the scope of each result.',steps:[],text:paragraphText([project.summary,...project.highlights]),sources:[{label:project.name,url:`/en/projects/${project.slug}`}],suggestions:['What else has he built?','Tell me about his experience.']})),
-  {keywords:['project','built','build'],reasoning:'Read the public project list.',steps:[],text:paragraphText(resume.projects.map(p=>`**${p.name}**: ${p.summary}`)),sources:[{label:'Projects',url:'/en/projects'}],suggestions:['How did he build coding-agent-from-scratch?']},
+  ...PROJECTS.map(project => ({keywords:[project.name,project.slug], reasoning:'Read the public project record and preserve the scope of each result.',steps:[],text:paragraphText([project.summary,...project.highlights]),sources:[{label:project.name,url:`/en/projects/${project.slug}`}],suggestions:['What else has he built?','Tell me about his experience.']})),
+  {keywords:['project','built','build'],reasoning:'Read the public project list.',steps:[],text:paragraphText(PROJECTS.map(p=>`**${p.name}**: ${p.summary}`)),sources:[{label:'Projects',url:'/en/projects'}],suggestions:['How did he build coding-agent-from-scratch?']},
   {keywords:['experience','work','saic'],reasoning:'Read the public experience records.',steps:[],text:paragraphText(resume.experience.map(e=>`**${e.organization} · ${e.role}**\n\n${e.summary}`)),sources:[{label:'Experience',url:'/en/resume#experience-title'}],suggestions:['What AI projects has he built?']},
   {keywords:['education','study','university','nus','kaist'],reasoning:'Check the education records.',steps:[],text:paragraphText(resume.education.map(e=>`${e.institution}: ${e.degree} in ${e.field}. ${e.summary}`)),sources:[{label:'Education',url:'/en/resume#education-title'}],suggestions:['Tell me about his experience.']},
   {keywords:['contact','email'],reasoning:'Return approved contact details.',steps:[],text:publicContact.join(' · '),sources:[{label:'Contact',url:'/en/resume#intro-title'}],suggestions:[]},

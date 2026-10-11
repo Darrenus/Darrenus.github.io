@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { t } from "../i18n";
 import { CONTENT } from "../content";
 
@@ -15,7 +16,7 @@ export interface Observation {
 }
 
 function project(id: string): Evidence {
-  const entry = CONTENT.resume.projects.find((item) => item.id === id);
+  const entry = PROJECTS.find((item) => item.id === id);
   if (!entry) throw new Error(`Missing observation project: ${id}`);
   return {
     label: entry.name,

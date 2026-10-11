@@ -1,3 +1,5 @@
+import projectsZh from "../content/projects.json";
+import projectsEn from "../content/projects.en.json";
 import profileEn from "../content/profile.en.json";
 import resumeEn from "../content/resume.en.json";
 import researchEn from "../content/research.en.json";
@@ -83,7 +85,7 @@ function bulletLines(items: string[]): string {
 }
 
 function period(entry: { start: string; end: string }): string {
-  return `${entry.start} - ${entry.end}`;
+  return entry.start === entry.end ? entry.start : `${entry.start} - ${entry.end}`;
 }
 
 function entryHeading(entry: { organization?: string; institution?: string; name?: string; role: string; period: { start: string; end: string } }): string {
@@ -141,7 +143,7 @@ function canonicalDocs(): Doc[] {
     title: "项目经历",
     kind: "project",
     lang: "zh",
-    sections: resume.projects.map((entry) => section(`${entry.name}${entry.subtitle ? ` · ${entry.subtitle}` : ""}｜${entry.role}｜${period(entry.period)}`, [
+    sections: projectsZh.map((entry) => section(`${entry.name}${entry.subtitle ? ` · ${entry.subtitle}` : ""}｜${entry.role}｜${period(entry.period)}`, [
       entry.summary,
       ...entry.highlights,
       entry.links.some((link) => link.status === "pending") ? "公开代码仓库尚未发布。" : "",
@@ -195,7 +197,7 @@ function canonicalDocs(): Doc[] {
         ...profile.links
           .filter((link) => link.kind === "repository" && link.url)
           .map((link) => `${link.label}：[${link.url}](${link.url})`),
-        ...resume.projects.flatMap(project => project.links
+        ...projectsZh.flatMap(project => project.links
           .filter(link => link.kind === "repository" && link.status === "active" && link.url)
           .map(link => `${project.name} 的公开仓库：[${link.url}](${link.url})。`)),
       ].join("\n\n")),
@@ -227,7 +229,7 @@ function canonicalDocs(): Doc[] {
 function englishDocs(): Doc[] {
   const r = resumeEn as ResumeContent, p = profileEn as ProfileContent;
   const doc = (id:string,title:string,kind:Kind,url:string,sections:Section[]):Doc => ({id,title,kind,lang:'en',url,sections});
-  const allLinks = [...p.links, ...r.education.flatMap(e=>e.links), ...r.experience.flatMap(e=>e.links), ...r.projects.flatMap(e=>e.links)].filter(l=>l.url && l.status==='active');
+  const allLinks = [...p.links, ...r.education.flatMap(e=>e.links), ...r.experience.flatMap(e=>e.links), ...projectsEn.flatMap(e=>e.links)].filter(l=>l.url && l.status==='active');
   return [
     doc('about-about','About Rong He','profile','/en/resume#intro-title',[
       section('Profile',[...r.overview.summary,...r.overview.bio,r.overview.careerNarrative]),
@@ -235,7 +237,7 @@ function englishDocs(): Doc[] {
       section('Skills',r.skillGroups.map(g=>`${g.label}: ${g.text}`))]),
     doc('about-education','Education','profile','/en/resume#education-title',r.education.map(e=>section(e.institution,[`${e.degree} in ${e.field} | ${period(e.period)}`,e.summary,...e.highlights]))),
     doc('about-experience','Experience','profile','/en/resume#experience-title',r.experience.map(e=>section(entryHeading(e),[e.summary,...e.highlights]))),
-    doc('about-projects','Projects','project','/en/projects',r.projects.map(e=>section(`${e.name} | ${e.role} | ${period(e.period)}`,[e.summary,...e.highlights,...e.links.filter(l=>l.url).map(l=>`${l.label}: ${l.url}`)]))),
+    doc('about-projects','Projects','project','/en/projects',projectsEn.map(e=>section(`${e.name} | ${e.role} | ${period(e.period)}`,[e.summary,...e.highlights,...e.links.filter(l=>l.url).map(l=>`${l.label}: ${l.url}`)]))),
     doc('about-achievements','Patent applications and honours','profile','/en/resume#patents-title',[
       section('Patent applications',r.patents.map(e=>`${e.title} | Filed ${e.submittedAt} | ${e.statusLabel}. These are applications, not granted patents.`)),
       section('Honours',r.awards.map(e=>`${e.title} | ${e.date}`))]),
@@ -254,7 +256,7 @@ function readDocs(): { docs: Doc[]; hashes: Record<string, string> } {
   }
 
   const hashes: Record<string, string> = {};
-  for (const source of ["content/profile.json", "content/resume.json", "content/research.json", "content/profile.en.json", "content/resume.en.json", "content/research.en.json", "corpus/src/this-site.md"]) {
+  for (const source of ["content/projects.json", "content/projects.en.json", "content/profile.json", "content/resume.json", "content/research.json", "content/profile.en.json", "content/resume.en.json", "content/research.en.json", "corpus/src/this-site.md"]) {
     const raw = fs.readFileSync(path.join(ROOT, source), "utf8");
     hashes[source] = createHash("sha256").update(raw).digest("hex").slice(0, 16);
   }
@@ -302,7 +304,7 @@ function chunkDocs(docs: Doc[]): Chunk[] {
 function writeKeywords(): void {
   const keywords = [...new Set([
     ...siteContent.resume.skillGroups.flatMap((group) => group.keywords),
-    ...siteContent.resume.projects.flatMap((project) => project.tags),
+    ...projectsZh.flatMap((project) => project.tags),
     ...siteContent.resume.experience.flatMap((entry) => entry.tags),
   ])];
 

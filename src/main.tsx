@@ -1,3 +1,4 @@
+import { PROJECTS } from "./content/projects";
 import LocaleMetadata from "./ui/LocaleMetadata";
 import { isEnglish } from "./i18n";
 import { StrictMode } from "react";
@@ -13,7 +14,6 @@ import ProjectsPage from "./ui/ProjectsPage";
 import ProjectPage from "./ui/ProjectPage";
 import LegalPage from "./ui/LegalPage";
 import NotFoundPage from "./ui/NotFoundPage";
-import { CONTENT } from "./content";
 import { parseRoute } from "./routes";
 import { createTransport } from "./agent/transport";
 import { hasModel, setByokKey } from "./agent/config";
@@ -57,7 +57,7 @@ document.documentElement.lang = isEnglish ? "en" : "zh-CN";
 
 const route = parseRoute(window.location.pathname);
 const project = route.kind === "project"
-  ? CONTENT.resume.projects.find((candidate) => candidate.slug === route.slug)
+  ? PROJECTS.find((candidate) => candidate.slug === route.slug)
   : undefined;
 
 const page = (() => {

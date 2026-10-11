@@ -1,3 +1,4 @@
+import { PROJECTS } from "../src/content/projects";
 import { sourceHref } from "../src/ui/source-link";
 import assert from "node:assert/strict";
 import { CONTENT } from "../src/content";
@@ -21,7 +22,7 @@ assert.equal(nearestRotation(-780, 0), -720);
 assert.equal(nearestRotation(1439, 0), 1440);
 
 const validPaths = new Set([
-  ...CONTENT.resume.projects.map((p) => `/projects/${p.slug}`),
+  ...PROJECTS.map((p) => `/projects/${p.slug}`),
   ...CONTENT.resume.experience.map((e) => `/resume#${e.id}`),
   ...CONTENT.resume.education.map((e) => `/resume#${e.id}`),
 ]);

@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { t, localizedHref } from "../i18n";
 import SiteFooter from "./SiteFooter";
 import { useEffect } from "react";
@@ -6,7 +7,7 @@ import { ProjectLinks, ProjectSiteHeader, ProjectTags } from "./project-ui";
 import "./projects.css";
 
 export default function ProjectsPage() {
-  const { profile, resume } = CONTENT;
+  const { profile } = CONTENT;
 
   useEffect(() => {
     document.title = t("项目 · Rong He");
@@ -41,7 +42,7 @@ export default function ProjectsPage() {
         </section>
 
         <section className="projects-container projects-list" aria-label={t("项目列表")}>
-          {resume.projects.map((project, index) => (
+          {PROJECTS.map((project, index) => (
             <article className="project-row" key={project.id}>
               <div className="project-row-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
               <div className="project-row-main">

@@ -1,0 +1,396 @@
+[
+  {
+    "id": "supplier-compare-agent",
+    "slug": "supplier-compare-agent",
+    "name": "supplier-compare-agent",
+    "subtitle": "Supplier comparison and purchasing decision support",
+    "role": "Team project · Show Me Your Token",
+    "period": {
+      "start": "2026.09",
+      "end": "2026.09"
+    },
+    "summary": "A decision-support agent that turns supplier quotes into comparable evidence. Code produces a reference ranking, the agent makes a recommendation using read-only tools, and a buyer approves or overrides it.",
+    "highlights": [
+      "A four-person team project for the NUS-ISS “Show Me Your Agent” hackathon, demonstrated with synthetic supplier data.",
+      "Normalizes price, lead time, payment terms, on-time delivery and quality; applies hard constraints before calculating reference scores and negotiation gaps.",
+      "Calls a model through an Ollama-compatible gateway and parses JSON tool requests. The agent may depart from the reference ranking when supported by tool evidence; structured output is validated.",
+      "Treats quote text as untrusted input, with injection detection, read-only tools, supplier eligibility checks, fallback behavior, and normal and adversarial evaluation cases.",
+      "Logs model recommendations, buyer approvals or override reasons, and request IDs. The system recommends; it never places orders."
+    ],
+    "metrics": [],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/supplier-compare-agent",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/supplier-compare-agent",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Python",
+      "Flask",
+      "AI Agent",
+      "Human-in-the-loop",
+      "Evaluation"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "no-buzzwords",
+    "slug": "no-buzzwords",
+    "name": "no-buzzwords",
+    "subtitle": "Writing rules and evaluation tools for coding assistants",
+    "role": "Personal developer tool",
+    "period": {
+      "start": "2026",
+      "end": "2026"
+    },
+    "summary": "An installable skill and plugin that asks coding assistants to explain mechanisms and use concrete examples. Evaluation checks that clearer wording preserves technical accuracy.",
+    "highlights": [
+      "Ten writing rules target vague wording and unnecessary jargon while preserving precise terminology and an appropriate register for expert readers.",
+      "Provides a skill, Claude Code plugin configuration and an optional always-on hook for different assistant workflows.",
+      "Python scripts manage test cases and a scoring rubric, with reproducible shuffling and anonymization of responses for blind evaluation.",
+      "Uses correctness as a separate release gate: a drop greater than 0.1 from the baseline fails the gate even if the total score improves. Cases also test oversimplification and expert contexts.",
+      "Provides continuous-integration checks and offline validation of test cases and scoring rules without model calls or credentials."
+    ],
+    "metrics": [],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/no-buzzwords",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/no-buzzwords",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Skill",
+      "Plugin",
+      "Python",
+      "Hooks",
+      "Evaluation"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "hrti",
+    "slug": "hrti",
+    "name": "HRTI",
+    "subtitle": "Human Replaceability Type Indicator",
+    "role": "Personal interactive tool",
+    "period": {
+      "start": "2026",
+      "end": "2026"
+    },
+    "summary": "A self-assessment experiment about work tasks. It examines routine, knowledge, responsibility and physical presence to help people reflect on the division of work between humans and AI.",
+    "highlights": [
+      "Uses 28 questions across four axes: task routine, knowledge codifiability, responsibility for consequences, and embodied presence. Their combinations produce 16 types.",
+      "Includes reverse-scored questions, with feedback loops and bargaining position recorded as additional labels rather than determinants of the type.",
+      "Built with native HTML, JavaScript and Canvas. The questionnaire, scoring and result-image generation run in the browser without a backend.",
+      "Anonymous telemetry is disabled by default. Results are not validated probabilities of replacement or career predictions."
+    ],
+    "metrics": [
+      {
+        "value": "28",
+        "label": "Questions",
+        "qualifier": "Self-assessment"
+      },
+      {
+        "value": "16",
+        "label": "Result types",
+        "qualifier": "Four-axis combinations"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/hrti",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/hrti",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "JavaScript",
+      "HTML",
+      "Canvas",
+      "Interaction Design"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "coding-agent-from-scratch",
+    "slug": "coding-agent-from-scratch",
+    "name": "coding-agent-from-scratch",
+    "subtitle": "A terminal coding agent, built from first principles",
+    "role": "Independent open-source project",
+    "period": {
+      "start": "2026.09",
+      "end": "Present"
+    },
+    "summary": "A command-line coding assistant built without an agent framework. Repository maps, sandbox escape tests and A/A controls put each design decision to the test.",
+    "highlights": [
+      "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests: about 1,300 lines of core code and 52 tests, including nine escape tests.",
+      "The repository map uses tree-sitter definitions and references to build a file graph, then personalized PageRank to rank context for the task. Constraining edges by actual Python imports raised edge precision from 32% to 100% without dropping a true edge. IDF-weighted seeds addressed query understanding.",
+      "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. These figures describe that controlled experiment, not a guarantee across repositories.",
+      "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 42% more total tokens for 22% less main-loop context, without improving completion or correctness. Committed traces make the measurements reproducible."
+    ],
+    "metrics": [
+      {
+        "value": "52",
+        "label": "Automated tests",
+        "qualifier": "Including 9 sandbox escape tests"
+      },
+      {
+        "value": "33%",
+        "label": "Fewer input tokens",
+        "qualifier": "Controlled trial · 112-file repository"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/coding-agent-from-scratch",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/coding-agent-from-scratch",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Python",
+      "ReAct",
+      "Seatbelt",
+      "tree-sitter",
+      "PageRank",
+      "Context engineering",
+      "A/A controls"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "bodycraft-oss",
+    "slug": "bodycraft-oss",
+    "name": "bodycraft-oss",
+    "subtitle": "Multi-path retrieval with measured scoring weights",
+    "role": "Independent open-source project",
+    "period": {
+      "start": "2026.04",
+      "end": "2026.07"
+    },
+    "summary": "Five retrieval paths, visible score breakdowns and repeatable experiments replace opaque weighting with a measurable ranking problem.",
+    "highlights": [
+      "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Four independent weighting strategies score the results, which merge per file with per-path scores exposed.",
+      "Moves hard-coded scoring parameters into hot-reloadable configuration. Files the model actually opens provide weak relevance labels, with provenance recorded so they are not mistaken for human annotations.",
+      "Optimizes NDCG rather than ratio-style metrics that can improve by collapsing weight onto a single path while the ranking worsens. Grid search maps the space; repeated independent genetic-algorithm runs separate gains from noise.",
+      "Index schemas, configuration and ranking metrics are covered by 17 tests. The pipeline runs offline without an API key."
+    ],
+    "metrics": [
+      {
+        "value": "5",
+        "label": "Retrieval paths",
+        "qualifier": "Per-path scores included"
+      },
+      {
+        "value": "17",
+        "label": "Automated tests",
+        "qualifier": "Offline · No API key required"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/bodycraft-oss",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/bodycraft-oss",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Python",
+      "SQLite FTS5",
+      "Vector retrieval",
+      "Entity graphs",
+      "NDCG",
+      "Weak supervision",
+      "Parameter search"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "spreadsheet-qa",
+    "slug": "spreadsheet-qa",
+    "name": "Internal spreadsheet Q&A platform",
+    "subtitle": "Conversational spreadsheet analysis",
+    "role": "Project owner · SAIC internal project",
+    "period": {
+      "start": "2026.02",
+      "end": "2026.04"
+    },
+    "summary": "Turns natural-language questions over uploaded spreadsheets into verified SQL, result tables and charts. Structured plans, whitelisted actions and role-based isolation define what the system can execute.",
+    "highlights": [
+      "A FastAPI and SQLAlchemy backend spans 76 modules, 23,331 lines and 56 test files, using MySQL, Redis, MinIO and Qwen. A 7,487-line React 19 front end streams over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated roughly two hours of manual work saved per person per day.",
+      "Refactored a fixed LLM workflow into a Planner–Executor design. The planner emits only a structured plan: intent, target fields, actions, constraints and failure policy. The executor runs whitelisted actions over read-only SQL with table, field and permission checks.",
+      "Persists session context, generated SQL and chart configuration so follow-up questions can refer to earlier turns. Data isolation follows organization and role boundaries.",
+      "Co-authored the invention disclosure, filed in June 2026 and under examination. The pre-execution gate is S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R, with access compliance A a hard gate. Later rebuilt the core as a native tool in an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
+    ],
+    "metrics": [
+      {
+        "value": "20+",
+        "label": "Internal pilot users",
+        "qualifier": "Spreadsheet analysis platform"
+      },
+      {
+        "value": "~2 h/day",
+        "label": "Manual work saved",
+        "qualifier": "Per person · Estimated from pilot feedback"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/spreadsheet-qa",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "FastAPI",
+      "SQLAlchemy",
+      "Planner–Executor",
+      "SQL safety",
+      "React",
+      "SSE",
+      "Tenant isolation"
+    ],
+    "visibility": "public",
+    "detail": {
+      "confidentialityNote": "This internal project is described under a generic public name. Only approved architecture and results are shown; internal code, documents and customer data are not published."
+    }
+  },
+  {
+    "id": "hybrid-uav",
+    "slug": "hybrid-uav",
+    "name": "Hybrid UAV Energy Management",
+    "subtitle": null,
+    "role": "Lead algorithm developer",
+    "period": {
+      "start": "2023.06",
+      "end": "2025.06"
+    },
+    "summary": "Designed and implemented the core energy-management algorithms for a hybrid-powered UAV.",
+    "highlights": [
+      "Combined rule-based control with model predictive control to allocate power across multiple energy sources during flight.",
+      "Built system-level simulation and analysis workflows to examine power output, energy use and control response, then used the results to tune the allocation strategy.",
+      "Iterated algorithms and validated control policies to improve power-use efficiency and operating stability in representative mission conditions.",
+      "The project was selected for a national undergraduate innovation programme and received dedicated funding, spanning requirements, algorithm design, simulation and milestone evaluation."
+    ],
+    "metrics": [],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/hybrid-uav",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Model predictive control",
+      "Rule-based control",
+      "Energy management",
+      "Simulation"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "breadify",
+    "slug": "breadify",
+    "name": "Breadify",
+    "subtitle": "A mobile app for bread enthusiasts",
+    "role": "Lead product designer",
+    "period": {
+      "start": "2024.03",
+      "end": "2024.06"
+    },
+    "summary": "Led the product design of Breadify, a mobile app for people who enjoy discovering and sharing bread.",
+    "highlights": [
+      "Worked through the full UX process: user research, problem definition, ideation, prototyping and testing, with a focus on discovery, interaction and personal records.",
+      "Designed high-fidelity interactive prototypes and organized more than ten user tests. Qualitative feedback and usability observations guided five major design iterations.",
+      "Received the course’s People’s Choice award."
+    ],
+    "metrics": [],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/breadify",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "UX",
+      "Figma",
+      "User research",
+      "Interactive prototyping"
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "kaist-smart-canteen",
+    "slug": "kaist-smart-canteen",
+    "name": "KAIST Smart Canteen",
+    "subtitle": null,
+    "role": "Lead prototype designer",
+    "period": {
+      "start": "2024.03",
+      "end": "2024.06"
+    },
+    "summary": "Led the prototype design of a context-aware campus dining system at KAIST.",
+    "highlights": [
+      "Defined requirements, system design and implementation around five campus dining scenarios, modelling user context and environmental changes.",
+      "Designed and built the Web interface and integrated the IoT platform to ingest, synchronize and visualize live data.",
+      "Created a high-fidelity mobile prototype in Figma, showing dining-space layout, crowd density and food options to support dining decisions and operational analysis."
+    ],
+    "metrics": [],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project details",
+        "url": "/projects/kaist-smart-canteen",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "IoT",
+      "Figma",
+      "Context awareness",
+      "Web front end"
+    ],
+    "visibility": "public"
+  }
+]

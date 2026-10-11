@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { t, localizedHref } from "../i18n";
 import LanguageSwitch from "./LanguageSwitch";
 import {
@@ -9,7 +10,6 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { CONTENT } from "../content";
 import type { EarthControls } from "./EarthScene";
 import "./earth.css";
 import SiteFooter from "./SiteFooter";
@@ -38,7 +38,7 @@ export default function PortalHome() {
     (value: "ready" | "fallback") => setStatus(value),
     [],
   );
-  const project = CONTENT.resume.projects[projectIndex];
+  const project = PROJECTS[projectIndex];
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const changeMotion = () => {
@@ -243,10 +243,10 @@ export default function PortalHome() {
         </button>
         <p className="earth-overline">
           {t("精选项目")}{" "}
-          <span>{String(projectIndex + 1).padStart(2, "0")} / {String(CONTENT.resume.projects.length).padStart(2, "0")}</span>
+          <span>{String(projectIndex + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}</span>
         </p>
         <div className="earth-project-tabs" role="group" aria-label={t("选择项目")}>
-          {CONTENT.resume.projects.map((item, i) => (
+          {PROJECTS.map((item, i) => (
             <button
               key={item.id}
               aria-pressed={i === projectIndex}

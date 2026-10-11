@@ -111,9 +111,9 @@ export function formatPeriod(period: { start: string; end: string }): string {
     const month = (value: string) => /^\d{4}\.\d{2}$/.test(value)
       ? new Intl.DateTimeFormat('en-GB', {month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(value.replace('.', '-') + '-01'))
       : value;
-    return `${month(period.start)} – ${month(period.end)}`;
+    return period.start === period.end ? month(period.start) : `${month(period.start)} – ${month(period.end)}`;
   }
-  return `${period.start} - ${period.end}`;
+  return period.start === period.end ? period.start : `${period.start} - ${period.end}`;
 }
 
 export type {

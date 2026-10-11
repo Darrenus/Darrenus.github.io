@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { isEnglish } from "../i18n";
 import type { Corpus } from "../rag/corpus";
 import { CONTENT } from "../content";
@@ -20,7 +21,7 @@ export function systemPrompt(corpus: Corpus): string {
     .join("\n");
   const metricsExample = resume.experience
     .flatMap((entry) => entry.metrics)
-    .concat(resume.projects.flatMap((project) => project.metrics))
+    .concat(PROJECTS.flatMap((project) => project.metrics))
     .map((metric) => `${metric.value} | ${metric.qualifier} · ${metric.label}`)
     .join("\n");
 

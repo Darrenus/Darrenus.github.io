@@ -8,9 +8,11 @@ import papersEn from '../content/research.en.json';
 import blogZh from '../content/blog.json';
 import blogEn from '../content/blog.en.json';
 import profileEn from '../content/profile.en.json';
+import projectsZh from '../content/projects.json';
+import projectsEn from '../content/projects.en.json';
 import { layoutPlaceLabels } from '../src/ui/earth-places';
 
-for (const path of ['/', '/resume', '/research', '/blog', '/privacy', '/terms', '/ragent', ...zh.projects.map(p=>`/projects/${p.slug}`), ...blogZh.map(p=>`/blog/${p.slug}`)]) {
+for (const path of ['/', '/resume', '/research', '/blog', '/privacy', '/terms', '/ragent', ...projectsZh.map(p=>`/projects/${p.slug}`), ...blogZh.map(p=>`/blog/${p.slug}`)]) {
   const english = localizedHref(path,'en');
   assert.equal(languageFromPath(english),'en');
   assert.equal(withoutLocale(english),path);
@@ -49,3 +51,26 @@ for(const width of [320,375,390,768,1440]) {
  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++) assert.ok(Math.abs(boxes[i].x-boxes[j].x)>=96 || Math.abs(boxes[i].y-boxes[j].y)>=44);
 }
 console.log('Language routes, unchanged records, English copy, assets and globe callouts passed');
+
+// The approved website catalog extends the CV selection without changing it.
+const approvedAdditions = ['supplier-compare-agent', 'no-buzzwords', 'hrti'];
+assert.deepEqual(projectsZh.filter(p=>!zh.projects.some(cv=>cv.id===p.id)).map(p=>p.id), approvedAdditions);
+assert.deepEqual(projectsEn.map(p=>p.id), projectsZh.map(p=>p.id));
+assert.equal(new Set(projectsZh.map(p=>p.slug)).size, projectsZh.length);
+assert.doesNotMatch(JSON.stringify(projectsEn), /[\u3400-\u9fff]|codeloop/);
+for (const [i, project] of projectsZh.entries()) {
+  assert.equal(projectsEn[i].slug, project.slug);
+  assert.deepEqual(projectsEn[i].links.map(l=>l.url), project.links.map(l=>l.url));
+  assert.ok(project.links.every(l=>l.status!=='active' || l.url));
+}
+for (const id of [...approvedAdditions, 'bodycraft-oss']) {
+  const project = projectsZh.find(p=>p.id===id)!;
+  assert.ok(project.links.some(l=>l.kind==='repository' && l.url===`https://github.com/Darrenus/${id}`));
+}
+for (const cvProject of zh.projects) {
+  const websiteProject = projectsZh.find(p=>p.id===cvProject.id)!;
+  assert.ok(websiteProject, `CV project ${cvProject.id} remains available`);
+  // Only the previously missing repository link changes for existing entries.
+  assert.deepEqual({...websiteProject, links: cvProject.links}, cvProject);
+}
+console.log('Independent bilingual project catalog and approved additions passed');

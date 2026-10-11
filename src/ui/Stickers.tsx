@@ -1,3 +1,4 @@
+import { PROJECTS } from "../content/projects";
 import { CONTENT } from "../content";
 import { isEnglish } from "../i18n";
 import { t } from "../i18n";
@@ -212,7 +213,7 @@ export function Stickers({ onPick }: { onPick: (question: string) => void }) {
   const host = useRef<HTMLDivElement | null>(null);
   useParallax(host);
 
-  const keywords = isEnglish ? [...new Set([...CONTENT.resume.skillGroups.flatMap(g => g.keywords), ...CONTENT.resume.projects.flatMap(p => p.tags)])] : RESUME_KEYWORDS;
+  const keywords = isEnglish ? [...new Set([...CONTENT.resume.skillGroups.flatMap(g => g.keywords), ...PROJECTS.flatMap(p => p.tags)])] : RESUME_KEYWORDS;
   const available = new Set<string>(keywords);
   // Anything in ORDER that has left the résumé is dropped; anything new fills the gaps, so a
   // changed SKILLS section degrades into a different arrangement rather than blank slots.

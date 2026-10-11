@@ -78,7 +78,7 @@
   :lang(en) .earth-role { max-width:200px; line-height:1.5; }
   :lang(en) .earth-instructions { font-size:9px; gap:10px; }
 }
-.earth-project-tabs { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
+.earth-project-tabs { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:8px; }
 .earth-project-tabs button { width:100%; min-width:0; }
 @media (max-width:760px) {
   .site-header:has(.site-actions) .site-actions { width:auto; margin-top:0; }
@@ -88,3 +88,7 @@
   .site-actions .new-conversation { font-size:11px; }
 }
 @media print { .language-switch { display:none; } }
+
+@media (max-width: 600px) {
+  .earth-project-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}

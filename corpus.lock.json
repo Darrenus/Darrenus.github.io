@@ -1,6 +1,8 @@
 {
-  "builtAt": "2026-10-02",
+  "builtAt": "2026-10-11",
   "sources": {
+    "content/projects.json": "637a98034c1e6221",
+    "content/projects.en.json": "8d123f63b212ad79",
     "content/profile.json": "e1e808fdb4c5b7fa",
     "content/resume.json": "d17bbeac5e51ccb0",
     "content/research.json": "26153a08c011b642",

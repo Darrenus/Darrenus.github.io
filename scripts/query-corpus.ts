@@ -28,6 +28,9 @@ const query = argv
   .trim();
 
 const tests = [
+  { query: "supplier-compare-agent 供应商", hit: /^about-projects#/ },
+  { query: "no-buzzwords 表达规则", hit: /^about-projects#/ },
+  { query: "HRTI 人类可替代性", hit: /^about-projects#/ },
   { query: "贺融 NUS KAIST", hit: /^about-(about|education)#/ },
   { query: "Planner Executor SQL 安全", hit: /^about-(projects|experience)#/ },
   { query: "coding-agent-from-scratch Seatbelt PageRank", hit: /^about-projects#/ },
