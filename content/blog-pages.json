@@ -8,5 +8,15 @@
     "publishedAt": "2026-10-10",
     "href": "/blog/justin-sun-interview-notes.html",
     "sha256": "bca32a2bdb0018dd917685543bb1cb90bb3cd478b85592d32bae75162ee6f269"
+  },
+  {
+    "slug": "alexandr-wang-profile",
+    "title": "Alexandr Wang（汪韬）全景档案",
+    "titleEn": "Alexandr Wang: A Comprehensive Profile (Chinese)",
+    "category": "人物整理",
+    "categoryEn": "Profile notes",
+    "publishedAt": "2026-10-11",
+    "href": "/blog/alexandr-wang-profile.html",
+    "sha256": "85259c423bf8c7f6fe17dbc958cec219b9d26fc512eb2affdfa29ca22dcdaa1c"
   }
 ]
