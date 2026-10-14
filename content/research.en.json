@@ -1,6 +1,23 @@
 {
   "publications": [
     {
+      "id": "failure-feedback-self-modification",
+      "title": "Does Failure Feedback Direct Agent Self-Modification?",
+      "authors": [
+        "Rong He"
+      ],
+      "publishedAt": "2026-10-10",
+      "status": "Preprint · arXiv v1",
+      "summary": "Tests whether failure feedback steers an agent’s self-modification toward a specific failure. Across 145 eligible edits in public Darwin Gödel Machine logs, no target-specific advantage was detected. Controlled instruction-revision studies found model-dependent benefits from relevant feedback, while target repair did not reliably improve held-out performance. The work separates target repair, transfer to related failures and held-out net change.",
+      "links": [
+        {
+          "platform": "arXiv",
+          "url": "https://arxiv.org/abs/2610.14662",
+          "identifier": "arXiv:2610.14662"
+        }
+      ]
+    },
+    {
       "id": "label-adaptivity-best-of-n",
       "title": "Label Adaptivity in Best-of-n Budget Selection",
       "authors": [

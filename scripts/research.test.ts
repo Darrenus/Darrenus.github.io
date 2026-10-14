@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { PUBLICATIONS } from "../src/content/research";
 
-assert.equal(PUBLICATIONS.length, 5);
+assert.equal(PUBLICATIONS.length, 6);
 assert.equal(new Set(PUBLICATIONS.map((p) => p.id)).size, PUBLICATIONS.length);
 const expectedUrls = new Set([
+  "https://arxiv.org/abs/2610.14662",
   "https://zenodo.org/records/23086434",
   "https://zenodo.org/records/23020314",
   "https://doi.org/10.48550/arXiv.2609.17464",

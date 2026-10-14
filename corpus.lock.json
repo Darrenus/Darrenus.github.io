@@ -1,14 +1,14 @@
 {
-  "builtAt": "2026-10-11",
+  "builtAt": "2026-10-14",
   "sources": {
     "content/projects.json": "637a98034c1e6221",
     "content/projects.en.json": "8d123f63b212ad79",
     "content/profile.json": "e1e808fdb4c5b7fa",
     "content/resume.json": "d17bbeac5e51ccb0",
-    "content/research.json": "26153a08c011b642",
+    "content/research.json": "44c463d9063249ee",
     "content/profile.en.json": "5344c99412bb6b29",
     "content/resume.en.json": "441c9ab021519658",
-    "content/research.en.json": "e2297734b1f941a1",
+    "content/research.en.json": "1615d98ce0ee4a6b",
     "corpus/src/this-site.md": "a68da09ca8bb9f86"
   }
 }

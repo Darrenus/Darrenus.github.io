@@ -1,6 +1,23 @@
 {
   "publications": [
     {
+      "id": "failure-feedback-self-modification",
+      "title": "Does Failure Feedback Direct Agent Self-Modification?",
+      "authors": [
+        "Rong He"
+      ],
+      "publishedAt": "2026-10-10",
+      "status": "预印本 · arXiv v1",
+      "summary": "研究失败反馈能否引导智能体进行针对性的自我修改。公开 Darwin Gödel Machine 日志中的 145 次合格修改未显示可检测的目标特异性优势；受控指令修改实验中，相关反馈的效果因模型而异，目标修复也未可靠地转化为留出集提升。论文主张分别报告目标修复、相关失败迁移与留出集净变化。",
+      "links": [
+        {
+          "platform": "arXiv",
+          "url": "https://arxiv.org/abs/2610.14662",
+          "identifier": "arXiv:2610.14662"
+        }
+      ]
+    },
+    {
       "id": "label-adaptivity-best-of-n",
       "title": "Label Adaptivity in Best-of-n Budget Selection",
       "authors": [
