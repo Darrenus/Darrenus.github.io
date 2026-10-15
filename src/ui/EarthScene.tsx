@@ -4,11 +4,12 @@ import { layoutPlaceLabels, type ProjectedPlace } from "./earth-places";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
 import { EARTH_PLACES, geographicPosition, facesCamera } from "./earth-places";
-import { cameraDistance, clampZoom, wheelStep } from "./earth-navigation";
+import { earthFraming, canZoomFromWheel, clampZoom, wheelStep } from "./earth-navigation";
 import { hitsEarthSurface } from "./earth-hit-test";
 
 export interface EarthControls {
   zoomBy: (amount: number) => void;
+  zoomTo: (value: number) => void;
   reset: () => void;
 }
 interface Props {
@@ -166,7 +167,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
   ref,
 ) {
   const mount = useRef<HTMLDivElement>(null);
-  const api = useRef<EarthControls>({ zoomBy: () => {}, reset: () => {} });
+  const api = useRef<EarthControls>({ zoomBy: () => {}, zoomTo: () => {}, reset: () => {} });
   const pausedRef = useRef(paused);
   useEffect(() => {
     pausedRef.current = paused;
@@ -175,6 +176,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     ref,
     () => ({
       zoomBy: (amount) => api.current.zoomBy(amount),
+      zoomTo: (value) => api.current.zoomTo(value),
       reset: () => api.current.reset(),
     }),
     [],
@@ -317,8 +319,8 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     let disposed = false,
       failed = false,
       frame = 0,
-      targetZoom = 0,
-      zoom = 0,
+      targetZoom = 1,
+      zoom = 1,
       targetYaw = 2.65,
       targetPitch = 0.1,
       yaw = 2.65,
@@ -344,8 +346,9 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
     };
     api.current = {
       zoomBy: (amount) => updateZoom(targetZoom + amount),
+      zoomTo: updateZoom,
       reset: () => {
-        targetZoom = 0;
+        targetZoom = 1;
         targetYaw = 2.65;
         targetPitch = 0.1;
         velocity = 0;
@@ -454,11 +457,11 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
       if (!surfaceReady || failed || e.ctrlKey || e.metaKey || e.deltaY === 0) return;
       sphere.center.copy(planet.position);
       if (!hitsEarthSurface(e.clientX, e.clientY, host.getBoundingClientRect(), camera, sphere, ray)) return;
-      // Only the visible sphere owns the wheel; transparent canvas keeps native page scroll.
-      e.preventDefault();
       const delta = wheelStep(e.deltaY, e.deltaMode, host.clientHeight);
-      if (targetZoom > 0.995 && delta > 0) targetYaw += delta * 0.0013;
-      else updateZoom(targetZoom + delta * 0.0011);
+      // Release the wheel to the page at either endpoint; never trap a scroll gesture.
+      if (!canZoomFromWheel(targetZoom, delta)) return;
+      e.preventDefault();
+      updateZoom(targetZoom + delta * 0.0011);
     };
     const down = (e: PointerEvent) => {
       if (
@@ -466,6 +469,8 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         (e.target instanceof Element && e.target.closest(".earth-pin"))
       )
         return;
+      sphere.center.copy(planet.position);
+      if (!hitsEarthSurface(e.clientX, e.clientY, host.getBoundingClientRect(), camera, sphere, ray)) return;
       host.setPointerCapture(e.pointerId);
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       lastPointerTime = performance.now();
@@ -532,7 +537,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         targetYaw += (e.key === "ArrowRight" ? 1 : -1) * 0.18;
       } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
         e.preventDefault();
-        updateZoom(targetZoom + (e.key === "ArrowUp" ? 0.12 : -0.12));
+        updateZoom(targetZoom + (e.key === "ArrowUp" ? -0.12 : 0.12));
       } else if (e.key === "Home") {
         e.preventDefault();
         api.current.reset();
@@ -571,22 +576,19 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         parallaxY += (pointerY * 0.04 - parallaxY) * ease;
       }
       planet.rotation.set(pitch, yaw, -0.13);
-      planet.position.set(
-        camera.aspect < 1 ? 0 : 0.26 * (1 - zoom),
-        -0.05 - zoom * 0.76,
-        0,
-      );
+      const framing = earthFraming(zoom, camera.aspect);
+      planet.position.set(0, framing.y, 0);
       camera.position.set(
-        reduced ? 0 : parallaxX,
-        reduced ? 0 : -parallaxY,
-        cameraDistance(zoom, camera.aspect),
+        reduced ? 0 : parallaxX * 0.35,
+        reduced ? 0 : -parallaxY * 0.35,
+        framing.z,
       );
       camera.lookAt(0, 0, 0);
       uniforms.uTime.value = reduced ? 0 : time * 0.001;
       uniforms.uHover.value +=
         ((reduced ? 0 : hover) - uniforms.uHover.value) * ease;
       stars.position.x = reduced ? 0 : parallaxX * 0.4;
-      if (Math.abs(zoom - lastReport) > 0.005) {
+      if (Math.abs(zoom - lastReport) > 0.001) {
         lastReport = zoom;
         onZoom(zoom);
       }

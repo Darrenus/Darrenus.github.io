@@ -58,6 +58,7 @@ const FOOTER_NOTE = t("回答可能有误，来源均已链接。");
 const OFFLINE_NOTE = t("当前未配置模型，显示的是离线预设回答。公开资料仍以来源为准。");
 
 interface Props {
+  embedded?: boolean;
   wordmark?: string;
   showSuggestions?: boolean;
   showUsage?: boolean;
@@ -328,6 +329,7 @@ export default function RongAgent({
   live = true,
   footerNote = live ? FOOTER_NOTE : OFFLINE_NOTE,
   transport,
+  embedded = false,
 }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState, (base) => ({ ...base, draft: readQuestion(window.location.search) }));
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -339,9 +341,10 @@ export default function RongAgent({
   const [soundMuted, setSoundMutedState] = useState(isSoundMuted);
 
   useEffect(() => {
+    if (embedded) return;
     document.title = t("问 RONG · Rong He");
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
-  }, [wordmark]);
+  }, [wordmark, embedded]);
 
   /* Every turn takes a number, and stop/reset/a new question all bump it. A transport
    * cannot be forced to return the instant it is cancelled — it stops at its next poll —
@@ -453,9 +456,8 @@ export default function RongAgent({
   const suggestions = useMemo(() => SEED_QUESTIONS, []);
   const lastIndex = state.messages.length - 1;
 
-  return (
-    <div className="app" ref={appRef}>
-      <SiteHeader current="ragent" actions={<>
+  const ContentTag = embedded ? "section" : "main";
+  const actions = <>
           {state.started && <button className="new-conversation" onClick={reset}>{t("新对话")}</button>}
           <button
             className="sound-toggle"
@@ -474,10 +476,17 @@ export default function RongAgent({
               )}
             </svg>
           </button>
-      </>} />
+      </>;
+
+  return (
+    <div className={`app${embedded ? " home-agent" : ""}${state.started ? " has-conversation" : ""}`} ref={appRef}>
+      {embedded ? <div className="home-agent-toolbar">
+        <span className="home-agent-label">Ask RONG</span>
+        <div className="home-agent-actions">{actions}</div>
+      </div> : <SiteHeader current="ragent" actions={actions} />}
 
       {!state.started ? (
-        <main className="landing" id="main-content">
+        <ContentTag className="landing" id={embedded ? undefined : "main-content"}>
           <p className="eyebrow question-eyebrow">{t("问答 / 从一个问题开始")}</p>
 
           <h1 className="h1">
@@ -502,7 +511,7 @@ export default function RongAgent({
 
             {showSuggestions && (
               <div className="suggestions">
-                {suggestions.map((label) => (
+                {(embedded ? suggestions.slice(0, 3) : suggestions).map((label) => (
                   <button
                     className="chip"
                     key={label}
@@ -515,9 +524,9 @@ export default function RongAgent({
             )}
           </div>
           <p className="question-mode">{live ? t("在线问答 · 回答附有来源，请结合原文判断。") : OFFLINE_NOTE}</p>
-        </main>
+        </ContentTag>
       ) : (
-        <main className="chat" id="main-content">
+        <ContentTag className="chat" id={embedded ? undefined : "main-content"}>
           <div className="scroll" ref={scrollRef} onScroll={onScroll}>
             <div className="thread">
               {state.messages.map((m, mi) =>
@@ -557,7 +566,7 @@ export default function RongAgent({
             />
             <div className="footnote">{footerNote}</div>
           </div>
-        </main>
+        </ContentTag>
       )}
     </div>
   );

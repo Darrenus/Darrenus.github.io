@@ -23,6 +23,7 @@ import "@fontsource/ibm-plex-mono/latin-400.css";
 import "./ui/agent.css";
 import "./ui/observatory.css";
 import "./ui/i18n.css";
+import "./ui/home-chat.css";
 
 /* Local development without the proxy: paste a DeepSeek key once from the console.
  *

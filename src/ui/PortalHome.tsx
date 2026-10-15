@@ -1,8 +1,13 @@
+import RongAgent from "./RongAgent";
+import { createTransport } from "../agent/transport";
+import { hasModel } from "../agent/config";
+import { chatReveal } from "./earth-navigation";
 import { PROJECTS } from "../content/projects";
 import { t, localizedHref } from "../i18n";
 import LanguageSwitch from "./LanguageSwitch";
 import {
   lazy,
+  memo,
   Suspense,
   useCallback,
   useEffect,
@@ -15,9 +20,10 @@ import "./earth.css";
 import SiteFooter from "./SiteFooter";
 import EarthPlacesDialog from "./EarthPlacesDialog";
 
-const EarthScene = lazy(() => import("./EarthScene"));
+const EarthScene = lazy(() => import("./EarthScene").then(module => ({ default: memo(module.default) })));
+const HomeAgent = memo(RongAgent);
 export default function PortalHome() {
-  const [zoom, setZoom] = useState(0);
+  const [zoom, setZoom] = useState(1);
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
     "loading",
   );
@@ -31,11 +37,22 @@ export default function PortalHome() {
   const selectPlace = useCallback((id: string) => setPlaceSelection(id), []);
   const [projectIndex, setProjectIndex] = useState(0);
   const controls = useRef<EarthControls>(null);
+  const chatPanel = useRef<HTMLElement>(null);
+  const viewButton = useRef<HTMLButtonElement>(null);
+  const [transport] = useState(() => createTransport());
+  const reveal = chatReveal(zoom);
+  const chatHidden = reveal < 0.04;
+  useEffect(() => {
+    if (chatHidden && chatPanel.current?.contains(document.activeElement)) viewButton.current?.focus({ preventScroll: true });
+  }, [chatHidden]);
   const dialog = useRef<HTMLDialogElement>(null);
   const openButton = useRef<HTMLButtonElement>(null);
   const reportZoom = useCallback((value: number) => setZoom(value), []);
   const reportStatus = useCallback(
-    (value: "ready" | "fallback") => setStatus(value),
+    (value: "ready" | "fallback") => {
+      setStatus(value);
+      if (value === "fallback") setZoom(1);
+    },
     [],
   );
   const project = PROJECTS[projectIndex];
@@ -69,12 +86,10 @@ export default function PortalHome() {
     <main
       id="earth-home"
       className={`earth-page is-${status}${opened ? " is-exploring" : ""}`}
-      style={{ "--journey": zoom } as CSSProperties}
+      style={{ "--journey": zoom, "--chat-reveal": reveal } as CSSProperties}
     >
       <div className="earth-background" aria-hidden="true" />
-      <div className="earth-large-type" aria-hidden="true">
-        RONG
-      </div>
+
       <Suspense fallback={null}>
         <EarthScene
           ref={controls}
@@ -116,13 +131,6 @@ export default function PortalHome() {
         </nav>
         <LanguageSwitch />
       </header>
-      <button
-        className="earth-places-open"
-        onClick={() => setPlaceSelection(null)}
-      >
-        <span aria-hidden="true">⊕</span> {t("经历坐标")}{" "}
-        <span aria-hidden="true">↗</span>
-      </button>
       <EarthPlacesDialog
         selection={placeSelection}
         onSelect={setPlaceSelection}
@@ -132,15 +140,32 @@ export default function PortalHome() {
         <strong>CRAFT</strong>
         <span>curiosity / reasoning / attention / feeling / taste</span>
       </div>
-      <div className="earth-identity">
-        <p className="earth-overline">
-          {t("贺融")}</p>
-        <h1>
-          {t("保持好奇。")}<br />
-          <span>{t("向未知，进一步。")}</span>
-        </h1>
-        <p className="earth-role">{t("软件开发 · AI应用开发")}</p>
-      </div>
+      <section
+        ref={chatPanel}
+        className="home-chat-panel"
+        aria-label={t("与 Ask RONG 对话")}
+        aria-hidden={chatHidden}
+        inert={chatHidden}
+      >
+        <HomeAgent embedded transport={transport} live={hasModel()} />
+      </section>
+      <div className="home-orbit-actions">
+      <button
+        className="earth-places-open"
+        onClick={() => setPlaceSelection(null)}
+      >
+        <span aria-hidden="true">⊕</span> {t("足迹")}{" "}
+        <span aria-hidden="true">↗</span>
+      </button>
+      <button
+        ref={viewButton}
+        className="home-view-toggle"
+        disabled={status !== "ready"}
+        onClick={() => controls.current?.zoomTo(zoom > 0.5 ? 0 : 1)}
+      >
+        <span aria-hidden="true">{zoom > 0.5 ? "↓" : "↑"}</span>
+        {zoom > 0.5 ? t("探索地球") : t("返回对话")}
+      </button>
       <button
         className="earth-explore"
         aria-label={t("探索我的工作")}
@@ -154,9 +179,6 @@ export default function PortalHome() {
           {t("探索我的工作")}<small>{t("精选项目")}</small>
         </span>
       </button>
-      <div className="earth-near-caption" aria-hidden={zoom < 0.5}>
-        <span>{t("01 / 近观")}</span>
-        <p>{t("足迹")}</p>
       </div>
       <footer className="earth-footer">
         <div className="earth-location">
@@ -169,7 +191,7 @@ export default function PortalHome() {
               ? t("正在构建地球…")
               : status === "fallback"
                 ? t("当前设备使用静态视图")
-                : t("球体上滚轮缩放，球体外滚动页面")}
+                : t("球体上向上滚动探索，向下滚动返回")}
           </span>
         </div>
         <div className="earth-controls" aria-label={t("地球视角控制")}>

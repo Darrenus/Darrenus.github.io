@@ -207,5 +207,9 @@
   "从计算机科学，走向软件工程。": "From computer science to software engineering.",
   "介绍贺融在 KAIST 与 NUS 的教育经历，以及他的技术发展方向。": "Tell me about Rong’s studies at KAIST and NUS and his technical interests.",
   "球体上滚轮缩放，球体外滚动页面": "On globe: zoom · Outside: scroll page",
-  "交互地球：球体上滚轮缩放，球体外滚动页面；拖动旋转，方向键转动与缩放，Home 复位": "Interactive globe: scroll over the globe to zoom, or outside it to scroll the page. Drag to rotate; use arrow keys to rotate and zoom, Home to reset."
+  "交互地球：球体上滚轮缩放，球体外滚动页面；拖动旋转，方向键转动与缩放，Home 复位": "Interactive globe: scroll over the globe to zoom, or outside it to scroll the page. Drag to rotate; use arrow keys to rotate and zoom, Home to reset.",
+  "与 Ask RONG 对话": "Chat with Ask RONG",
+  "探索地球": "Explore the globe",
+  "返回对话": "Back to chat",
+  "球体上向上滚动探索，向下滚动返回": "Scroll up on the globe to explore; down to return"
 }

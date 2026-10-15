@@ -3,6 +3,9 @@ import { PerspectiveCamera, Raycaster, Sphere, Vector3 } from "three";
 import { hitsEarthSurface } from "../src/ui/earth-hit-test";
 import {
   cameraDistance,
+  earthFraming,
+  chatReveal,
+  canZoomFromWheel,
   clampZoom,
   wheelStep,
 } from "../src/ui/earth-navigation";
@@ -58,3 +61,37 @@ sphere.center.set(0.104, -0.506, 0);
 const projected = sphere.center.clone().project(camera);
 assert.ok(hit((projected.x + 1) * 640, (1 - projected.y) * 400), "Camera parallax and translated globe retain correct hit detection");
 console.log("Earth wheel normalization, framing, zoom and sphere-only wheel boundaries passed");
+
+// The new arrival view leaves room for chat, and the far sphere stays entirely in frame.
+for (const aspect of [320 / 700, 390 / 844, 768 / 1024, 1280 / 720, 1920 / 1080]) {
+  const camera = new PerspectiveCamera(38, aspect, 0.05, 60);
+  for (const zoom of [0, 1]) {
+    const frame = earthFraming(zoom, aspect);
+    camera.position.set(0, 0, frame.z);
+    camera.lookAt(0, 0, 0);
+    camera.updateMatrixWorld();
+    let top = 1, bottom = 0;
+    for (let n = 0; n < 720; n++) {
+      const angle = n * Math.PI / 360;
+      const point = new Vector3(0, frame.y + 1.4 * Math.sin(angle), 1.4 * Math.cos(angle)).project(camera);
+      const screenY = (1 - point.y) / 2;
+      top = Math.min(top, screenY);
+      bottom = Math.max(bottom, screenY);
+    }
+    if (zoom === 1) {
+      assert.ok(Math.abs(top - (aspect < 1 ? 0.75 : 0.65)) < 0.001, 'Near globe begins below the conversation');
+      assert.ok(bottom > 1, 'The enlarged sphere extends below the viewport');
+    } else {
+      assert.ok(top > 0.1 && bottom < 0.95, 'The complete sphere fits between navigation and footer');
+    }
+  }
+}
+assert.equal(chatReveal(1), 1);
+assert.equal(chatReveal(0), 0);
+for (let i = 1; i <= 100; i++) assert.ok(chatReveal(i / 100) >= chatReveal((i - 1) / 100));
+assert.equal(canZoomFromWheel(1, 100), false);
+assert.equal(canZoomFromWheel(0, -100), false);
+assert.equal(canZoomFromWheel(1, -100), true);
+assert.equal(canZoomFromWheel(0, 100), true);
+assert.equal(canZoomFromWheel(0.5, 0), false);
+console.log('Chat reveal, bottom-anchored framing and scroll release passed');
