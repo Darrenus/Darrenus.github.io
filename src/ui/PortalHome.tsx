@@ -104,11 +104,11 @@ export default function PortalHome() {
       )}
       <div className="earth-vignette" aria-hidden="true" />
       <header className="earth-header">
-        <a className="earth-logo" href={localizedHref("/")} aria-label={t("RONG 首页")}>
+        <a className="earth-logo" href={localizedHref("/")} aria-label={t("SpaceR 首页")}>
           <span className="earth-logo-mark" aria-hidden="true">
             ⊕
           </span>{" "}
-          RONG
+          SpaceR
         </a>
         <span className="earth-header-caption">{t("贺融的个人空间")}</span>
         <nav aria-label={t("主导航")}>
@@ -125,9 +125,6 @@ export default function PortalHome() {
             {t("简历")}<span aria-hidden="true">↗</span>
           </a>
           <a href={localizedHref("#site-footer")}>{t("联系")}<span aria-hidden="true">↓</span></a>
-          <a className="earth-ask" href={localizedHref("/ragent")}>
-            {t("问 RONG")}<span aria-hidden="true">↗</span>
-          </a>
         </nav>
         <LanguageSwitch />
       </header>
