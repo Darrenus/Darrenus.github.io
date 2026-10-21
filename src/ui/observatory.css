@@ -1,19 +1,24 @@
-/* Oxidized brass in indirect light: bright text and quiet metal have separate tokens. */
+/* Shared cool-silver palette: graphite surfaces, soft text, restrained ice-blue links. */
 :root {
-  --bg: #101310;
-  --ink: #ece7db;
-  --surface: #1b211d;
-  --surface-2: #222820;
-  --line: #30362c;
-  --muted: #adb0a4;
-  --muted-2: #a0a395;
-  --faint: #929788;
-  --btn: #3b3c2e;
-  --btn-hover: #4d4d37;
-  --btn-active: #303529;
-  --brass: #8f784f;
-  --brass-text: #baa477;
-  --paper: #f2efe5;
+  --bg: #090c10;
+  --page-surface: #0c1119;
+  --ink: #e8edf2;
+  --body-text: #bdc6d1;
+  --surface: #131a24;
+  --surface-2: #1b2532;
+  --line: #293240;
+  --muted: #8b95a3;
+  --muted-2: #8b95a3;
+  --faint: #8390a1;
+  --btn: #1b2a39;
+  --btn-hover: #24394d;
+  --btn-active: #182533;
+  --accent: #89bce0;
+  --accent-hover: #b1d5ef;
+  /* Compatibility aliases for components using the original palette names. */
+  --brass: var(--accent);
+  --brass-text: #bdc9d7;
+  --paper: var(--page-surface);
   --sans:
     "IBM Plex Sans", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei",
     sans-serif;
@@ -36,11 +41,11 @@ textarea {
   font-family: inherit;
 }
 ::selection {
-  background: #8f784f65;
+  background: #89bce040;
   color: inherit;
 }
 :focus-visible {
-  outline: 2px solid #baa477;
+  outline: 2px solid var(--accent);
   outline-offset: 5px;
 }
 .sr-only {
@@ -76,7 +81,7 @@ textarea {
   gap: 32px;
   color: var(--ink);
   background: var(--bg);
-  border-bottom: 1px solid #8f784f26;
+  border-bottom: 1px solid var(--line);
   position: relative;
   z-index: 2;
   flex-shrink: 0;
@@ -156,21 +161,21 @@ textarea {
   font-size: 12px;
   cursor: pointer;
 }
-/* Reading rooms: warm paper below the same dark threshold. */
+/* Reading pages share the homepage palette and a slightly lifted content surface. */
 .projects-page,
 .resume-page {
-  --project-ink: #242a25;
-  --resume-ink: #242a25;
+  --project-ink: var(--ink);
+  --resume-ink: var(--ink);
   --project-paper: var(--paper);
   --resume-paper: var(--paper);
-  --project-accent: #766039;
-  --resume-accent: #766039;
-  --project-muted: #66685f;
-  --resume-muted: #66685f;
-  --project-line: #d6d2c5;
-  --resume-line: #d6d2c5;
+  --project-accent: var(--accent);
+  --resume-accent: var(--accent);
+  --project-muted: var(--muted);
+  --resume-muted: var(--muted);
+  --project-line: var(--line);
+  --resume-line: var(--line);
   font-family: var(--sans);
-  color-scheme: light;
+  color-scheme: dark;
 }
 .projects-page .site-header a,
 .resume-page .site-header a {
@@ -189,7 +194,7 @@ textarea {
 .project-hero,
 .resume-hero {
   background:
-    radial-gradient(ellipse at 72% 0, #baa4770e, transparent 60%), var(--bg);
+    radial-gradient(ellipse at 72% 0, #89bce008, transparent 60%), var(--bg);
   color: var(--ink);
   border-top: 0;
   padding-block: 88px;
@@ -217,13 +222,13 @@ textarea {
   color: var(--muted);
 }
 .resume-action--primary {
-  background: #baa477;
-  color: #101310 !important;
-  border-color: #baa477;
+  background: var(--accent);
+  color: var(--bg) !important;
+  border-color: var(--accent);
 }
 .resume-action--primary:hover {
-  background: #c9b386;
-  border-color: #c9b386;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 .projects-hero > .projects-container > p:last-child,
 .project-hero-summary {
@@ -262,7 +267,7 @@ textarea {
 .project-tags span,
 .resume-focus-list span,
 .resume-entry-tags span {
-  border-color: #d6d2c5;
+  border-color: var(--line);
   border-radius: 2px;
 }
 .resume-entry-content > p:not(.resume-role),
@@ -286,7 +291,7 @@ textarea {
 /* The question room shares the upper light, without moving scenery while reading. */
 .app {
   background:
-    radial-gradient(ellipse at 60% 0, #baa47710, transparent 55%), var(--bg);
+    radial-gradient(ellipse at 60% 0, #89bce008, transparent 55%), var(--bg);
   font-family: var(--sans);
   height: 100svh;
 }
@@ -331,13 +336,13 @@ textarea {
   text-align: center;
 }
 .app .composer {
-  background: #1b211d;
+  background: var(--surface);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border: 1px solid #8f784f50;
+  border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow:
-    inset 0 1px #baa47714,
+    inset 0 1px #b7c9df0c,
     0 2px 6px #0003;
 }
 .app .composer:focus-within {
@@ -347,7 +352,7 @@ textarea {
   line-height: 1.8;
 }
 .app .composer textarea::placeholder {
-  color: #a0a395;
+  color: var(--muted);
 }
 .app .iconbtn {
   border-radius: 3px;
@@ -379,8 +384,8 @@ textarea {
   line-height: 1.8;
 }
 .app .user-bubble {
-  background: #232b22;
-  border: 1px solid #8f784f20;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
   border-radius: 6px;
 }
 .app .dock {
@@ -498,6 +503,21 @@ textarea {
   }
 }
 @media print {
+  :root {
+    --bg: #fff;
+    --page-surface: #fff;
+    --ink: #161b22;
+    --body-text: #343d49;
+    --muted: #536171;
+    --surface: #f1f3f6;
+    --surface-2: #e8edf2;
+    --line: #bac3ce;
+    --accent: #315c7c;
+    --accent-hover: #24445c;
+    --brass-text: #315c7c;
+  }
+  .projects-page, .resume-page, .research-page { color-scheme: light; }
+
   .site-header,
   .skip-link {
     display: none;

@@ -1,6 +1,6 @@
 /* English is composed for its own line lengths, rather than fitted into Chinese boxes. */
-.language-switch { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; min-width:52px; padding:0 10px; border:1px solid #b09a7255; border-radius:24px; color:#d7c39c; font:12px var(--sans); white-space:nowrap; flex-shrink:0; }
-.language-switch:hover { color:#f2efe5; border-color:#b09a72; }
+.language-switch { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; min-width:52px; padding:0 10px; border:1px solid var(--line); border-radius:24px; color:var(--body-text); font:12px var(--sans); white-space:nowrap; flex-shrink:0; }
+.language-switch:hover { color:var(--ink); border-color:var(--accent); }
 .site-header .language-switch { margin-left:auto; }
 .site-header .site-actions { margin-left:0; }
 .earth-header > .language-switch { position:relative; z-index:5; }
