@@ -55,24 +55,24 @@ const surfaceFragment = /* glsl */ `
   float land=texture2D(uLand,vUv).r;
   float terrain=fbm(vec3(vUv*vec2(32.,16.),2.));
   float grain=hash(vec3(vUv*vec2(4600.,2300.),.5));
-  vec3 ocean=vec3(.009,.014,.016);
-  vec3 brass=mix(vec3(.061,.038,.016),vec3(.23,.15,.066),terrain);
-  brass*=.82+grain*.28;
-  vec3 base=mix(ocean,brass,land);
+  vec3 ocean=vec3(.009,.014,.022);
+  vec3 silver=mix(vec3(.045,.058,.075),vec3(.17,.21,.26),terrain);
+  silver*=.88+grain*.16;
+  vec3 base=mix(ocean,silver,land);
   float diffuse=smoothstep(-.25,.85,light);
   vec3 color=base*(.12+diffuse*.92);
   float spec=pow(max(dot(N,normalize(L+V)),0.),mix(90.,24.,land));
-  color+=vec3(.40,.31,.18)*spec*mix(.24,.045,land)*diffuse;
+  color+=vec3(.32,.40,.50)*spec*mix(.24,.045,land)*diffuse;
   float coast=abs(land-texture2D(uLand,vUv+vec2(.0005,0)).r)+abs(land-texture2D(uLand,vUv+vec2(0,.0005)).r);
-  color+=vec3(.31,.21,.085)*coast*.3*diffuse;
+  color+=vec3(.22,.29,.37)*coast*.3*diffuse;
   float gridX=1.-smoothstep(.0,.032,abs(sin(vUv.x*3.14159265*36.)));
   float gridY=1.-smoothstep(.0,.032,abs(sin(vUv.y*3.14159265*18.)));
-  color+=vec3(.12,.095,.055)*max(gridX,gridY)*.055*diffuse;
+  color+=vec3(.10,.14,.20)*max(gridX,gridY)*.055*diffuse;
   float fresnel=pow(1.-max(dot(N,V),0.),3.8);
-  color+=vec3(.38,.27,.12)*fresnel*smoothstep(-.25,.7,light)*.8;
+  color+=vec3(.30,.38,.46)*fresnel*smoothstep(-.25,.7,light)*.8;
   float d=distance(vWorld,uTouch);
   float touch=exp(-d*d*16.)*uHover;
-  color+=vec3(.12,.08,.025)*touch*(.5+.5*sin(d*36.-uTime*3.))*land;
+  color+=vec3(.04,.075,.11)*touch*(.5+.5*sin(d*36.-uTime*3.))*land;
   gl_FragColor=vec4(color,1.);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -85,8 +85,8 @@ const atmosphereFragment = /* glsl */ `
   vec3 N=normalize(vNormal), V=normalize(cameraPosition-vWorld);
   float rim=pow(1.-abs(dot(N,V)),5.);
   float sun=smoothstep(-.5,.7,dot(N,normalize(vec3(-3.,2.4,3.4))));
-  vec3 color=mix(vec3(.045,.10,.12),vec3(.52,.34,.13),sun);
-  gl_FragColor=vec4(color,rim*(.08+sun*.45));
+  vec3 color=mix(vec3(.035,.06,.09),vec3(.40,.48,.56),sun);
+  gl_FragColor=vec4(color,rim*(.05+sun*.28));
   #include <colorspace_fragment>
  }
 `;
@@ -106,7 +106,7 @@ const pointFragment = /* glsl */ `
  void main(){
   float d=length(gl_PointCoord-.5);
   float a=(1.-smoothstep(.15,.5,d))*(.10+vLight*.48);
-  gl_FragColor=vec4(vec3(.63,.46,.23),a);
+  gl_FragColor=vec4(vec3(.44,.53,.64),a);
   #include <colorspace_fragment>
  }
 `;
@@ -294,7 +294,7 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
         -7 - random() * 12,
       );
       const v = 0.25 + random() * 0.35;
-      starColors.push(v, v * 0.84, v * 0.65);
+      starColors.push(v * 0.82, v * 0.91, v);
     }
     starsGeo.setAttribute(
       "position",
@@ -407,9 +407,9 @@ export default forwardRef<EarthControls, Props>(function EarthScene(
           new THREE.LineSegments(
             boundaryGeometry,
             new THREE.LineBasicMaterial({
-              color: 0xc6ad7e,
+              color: 0xa9b7c7,
               transparent: true,
-              opacity: 0.48,
+              opacity: 0.38,
               depthWrite: false,
             }),
           ),

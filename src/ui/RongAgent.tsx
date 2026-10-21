@@ -76,6 +76,7 @@ function Composer({
   rows,
   busy,
   dock,
+  ambient = false,
   onChange,
   onSend,
   onStop,
@@ -85,6 +86,7 @@ function Composer({
   rows: number;
   busy: boolean;
   dock?: boolean;
+  ambient?: boolean;
   onChange: (v: string) => void;
   onSend: () => void;
   onStop: () => void;
@@ -101,7 +103,16 @@ function Composer({
   }, [value]);
 
   return (
-    <div className={dock ? "composer composer--dock" : "composer"}>
+    <div
+      className={dock ? "composer composer--dock" : "composer"}
+      data-busy={busy}
+      onPointerMove={ambient ? (event) => {
+        if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+        event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+      } : undefined}
+    >
       <textarea
         ref={ta}
         rows={rows}
@@ -504,6 +515,7 @@ export default function RongAgent({
               placeholder={t("想了解贺融的什么经历？")}
               rows={2}
               busy={false}
+              ambient={embedded}
               onChange={(v) => dispatch({ type: "draft", value: v })}
               onSend={() => void send(state.draft)}
               onStop={stop}
@@ -518,6 +530,7 @@ export default function RongAgent({
                     onClick={() => void send(label)}
                   >
                     {label}
+                    {embedded && <span className="suggestion-arrow" aria-hidden="true">↗</span>}
                   </button>
                 ))}
               </div>
@@ -559,6 +572,7 @@ export default function RongAgent({
               placeholder={t("继续提问…")}
               rows={1}
               busy={state.busy}
+              ambient={embedded}
               dock
               onChange={(v) => dispatch({ type: "draft", value: v })}
               onSend={() => void send(state.draft)}

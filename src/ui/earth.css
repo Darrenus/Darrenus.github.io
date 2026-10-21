@@ -1,14 +1,14 @@
 .earth-page {
-  --space-ink: #e4e0d5;
-  --space-muted: #9b9c95;
-  --space-brass: #b09a72;
+  --space-ink: #e8edf2;
+  --space-muted: #8b95a3;
+  --space-brass: #a9b7c7;
   position: relative;
   isolation: isolate;
   width: 100%;
   height: 100svh;
   min-height: 560px;
   overflow: clip;
-  background: #070a0c;
+  background: #090c10;
   color: var(--space-ink);
   font-family: var(--sans);
 }
@@ -17,9 +17,9 @@
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(ellipse 45% 50% at 65% 38%, #29332f1a, transparent 85%),
-    radial-gradient(ellipse 60% 60% at 30% 65%, #543a2311, transparent 75%),
-    #070a0c;
+    radial-gradient(ellipse 45% 50% at 65% 38%, #23354b1a, transparent 85%),
+    radial-gradient(ellipse 60% 60% at 30% 65%, #273d5511, transparent 75%),
+    #090c10;
 }
 .earth-large-type {
   position: absolute;
@@ -65,12 +65,12 @@
   background:
     linear-gradient(
       0deg,
-      #070a0c 0%,
+      #090c10 0%,
       transparent 19%,
       transparent 87%,
-      #070a0c88
+      #090c1088
     ),
-    linear-gradient(90deg, #070a0c66, transparent 30%);
+    linear-gradient(90deg, #090c1066, transparent 30%);
 }
 .earth-header {
   position: absolute;
@@ -101,7 +101,7 @@
 .earth-header-caption {
   font: 9px var(--mono);
   letter-spacing: 0.2em;
-  color: #7d827d;
+  color: #8b95a3;
 }
 .earth-header nav {
   margin-left: auto;
@@ -110,7 +110,7 @@
   gap: 32px;
 }
 .earth-header nav a {
-  color: #c2c1b9;
+  color: #bdc6d1;
   font-size: 12px;
   min-height: 44px;
   display: flex;
@@ -118,14 +118,14 @@
   gap: 10px;
 }
 .earth-header nav a span {
-  color: #777c72;
+  color: #7e8a99;
 }
 .earth-header nav a:hover {
   color: var(--space-ink);
 }
 .earth-header .earth-ask {
   padding: 0 20px;
-  border: 1px solid #b09a7240;
+  border: 1px solid #a9b7c740;
   border-radius: 40px;
 }
 .earth-side-label {
@@ -139,7 +139,7 @@
   writing-mode: vertical-rl;
   font: 9px var(--mono);
   letter-spacing: 0.08em;
-  color: #858981;
+  color: #8b95a3;
   opacity: calc(1 - var(--journey));
   pointer-events: none;
 }
@@ -211,7 +211,7 @@
   height: 58px;
   display: grid;
   place-items: center;
-  border: 1px solid #b09a7266;
+  border: 1px solid #a9b7c766;
   border-radius: 50%;
   position: relative;
   transition:
@@ -222,7 +222,7 @@
   content: "";
   position: absolute;
   inset: -5px;
-  border: 1px solid #b09a7220;
+  border: 1px solid #a9b7c720;
   border-radius: 50%;
 }
 .earth-explore-orbit::after {
@@ -230,7 +230,7 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background: #b09a72;
+  background: #a9b7c7;
   border-radius: 50%;
   top: 5px;
   left: 6px;
@@ -290,7 +290,7 @@
   padding-left: 13px;
   font: 8px var(--mono);
   letter-spacing: 0.1em;
-  color: #7a8076;
+  color: #8793a2;
 }
 .earth-location-dot {
   display: inline-block;
@@ -305,19 +305,19 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  color: #b6b7ad;
+  color: #b8c2ce;
   font-size: 11px;
 }
 .earth-instructions small {
   display: block;
   font-size: 9px;
   margin-top: 7px;
-  color: #878e84;
+  color: #8b95a3;
 }
 .earth-scroll-mark {
   width: 13px;
   height: 22px;
-  border: 1px solid #b09a7255;
+  border: 1px solid #a9b7c755;
   border-radius: 8px;
   position: relative;
 }
@@ -359,7 +359,7 @@
 }
 .earth-zoom-readout small {
   font-size: 8px;
-  color: #6f786e;
+  color: #8290a0;
 }
 .earth-controls .earth-reset {
   margin-left: 8px;
@@ -379,10 +379,10 @@
   height: 100%;
   margin: 0;
   padding: 110px 54px 50px;
-  background: #101517;
+  background: #10151d;
   color: var(--space-ink);
   border: 0;
-  border-left: 1px solid #b09a7233;
+  border-left: 1px solid #a9b7c733;
   box-shadow: -50px 0 100px #0004;
 }
 .earth-project-dialog::backdrop {
@@ -414,7 +414,7 @@
 }
 .earth-project-tabs button {
   border: 0;
-  border-bottom: 1px solid #475046;
+  border-bottom: 1px solid #303b49;
   background: none;
   color: #858f81;
   width: 44px;
@@ -450,7 +450,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #b09a7277;
+  border-bottom: 1px solid #a9b7c777;
   padding: 18px 0;
   margin-top: 42px;
   font-size: 14px;
@@ -474,11 +474,11 @@
   transform: translate(-50%, -50%);
   background: radial-gradient(
     circle at 28% 28%,
-    #5c503d,
-    #17201c 46%,
-    #080d0e 72%
+    #465568,
+    #192330 46%,
+    #090e16 72%
   );
-  box-shadow: -8px -4px 40px #a58b512b;
+  box-shadow: -8px -4px 40px #a9c3df24;
   border-radius: 50%;
   z-index: -1;
 }
@@ -733,7 +733,7 @@
   line-height: 1.3;
   padding: 5px 7px;
   border-radius: 2px;
-  background: #0c1212c9;
+  background: #0c1119c9;
   border: 1px solid #c7a56933;
   transition:
     background 180ms,
@@ -766,7 +766,7 @@
 }
 .earth-pin:hover .earth-pin-label,
 .earth-pin:focus-visible .earth-pin-label {
-  background: #17201eef;
+  background: #17202cef;
   border-color: #c7a569aa;
 }
 .earth-pin:hover .earth-pin-dot,
@@ -788,15 +788,15 @@
   align-items: center;
   color: #cfbd9b;
   font: 11px var(--sans);
-  background: #0c121277;
-  border: 1px solid #b09a7244;
+  background: #0c111977;
+  border: 1px solid #a9b7c744;
   border-radius: 24px;
   padding: 0 15px;
   min-height: 40px;
   cursor: pointer;
 }
 .earth-places-open:hover {
-  border-color: #b09a7299;
+  border-color: #a9b7c799;
 }
 .earth-places-dialog {
   width: min(560px, 100%);
@@ -831,7 +831,7 @@
   padding: 21px 0;
   background: none;
   border: 0;
-  border-bottom: 1px solid #b09a722f;
+  border-bottom: 1px solid #a9b7c72f;
   text-align: left;
   color: #e4e0d5;
   font: 18px var(--sans);
@@ -856,7 +856,7 @@
   font: 12px var(--sans);
 }
 .earth-place-record {
-  border-top: 1px solid #b09a7240;
+  border-top: 1px solid #a9b7c740;
   padding-top: 28px;
   margin-top: 34px;
 }
@@ -996,11 +996,11 @@ html:has(.earth-page) { scroll-padding-top:0; }
 .earth-pin.is-reflection:hover .earth-pin-label, .earth-pin.is-reflection:focus-visible .earth-pin-label,
 .earth-pin:hover .earth-place-leader, .earth-pin:focus-visible .earth-place-leader,
 .earth-pin.is-reflection:hover .earth-pin-dot, .earth-pin.is-reflection:focus-visible .earth-pin-dot { opacity: 1; }
-.earth-places-dialog.is-reflection { inset: 0; margin: auto; width: min(460px, calc(100% - 32px)); height: fit-content; max-height: calc(100svh - 40px); padding: 70px 38px 40px; border: 1px solid #b09a723d; box-shadow: 0 24px 100px #0006; }
+.earth-places-dialog.is-reflection { inset: 0; margin: auto; width: min(460px, calc(100% - 32px)); height: fit-content; max-height: calc(100svh - 40px); padding: 70px 38px 40px; border: 1px solid #a9b7c73d; box-shadow: 0 24px 100px #0006; }
 .earth-places-dialog.is-reflection[open] { animation: earth-record-in 260ms ease both; }
 .earth-places-dialog.is-reflection .earth-dialog-close { top: 22px; right: 24px; }
 .earth-places-dialog.is-reflection > h2 { margin-bottom: 12px; font-size: 30px; }
-.earth-reflection-note { margin-top: 24px; border-top: 1px solid #b09a7230; padding-top: 24px; }
+.earth-reflection-note { margin-top: 24px; border-top: 1px solid #a9b7c730; padding-top: 24px; }
 .earth-reflection-note .earth-place-period { margin: 0 0 20px; }
 .earth-reflection-visit { font-size: 12px; line-height: 1.8; color: #a7ad9f; margin: 0 0 20px; }
 .earth-reflection-prose { font-size: 16px; line-height: 2; color: #dedbcc; margin: 0; }

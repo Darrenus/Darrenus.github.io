@@ -6,14 +6,14 @@
   left: 50%;
   width: min(720px, calc(100% - 160px));
   opacity: var(--chat-reveal);
-  transform: translateX(-50%) translateY(calc((1 - var(--chat-reveal)) * -32px));
+  transform: translateX(-50%) translateY(calc((1 - var(--chat-reveal)) * -12px));
   will-change: opacity, transform;
 }
 .home-chat-panel[aria-hidden="true"] { visibility: hidden; pointer-events: none; }
 .earth-page .home-agent {
-  --bg: #0b1012;
-  --ink: #e4e0d5;
-  --muted: #a0a49b;
+  --bg: #090c10;
+  --ink: #e8edf2;
+  --muted: #8b95a3;
   height: auto;
   min-height: 0;
   width: 100%;
@@ -23,31 +23,31 @@
 }
 .earth-page .home-agent::before { display: none; }
 .home-agent-toolbar { display: flex; align-items: center; justify-content: space-between; min-height: 40px; gap: 16px; }
-.home-agent-label { color: #b09a72; font: 12px var(--mono); letter-spacing: .12em; }
+.home-agent-label { color: #89bce0; font: 12px var(--mono); letter-spacing: .12em; }
 .home-agent-actions { display: flex; align-items: center; gap: 16px; }
 .earth-page .home-agent .new-conversation { font-size: 12px; }
 .earth-page .home-agent .landing { padding: 4px 0 0; justify-content: flex-start; }
 .earth-page .home-agent .question-eyebrow { display: none; }
-.earth-page .home-agent .h1 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1.3; margin: 6px 0 12px; }
+.earth-page .home-agent .h1 { font-size: clamp(28px, 3vw, 38px); line-height: 1.3; margin: 6px 0 12px; }
 .earth-page .home-agent .question-intro { margin: 0 0 24px; font-size: 13px; line-height: 1.65; }
-.earth-page .home-agent .composer { background: #101819; border: 1px solid #b09a725c; border-radius: 14px; box-shadow: 0 12px 48px #0003; padding: 15px 16px 15px 20px; }
-.earth-page .home-agent .composer:focus-within { border-color: #b09a72; }
+.earth-page .home-agent .composer { position: relative; isolation: isolate; background: #10151dcc; border: 1px solid #b7c9df22; border-radius: 18px; box-shadow: inset 0 1px #e8edf205, 0 16px 48px #0002; transition: border-color 320ms cubic-bezier(.22,1,.36,1), background 320ms ease, box-shadow 320ms ease; padding: 15px 16px 15px 20px; }
+.earth-page .home-agent .composer:focus-within { border-color: #89bce078; box-shadow: 0 0 0 3px #89bce008, 0 16px 48px #0002; }
 .earth-page .home-agent .composer textarea { min-width: 0; font-size: 16px; line-height: 1.65; max-height: 110px; }
-.earth-page .home-agent .iconbtn { background: #b09a72; color: #0b1012; border-radius: 50%; width: 40px; height: 40px; }
+.earth-page .home-agent .iconbtn { background: #89bce01a; color: #a9cde7; border: 1px solid #89bce029; border-radius: 13px; width: 44px; height: 44px; transition: color 220ms ease, background 220ms ease, border-color 220ms ease; }
 .earth-page .home-agent .suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 20px; margin-top: 0; }
-.earth-page .home-agent .chip { font-size: 12px; min-height: 40px; border-bottom-color: #b09a722b; }
+.earth-page .home-agent .chip { font-size: 12px; min-height: 44px; border: 0; display: inline-flex; align-items: center; gap: 6px; line-height: 1.5; text-align: left; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .earth-page .home-agent .question-mode { font-size: 10px; margin: 12px 0 0; line-height: 1.5; }
-.earth-page .home-agent.has-conversation { height: clamp(330px, 52svh, 490px); border: 1px solid #b09a7240; border-radius: 16px; background: #0c1214f5; box-shadow: 0 16px 64px #0003; display: flex; flex-direction: column; overflow: hidden; }
-.home-agent.has-conversation .home-agent-toolbar { padding: 6px 18px; border-bottom: 1px solid #b09a7225; flex-shrink: 0; }
+.earth-page .home-agent.has-conversation { height: clamp(330px, 52svh, 490px); border: 1px solid #b7c9df22; border-radius: 16px; background: #0c1119f5; box-shadow: 0 16px 64px #0003; display: flex; flex-direction: column; overflow: hidden; }
+.home-agent.has-conversation .home-agent-toolbar { padding: 6px 18px; border-bottom: 1px solid #b7c9df14; flex-shrink: 0; }
 .earth-page .home-agent .chat { min-height: 0; }
 .earth-page .home-agent .scroll { padding: 16px 20px; overscroll-behavior: contain; }
 .earth-page .home-agent .thread { gap: 24px; }
-.earth-page .home-agent .dock { padding: 10px 14px 12px; background: #0c1214; }
+.earth-page .home-agent .dock { padding: 10px 14px 12px; background: #0c1119; }
 .earth-page .home-agent .composer--dock { padding: 8px 10px 8px 14px; border-radius: 10px; }
 .earth-page .home-agent .footnote { margin-top: 8px; font-size: 10px; line-height: 1.5; }
 .earth-page .home-agent .prose { font-size: 14px; }
-.home-view-toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 18px; border: 1px solid #b09a7245; border-radius: 24px; background: #0b1012e8; color: #d0c6b0; font: 12px var(--sans); cursor: pointer; white-space: nowrap; }
-.home-view-toggle:hover { border-color: #b09a72; color: #eee7d8; }
+.home-view-toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 18px; border: 1px solid #89bce045; border-radius: 24px; background: #090c10e8; color: #bdc9d7; font: 12px var(--sans); cursor: pointer; white-space: nowrap; }
+.home-view-toggle:hover { border-color: #89bce0; color: #e8edf2; }
 .home-view-toggle:disabled { opacity: .5; cursor: wait; }
 /* Keep the controls away from the conversation and give touch users native page scrolling. */
 .earth-page .earth-canvas { touch-action: pan-y; }
@@ -65,7 +65,7 @@
   .home-chat-panel { width: calc(100% - 40px); top: 142px; }
   .earth-page .earth-footer { padding: 0 20px 20px; gap: 10px; }
   .earth-page .earth-instructions { display: none; }
-  .earth-page .home-agent .h1 { font-size: 30px; }
+  .earth-page .home-agent .h1 { font-size: 28px; }
   .earth-page .home-agent .question-intro { font-size: 12px; margin-bottom: 18px; }
   .earth-page .home-agent .suggestions { gap: 0 14px; }
   .earth-page .home-agent .chip { font-size: 11px; }
@@ -74,7 +74,7 @@
 }
 @media (max-width: 480px) {
   .home-chat-panel { top: 176px; }
-  .earth-page .home-agent .h1 { font-size: 27px; }
+  .earth-page .home-agent .h1 { font-size: 26px; }
   .earth-page .home-agent .question-intro { max-width: 290px; }
   .earth-page .home-agent .suggestions { justify-content: flex-start; gap: 0 14px; }
   .earth-page .home-agent .question-mode { text-align: left; }
@@ -105,4 +105,92 @@ body:has(.earth-page), .earth-page { overflow-anchor: none; }
   .home-chat-panel { top: 162px; }
   .earth-page .home-agent .question-intro { display: none; }
   .earth-page .home-agent .h1 { margin-bottom: 20px; }
+}
+
+/* The homepage uses cool silver; champagne remains reserved for place markers. */
+.earth-page {
+  --brass: #89bce0;
+  --brass-text: #bdc9d7;
+  --line: #293240;
+  --muted: #8b95a3;
+}
+.earth-page .home-agent {
+  --brass: #89bce0;
+  --brass-text: #d2dce7;
+  --surface: #131a24;
+  --surface-2: #1b2532;
+  --line: #293240;
+  --muted-2: #8b95a3;
+  --faint: #8390a1;
+  --btn: #1b2a39;
+  --btn-hover: #24394d;
+  --btn-active: #182533;
+}
+.earth-page .home-agent .tilt { color: #d2dce7; font-weight: 400; }
+.earth-page .home-agent .user-bubble { background: #1a2430; border-color: #a9b7c71a; border-radius: 12px; }
+.earth-page .home-agent .h1 { letter-spacing: -.025em; font-weight: 400; }
+.earth-page .home-agent .composer textarea::placeholder { color: #8b95a3; }
+.earth-page .home-agent .composer textarea,
+.earth-page .home-agent .composer > button { position: relative; z-index: 1; }
+.earth-page .home-agent .composer::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(180px circle at var(--pointer-x, 50%) var(--pointer-y, 0%), #a9d5f4a6, transparent 75%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+.earth-page .home-agent .composer:focus-within::before { opacity: .6; }
+.earth-page .home-agent .composer::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  bottom: -1px;
+  height: 1px;
+  width: 25%;
+  background: linear-gradient(90deg, transparent, #89bce0, transparent);
+  pointer-events: none;
+  opacity: 0;
+}
+.earth-page .home-agent .composer[data-busy="true"]::after {
+  animation: home-thinking-light 2400ms cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes home-thinking-light {
+  0% { transform: translateX(0); opacity: 0; }
+  20%, 80% { opacity: .7; }
+  100% { transform: translateX(260%); opacity: 0; }
+}
+.earth-page .home-agent .iconbtn:disabled { opacity: .48; background: #a9b7c70c; border-color: #a9b7c719; color: #8b95a3; }
+.earth-page .home-agent .iconbtn:not(:disabled):hover { background: #89bce030; color: #e8edf2; border-color: #89bce05c; }
+.earth-page .home-agent .iconbtn:active { background: #89bce022; }
+.earth-page .home-agent .chip:hover { color: #e8edf2; background: transparent; }
+.suggestion-arrow { color: #89bce0; opacity: 0; transform: translate(-3px, 2px); transition: opacity 220ms ease, transform 320ms cubic-bezier(.22,1,.36,1); flex-shrink: 0; }
+.chip:is(:hover, :focus-visible) .suggestion-arrow { opacity: .85; transform: none; }
+.earth-page :focus-visible { outline-color: #89bce0; }
+.earth-page ::selection { background: #89bce040; }
+.earth-page .language-switch { color: #bdc9d7; border-color: #a9b7c730; }
+.earth-page .language-switch:hover { color: #e8edf2; border-color: #89bce078; }
+.earth-page + footer.site-footer { background: #10151c; color: #e8edf2; }
+.earth-page + footer.site-footer a:hover { color: #89bce0; }
+.earth-page + footer.site-footer .site-footer-email,
+.earth-page + footer.site-footer .site-footer-bottom { color: #8b95a3; }
+@media (hover: hover) and (pointer: fine) {
+  .earth-page .home-agent .composer:hover::before { opacity: .75; }
+}
+@media (hover: none) {
+  .suggestion-arrow { opacity: .5; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .earth-page .home-agent .composer,
+  .earth-page .home-agent .composer::before,
+  .earth-page .home-agent .iconbtn,
+  .earth-page .home-agent .chip,
+  .earth-page .suggestion-arrow { transition: none; }
+  .earth-page .suggestion-arrow { transform: none; }
+  .earth-page .home-agent .composer[data-busy="true"]::after { animation: none; opacity: .7; width: 90%; }
 }
