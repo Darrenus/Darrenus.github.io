@@ -31,7 +31,7 @@
   line-height: 0.75;
   font-weight: 500;
   letter-spacing: -0.07em;
-  color: #77816d;
+  color: #8b95a3;
   opacity: calc(0.1 - var(--journey) * 0.15);
   user-select: none;
   pointer-events: none;
@@ -161,7 +161,7 @@
   margin-left: 16px;
   font: 10px var(--mono);
   letter-spacing: 0.12em;
-  color: #a5a69c;
+  color: #8b95a3;
 }
 .earth-identity h1 {
   font-size: clamp(24px, 2.55vw, 40px);
@@ -171,7 +171,7 @@
   margin: 0;
 }
 .earth-identity h1 span {
-  color: #9c9f94;
+  color: #8b95a3;
 }
 .earth-role {
   font-size: 12px;
@@ -378,7 +378,9 @@
   max-height: 100%;
   height: 100%;
   margin: 0;
-  padding: 110px 54px 50px;
+  padding: 28px 54px 50px;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   background: #10151d;
   color: var(--space-ink);
   border: 0;
@@ -391,13 +393,20 @@
 .earth-project-dialog[open] {
   animation: earth-panel-in 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+.earth-dialog-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 38px;
+  background: #10151d;
+  box-shadow: 0 -28px #10151d;
+}
 .earth-dialog-close {
-  position: absolute;
-  top: 28px;
-  right: 32px;
   background: none;
   border: 0;
-  color: #b2b6ab;
+  color: #bdc6d1;
   min-height: 44px;
   font-size: 12px;
   cursor: pointer;
@@ -416,7 +425,7 @@
   border: 0;
   border-bottom: 1px solid #303b49;
   background: none;
-  color: #858f81;
+  color: #8b95a3;
   width: 44px;
   height: 44px;
   font: 11px var(--mono);
@@ -442,7 +451,7 @@
   margin: 0 0 28px;
 }
 .earth-project-record > p:not(.earth-project-category) {
-  color: #adb4a7;
+  color: #bdc6d1;
   font-size: 15px;
   line-height: 1.9;
 }
@@ -459,7 +468,7 @@
 .earth-dialog-all {
   display: block;
   margin-top: 80px;
-  color: #a2ac9b;
+  color: #8b95a3;
   font-size: 12px;
 }
 .earth-dialog-all span {
@@ -624,8 +633,9 @@
     height: 36px;
   }
   .earth-project-dialog {
-    padding: 94px 30px 40px;
+    padding: 22px 30px 40px;
   }
+  .earth-dialog-toolbar { margin-bottom: 28px; }
   .earth-project-tabs {
     margin: 30px 0 40px;
   }
@@ -710,7 +720,7 @@
   height: 9px;
   border: 1px solid #e1c594;
   border-radius: 50%;
-  background: #181e19;
+  background: #131a24;
   box-shadow:
     0 0 0 5px #b39a6322,
     0 0 16px #c7a56944;
@@ -743,7 +753,7 @@
   display: block;
   margin-top: 4px;
   font-size: 9px;
-  color: #b5b8a6;
+  color: #a9b7c7;
   letter-spacing: 0.1em;
 }
 .earth-pin-label::before {
@@ -786,7 +796,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  color: #cfbd9b;
+  color: #bdc9d7;
   font: 11px var(--sans);
   background: #0c111977;
   border: 1px solid #a9b7c744;
@@ -808,7 +818,7 @@
   margin: 0 0 22px;
 }
 .earth-places-caption {
-  color: #a7ae9f;
+  color: #8b95a3;
   font-size: 12px;
   line-height: 1.8;
   margin: 20px 0 32px;
@@ -819,7 +829,7 @@
 .earth-place-group > h3 {
   font-size: 11px;
   font-weight: 400;
-  color: #a79878;
+  color: #8b95a3;
   letter-spacing: 0.18em;
   margin: 0 0 10px;
 }
@@ -833,7 +843,7 @@
   border: 0;
   border-bottom: 1px solid #a9b7c72f;
   text-align: left;
-  color: #e4e0d5;
+  color: #e8edf2;
   font: 18px var(--sans);
   cursor: pointer;
 }
@@ -841,17 +851,17 @@
   display: block;
   margin-top: 9px;
   font-size: 11px;
-  color: #a0a797;
+  color: #8b95a3;
 }
 .earth-place-row:hover {
-  color: #d6ba83;
+  color: #89bce0;
 }
 .earth-places-back {
   padding: 8px 0;
   min-height: 40px;
   border: 0;
   background: none;
-  color: #beac88;
+  color: #89bce0;
   cursor: pointer;
   font: 12px var(--sans);
 }
@@ -861,7 +871,7 @@
   margin-top: 34px;
 }
 .earth-place-period {
-  color: #baab8c;
+  color: #8b95a3;
   font: 11px var(--mono);
 }
 .earth-place-record h3 {
@@ -871,13 +881,13 @@
   margin: 16px 0 12px;
 }
 .earth-place-role {
-  color: #c4c3b5;
+  color: #bdc6d1;
   font-size: 12px;
   line-height: 1.7;
 }
 .earth-place-record ul {
   padding-left: 17px;
-  color: #b3b9aa;
+  color: #bdc6d1;
   font-size: 13px;
   line-height: 1.9;
 }
@@ -888,7 +898,7 @@
 .earth-place-record > a {
   display: inline-block;
   font-size: 12px;
-  color: #d2bd93;
+  color: #89bce0;
   margin: 8px 0 16px;
 }
 @media (max-width: 600px) {
@@ -921,12 +931,12 @@
 }
 
 .earth-place-summary {
-  color: #b3b9aa;
+  color: #bdc6d1;
   font-size: 13px;
   line-height: 1.85;
 }
 .earth-place-record details summary {
-  color: #cdbb95;
+  color: #89bce0;
   font-size: 12px;
   cursor: pointer;
   min-height: 36px;
@@ -976,7 +986,7 @@
 html:has(.earth-page) { scroll-padding-top:0; }
 @media (min-width: 481px) and (max-width: 760px) {
   .earth-header { flex-wrap: wrap; gap: 4px; padding-top: 16px; }
-  .earth-header nav { width: 100%; justify-content: space-between; gap: 12px; }
+  .earth-header nav { width: 100%; justify-content: space-between; gap: 12px; margin-top: 8px; }
   .earth-header nav a { white-space: nowrap; }
   .earth-places-open { top: 126px; }
 }
@@ -996,16 +1006,16 @@ html:has(.earth-page) { scroll-padding-top:0; }
 .earth-pin.is-reflection:hover .earth-pin-label, .earth-pin.is-reflection:focus-visible .earth-pin-label,
 .earth-pin:hover .earth-place-leader, .earth-pin:focus-visible .earth-place-leader,
 .earth-pin.is-reflection:hover .earth-pin-dot, .earth-pin.is-reflection:focus-visible .earth-pin-dot { opacity: 1; }
-.earth-places-dialog.is-reflection { inset: 0; margin: auto; width: min(460px, calc(100% - 32px)); height: fit-content; max-height: calc(100svh - 40px); padding: 70px 38px 40px; border: 1px solid #a9b7c73d; box-shadow: 0 24px 100px #0006; }
+.earth-places-dialog.is-reflection { inset: 0; margin: auto; width: min(460px, calc(100% - 32px)); height: fit-content; max-height: calc(100svh - 40px); padding: 22px 38px 40px; border: 1px solid #a9b7c73d; box-shadow: 0 24px 100px #0006; }
 .earth-places-dialog.is-reflection[open] { animation: earth-record-in 260ms ease both; }
-.earth-places-dialog.is-reflection .earth-dialog-close { top: 22px; right: 24px; }
+.earth-places-dialog.is-reflection .earth-dialog-toolbar { margin-bottom: 24px; }
 .earth-places-dialog.is-reflection > h2 { margin-bottom: 12px; font-size: 30px; }
 .earth-reflection-note { margin-top: 24px; border-top: 1px solid #a9b7c730; padding-top: 24px; }
 .earth-reflection-note .earth-place-period { margin: 0 0 20px; }
-.earth-reflection-visit { font-size: 12px; line-height: 1.8; color: #a7ad9f; margin: 0 0 20px; }
-.earth-reflection-prose { font-size: 16px; line-height: 2; color: #dedbcc; margin: 0; }
+.earth-reflection-visit { font-size: 12px; line-height: 1.8; color: #8b95a3; margin: 0 0 20px; }
+.earth-reflection-prose { font-size: 16px; line-height: 2; color: #e8edf2; margin: 0; }
 @media (max-width: 480px) {
-  .earth-places-dialog.is-reflection { padding: 64px 26px 30px; }
+  .earth-places-dialog.is-reflection { padding: 18px 26px 30px; }
   .earth-reflection-prose { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -75,7 +75,7 @@ export default function PortalHome() {
   const close = () => {
     dialog.current?.close();
     setOpened(false);
-    openButton.current?.focus();
+    openButton.current?.focus({ preventScroll: true });
   };
   const open = () => {
     setOpened(true);
@@ -237,7 +237,7 @@ export default function PortalHome() {
         onCancel={close}
         onClose={() => {
           setOpened(false);
-          openButton.current?.focus();
+          openButton.current?.focus({ preventScroll: true });
         }}
         aria-labelledby="earth-project-title"
         onClick={(e) => {
@@ -253,6 +253,7 @@ export default function PortalHome() {
           }
         }}
       >
+        <div className="earth-dialog-toolbar">
         <button
           className="earth-dialog-close"
           onClick={close}
@@ -260,6 +261,7 @@ export default function PortalHome() {
         >
           {t("关闭")}<span>×</span>
         </button>
+        </div>
         <p className="earth-overline">
           {t("精选项目")}{" "}
           <span>{String(projectIndex + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}</span>

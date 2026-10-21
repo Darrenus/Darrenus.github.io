@@ -66,6 +66,7 @@ export default function EarthPlacesDialog({
         }
       }}
     >
+      <div className="earth-dialog-toolbar">
       <button
         className="earth-dialog-close"
         onClick={onClose}
@@ -73,6 +74,7 @@ export default function EarthPlacesDialog({
       >
         {t("关闭")}<span>×</span>
       </button>
+      </div>
       <p className="earth-overline">{place?.kind === "reflection" ? t("城市思考") : t("学习与实践")}</p>
       <h2 id="earth-places-title" tabIndex={-1}>
         {place ? place.city : t("经历坐标")}
