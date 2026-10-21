@@ -1,0 +1,27 @@
+.chat-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--chat-reveal);
+}
+.chat-particles[data-active="false"] { visibility: hidden; }
+.chat-particle-band {
+  position: absolute;
+  top: clamp(150px, 23svh, 220px);
+  height: clamp(200px, 36svh, 340px);
+  width: min(250px, calc((100% - 720px) / 2 - 72px));
+}
+.chat-particle-band.is-left { right: calc(50% + 396px); }
+.chat-particle-band.is-right { left: calc(50% + 396px); }
+.chat-particle {
+  position: absolute;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  border-radius: 50%;
+  background: #bdc9d7;
+  box-shadow: 0 0 7px #a9cde72b;
+}
+@media (max-width: 1000px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .chat-particles { display: none; }
+}

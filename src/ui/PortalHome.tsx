@@ -1,4 +1,5 @@
 import RongAgent from "./RongAgent";
+import ChatParticles from "./ChatParticles";
 import { createTransport } from "../agent/transport";
 import { hasModel } from "../agent/config";
 import { chatReveal } from "./earth-navigation";
@@ -103,6 +104,7 @@ export default function PortalHome() {
         <div className="earth-fallback" aria-hidden="true" />
       )}
       <div className="earth-vignette" aria-hidden="true" />
+      <ChatParticles active={!chatHidden && !opened && placeSelection === undefined} />
       <header className="earth-header">
         <a className="earth-logo" href={localizedHref("/")} aria-label={t("SpaceR 首页")}>
           <span className="earth-logo-mark" aria-hidden="true">
