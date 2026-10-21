@@ -1,7 +1,14 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, type CSSProperties } from "react";
 import { isEnglish } from "../i18n";
 import { CONSTELLATIONS, DUST, limitAngle, projectStar, type Constellation } from "./constellations";
 import "./chat-particles.css";
+
+const FIELD_DUST = DUST.filter((_, index) => index % 3 === 0);
+// The loose background bridges the constellations instead of framing each one.
+const AMBIENT_STARS = [
+  [[8, 7], [66, 2], [93, 17], [34, 26], [3, 35], [75, 38], [48, 44], [94, 51], [18, 57], [7, 73], [64, 76], [86, 84], [38, 91], [5, 97], [77, 99], [31, 11], [52, 66]],
+  [[87, 4], [22, 9], [56, 1], [8, 24], [93, 32], [45, 37], [72, 46], [18, 51], [98, 62], [53, 68], [84, 75], [6, 83], [39, 89], [68, 96], [96, 91], [66, 19], [31, 59]],
+];
 
 function StarField({ constellation, active }: { constellation: Constellation; active: boolean }) {
   const root = useRef<HTMLDivElement>(null);
@@ -12,7 +19,7 @@ function StarField({ constellation, active }: { constellation: Constellation; ac
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const dots = [...host.querySelectorAll<SVGGElement>(".constellation-dot")];
     const lines = [...host.querySelectorAll<SVGLineElement>("line")];
-    const points = [...constellation.stars, ...DUST];
+    const points = [...constellation.stars, ...FIELD_DUST];
     let pitch = 0, yaw = 0, targetPitch = 0, targetYaw = 0;
     let hoverPitch = 0, hoverYaw = 0;
     let frame = 0, lastTime = 0, visible = false;
@@ -130,7 +137,7 @@ function StarField({ constellation, active }: { constellation: Constellation; ac
   const name = isEnglish ? constellation.english : constellation.name;
   const hint = isEnglish ? "Drag to rotate · Double-click to reset" : "拖动旋转 · 双击复位";
   return (
-    <div ref={root} className="constellation-field" role="group" tabIndex={active ? 0 : -1}
+    <div ref={root} className="constellation-field" data-constellation={constellation.english} role="group" tabIndex={active ? 0 : -1}
       aria-label={`${name} · ${hint}${isEnglish ? ". Arrow keys rotate; Home resets." : "。方向键旋转，Home 复位。"}`}>
       <svg viewBox="0 0 240 160" aria-hidden="true">
         <g className="constellation-lines">
@@ -139,7 +146,7 @@ function StarField({ constellation, active }: { constellation: Constellation; ac
             return <line key={index} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />;
           })}
         </g>
-        {[...constellation.stars, ...DUST].map((point, index) => {
+        {[...constellation.stars, ...FIELD_DUST].map((point, index) => {
           const position = projectStar(point, 0, 0);
           const main = index < constellation.stars.length;
           return <g key={index} className={`constellation-dot ${main ? "is-star" : "is-dust"}`} transform={`translate(${position.x} ${position.y})`}>
@@ -148,8 +155,6 @@ function StarField({ constellation, active }: { constellation: Constellation; ac
           </g>;
         })}
       </svg>
-      <span className="constellation-caption"><span>{name}</span><span aria-hidden="true">↔</span></span>
-      <span className="constellation-hint" aria-hidden="true">{hint}</span>
     </div>
   );
 }
@@ -157,6 +162,13 @@ function StarField({ constellation, active }: { constellation: Constellation; ac
 function ChatParticles({ active }: { active: boolean }) {
   return <div className="chat-particles" data-active={active} aria-hidden={!active} inert={!active}>
     {[0, 1].map(side => <div className={`chat-particle-band is-${side === 0 ? "left" : "right"}`} key={side}>
+      <div className="ambient-stars" aria-hidden="true">
+        {AMBIENT_STARS[side].map(([x, y], index) => <span key={index} style={{
+          left: `${x}%`, top: `${y}%`,
+          "--star-size": `${index % 5 === 0 ? 1.8 : 1.1}px`,
+          opacity: 0.2 + (index % 4) * 0.09,
+        } as CSSProperties} />)}
+      </div>
       {CONSTELLATIONS.slice(side * 2, side * 2 + 2).map(constellation => <StarField key={constellation.name} constellation={constellation} active={active} />)}
     </div>)}
   </div>;

@@ -8,21 +8,38 @@
 .chat-particles[data-active="false"] { visibility: hidden; }
 .chat-particle-band {
   position: absolute;
-  top: clamp(130px, 20svh, 180px);
+  top: clamp(112px, 17svh, 160px);
   width: min(250px, calc((100% - 720px) / 2 - 72px));
-  display: grid;
-  gap: 28px;
+  height: min(65svh, 590px);
 }
 .chat-particle-band.is-left { right: calc(50% + 396px); }
 .chat-particle-band.is-right { left: calc(50% + 396px); }
+.ambient-stars { position: absolute; inset: 0; pointer-events: none; }
+.ambient-stars span {
+  position: absolute;
+  width: var(--star-size);
+  height: var(--star-size);
+  border-radius: 50%;
+  background: #bdc9d7;
+  box-shadow: 0 0 4px #a9cde715;
+}
 .constellation-field {
-  position: relative;
+  position: absolute;
   pointer-events: auto;
   cursor: grab;
   user-select: none;
-  border-radius: 12px;
+  border-radius: 50%;
   outline: none;
 }
+/* Unequal scale, spacing and orientation avoid a two-by-two panel layout. */
+.constellation-field[data-constellation="Big Dipper"] { width: 106%; left: -3%; top: 0; }
+.constellation-field[data-constellation="Big Dipper"] svg { transform: rotate(-11deg); }
+.constellation-field[data-constellation="Cassiopeia"] { width: 82%; left: 14%; top: clamp(205px, 31svh, 285px); }
+.constellation-field[data-constellation="Cassiopeia"] svg { transform: rotate(9deg); }
+.constellation-field[data-constellation="Orion"] { width: 94%; left: 4%; top: clamp(38px, 6svh, 70px); }
+.constellation-field[data-constellation="Orion"] svg { transform: rotate(8deg); }
+.constellation-field[data-constellation="Southern Cross"] { width: 65%; left: 0; top: clamp(260px, 38svh, 350px); }
+.constellation-field[data-constellation="Southern Cross"] svg { transform: rotate(-13deg); }
 .constellation-field[data-dragging="true"] { cursor: grabbing; }
 .constellation-field:focus-visible { outline: 1px solid #89bce066; outline-offset: 5px; }
 .constellation-field svg { display: block; width: 100%; overflow: visible; }
@@ -30,32 +47,10 @@
 .constellation-dot { fill: #c5d5e6; }
 .constellation-dot.is-star { fill: #dce8f4; }
 .constellation-dot .star-halo { fill: #9cbedb; opacity: .09; }
-.constellation-caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
-  padding: 0 10px;
-  color: #8795a8;
-  font: 10px/1.5 var(--sans);
-  letter-spacing: .06em;
-}
-.constellation-caption > :last-child { opacity: .55; }
-.constellation-hint {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 10px;
-  color: #8795a8;
-  font: 9px/1.4 var(--sans);
-  opacity: 0;
-  transition: opacity 240ms ease;
-  pointer-events: none;
-}
 .constellation-field:is(:hover, :focus-visible) .constellation-lines { opacity: .55; }
-.constellation-field:is(:hover, :focus-visible) .constellation-hint { opacity: 1; }
-@media (max-width: 1150px) { .constellation-hint { display: none; } }
 @media (max-width: 1100px), (hover: none), (pointer: coarse) {
   .chat-particles { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .constellation-lines, .constellation-hint { transition: none; }
+  .constellation-lines { transition: none; }
 }
