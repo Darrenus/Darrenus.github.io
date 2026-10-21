@@ -1,135 +1,165 @@
-import { memo, useEffect, useRef, type CSSProperties } from "react";
+import { memo, useEffect, useRef } from "react";
+import { isEnglish } from "../i18n";
+import { CONSTELLATIONS, DUST, limitAngle, projectStar, type Constellation } from "./constellations";
 import "./chat-particles.css";
 
-// Fixed positions avoid a reshuffle when the chat or globe updates.
-const POINTS = [
-  [18, 12], [73, 7], [47, 23], [87, 33], [11, 43], [65, 48],
-  [35, 57], [82, 68], [19, 79], [56, 89], [91, 92], [39, 5],
-  [30, 35], [78, 20], [8, 64], [52, 71], [94, 51], [42, 95],
-].map(([x, y], index) => ({
-  x,
-  y,
-  size: index % 5 === 0 ? 3 : index % 3 === 0 ? 2 : 1.5,
-  opacity: 0.3 + (index % 4) * 0.13,
-}));
-
-function ChatParticles({ active }: { active: boolean }) {
+function StarField({ constellation, active }: { constellation: Constellation; active: boolean }) {
   const root = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const layer = root.current;
-    const host = layer?.parentElement;
-    if (!active || !layer || !host) return;
-    const media = window.matchMedia("(min-width: 1001px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    const particles = Array.from(layer.querySelectorAll<HTMLElement>(".chat-particle"), element => ({
-      element, baseX: 0, baseY: 0, x: 0, y: 0,
-    }));
-    let frame = 0;
-    let lastTime = 0;
-    let visible = false;
-    let pointer: { x: number; y: number } | null = null;
+    const host = root.current;
+    if (!host || !active) return;
+    const media = window.matchMedia("(min-width: 1101px) and (hover: hover) and (pointer: fine)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const dots = [...host.querySelectorAll<SVGGElement>(".constellation-dot")];
+    const lines = [...host.querySelectorAll<SVGLineElement>("line")];
+    const points = [...constellation.stars, ...DUST];
+    let pitch = 0, yaw = 0, targetPitch = 0, targetYaw = 0;
+    let hoverPitch = 0, hoverYaw = 0;
+    let frame = 0, lastTime = 0, visible = false;
+    let drag: { id: number; x: number; y: number } | null = null;
     const enabled = () => media.matches && visible && !document.hidden;
 
-    function reset() {
-      cancelAnimationFrame(frame);
-      frame = 0;
-      lastTime = 0;
-      pointer = null;
-      particles.forEach(particle => {
-        particle.x = particle.y = 0;
-        particle.element.style.removeProperty("transform");
+    function paint() {
+      const projected = points.map(point => projectStar(point, pitch, yaw));
+      dots.forEach((dot, index) => {
+        const point = projected[index];
+        dot.setAttribute("transform", `translate(${point.x.toFixed(2)} ${point.y.toFixed(2)}) scale(${point.scale.toFixed(3)})`);
+      });
+      lines.forEach((line, index) => {
+        const [from, to] = constellation.edges[index];
+        line.setAttribute("x1", String(projected[from].x));
+        line.setAttribute("y1", String(projected[from].y));
+        line.setAttribute("x2", String(projected[to].x));
+        line.setAttribute("y2", String(projected[to].y));
       });
     }
-
-    function measure() {
-      // offset positions exclude the animated transform; bounds are read only
-      // on layout/scroll changes, never on every animation frame.
-      particles.forEach(particle => {
-        const band = particle.element.parentElement!.getBoundingClientRect();
-        particle.baseX = band.left + particle.element.offsetLeft;
-        particle.baseY = band.top + particle.element.offsetTop;
-      });
-      pointer = null;
-      if (enabled()) schedule();
-    }
-
     function tick(time: number) {
       frame = 0;
-      if (!enabled()) { reset(); return; }
-      const elapsed = lastTime ? Math.min(time - lastTime, 50) : 16;
+      if (!enabled()) return;
+      const ease = reduced.matches ? 1 : 1 - Math.exp(-Math.min(lastTime ? time - lastTime : 16, 50) / 110);
       lastTime = time;
-      const ease = 1 - Math.exp(-elapsed / 150);
-      let unsettled = false;
-      particles.forEach(particle => {
-        const dx = pointer ? particle.baseX - pointer.x : 0;
-        const dy = pointer ? particle.baseY - pointer.y : 0;
-        const distance = Math.hypot(dx, dy);
-        const influence = pointer ? Math.max(0, 1 - distance / 180) : 0;
-        const offset = 14 * influence * influence;
-        const targetX = distance > 0 ? dx / distance * offset : 0;
-        const targetY = distance > 0 ? dy / distance * offset : 0;
-        particle.x += (targetX - particle.x) * ease;
-        particle.y += (targetY - particle.y) * ease;
-        if (Math.abs(targetX - particle.x) + Math.abs(targetY - particle.y) > 0.025) unsettled = true;
-        else { particle.x = targetX; particle.y = targetY; }
-        particle.element.style.transform = `translate3d(${particle.x.toFixed(2)}px, ${particle.y.toFixed(2)}px, 0)`;
-      });
-      if (unsettled) frame = requestAnimationFrame(tick);
-      else lastTime = 0;
+      const nextPitch = limitAngle(targetPitch + hoverPitch);
+      const nextYaw = limitAngle(targetYaw + hoverYaw);
+      pitch += (nextPitch - pitch) * ease;
+      yaw += (nextYaw - yaw) * ease;
+      const settling = Math.abs(nextPitch - pitch) + Math.abs(nextYaw - yaw) > 0.0002;
+      if (!settling) { pitch = nextPitch; yaw = nextYaw; lastTime = 0; }
+      paint();
+      if (settling) frame = requestAnimationFrame(tick);
     }
-    function schedule() {
-      if (!frame && enabled()) frame = requestAnimationFrame(tick);
+    function schedule() { if (!frame && enabled()) frame = requestAnimationFrame(tick); }
+    function down(event: PointerEvent) {
+      if (!enabled() || event.button !== 0 || event.pointerType !== "mouse") return;
+      event.stopPropagation();
+      host!.focus({ preventScroll: true });
+      host!.setPointerCapture(event.pointerId);
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      hoverPitch = hoverYaw = 0;
+      host!.dataset.dragging = "true";
     }
     function move(event: PointerEvent) {
-      if (event.pointerType !== "mouse" || !enabled()) return;
-      pointer = { x: event.clientX, y: event.clientY };
+      if (!enabled() || event.pointerType !== "mouse") return;
+      if (drag && drag.id === event.pointerId) {
+        targetYaw = limitAngle(targetYaw + (event.clientX - drag.x) * 0.007);
+        targetPitch = limitAngle(targetPitch - (event.clientY - drag.y) * 0.007);
+        drag.x = event.clientX; drag.y = event.clientY;
+      } else if (!reduced.matches) {
+        const bounds = host!.getBoundingClientRect();
+        hoverYaw = ((event.clientX - bounds.left) / bounds.width - 0.5) * 0.12;
+        hoverPitch = -((event.clientY - bounds.top) / bounds.height - 0.5) * 0.12;
+      }
       schedule();
     }
-    function leave() { pointer = null; schedule(); }
-    function refresh() { reset(); if (enabled()) measure(); }
-
-    const observer = new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-      refresh();
-    });
-    const resize = new ResizeObserver(measure);
-    observer.observe(layer);
-    resize.observe(host);
+    function release() {
+      const id = drag?.id;
+      drag = null;
+      host!.dataset.dragging = "false";
+      if (id !== undefined && host!.hasPointerCapture(id)) host!.releasePointerCapture(id);
+    }
+    function leave() { if (!drag) { hoverPitch = hoverYaw = 0; schedule(); } }
+    function reset() { targetPitch = targetYaw = hoverPitch = hoverYaw = 0; schedule(); }
+    function key(event: KeyboardEvent) {
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home"].includes(event.key) || !enabled()) return;
+      event.preventDefault(); event.stopPropagation();
+      hoverPitch = hoverYaw = 0;
+      if (event.key === "Home") reset();
+      else {
+        targetYaw = limitAngle(targetYaw + (event.key === "ArrowRight" ? 0.12 : event.key === "ArrowLeft" ? -0.12 : 0));
+        targetPitch = limitAngle(targetPitch + (event.key === "ArrowUp" ? 0.12 : event.key === "ArrowDown" ? -0.12 : 0));
+        schedule();
+      }
+    }
+    function suspend() {
+      release(); cancelAnimationFrame(frame); frame = 0; lastTime = 0;
+      hoverPitch = hoverYaw = 0;
+      pitch = targetPitch; yaw = targetYaw;
+      paint();
+    }
+    function refresh() { suspend(); schedule(); }
+    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; refresh(); });
+    observer.observe(host);
+    host.addEventListener("pointerdown", down);
     host.addEventListener("pointermove", move, { passive: true });
+    host.addEventListener("pointerup", release);
+    host.addEventListener("pointercancel", release);
+    host.addEventListener("lostpointercapture", release);
     host.addEventListener("pointerleave", leave);
-    window.addEventListener("blur", leave);
-    window.addEventListener("scroll", measure, { passive: true });
+    host.addEventListener("dblclick", reset);
+    host.addEventListener("keydown", key);
+    window.addEventListener("blur", suspend);
     document.addEventListener("visibilitychange", refresh);
     media.addEventListener("change", refresh);
+    reduced.addEventListener("change", refresh);
     return () => {
-      reset();
-      observer.disconnect();
-      resize.disconnect();
+      suspend(); observer.disconnect();
+      host.removeEventListener("pointerdown", down);
       host.removeEventListener("pointermove", move);
+      host.removeEventListener("pointerup", release);
+      host.removeEventListener("pointercancel", release);
+      host.removeEventListener("lostpointercapture", release);
       host.removeEventListener("pointerleave", leave);
-      window.removeEventListener("blur", leave);
-      window.removeEventListener("scroll", measure);
+      host.removeEventListener("dblclick", reset);
+      host.removeEventListener("keydown", key);
+      window.removeEventListener("blur", suspend);
       document.removeEventListener("visibilitychange", refresh);
       media.removeEventListener("change", refresh);
+      reduced.removeEventListener("change", refresh);
     };
-  }, [active]);
+  }, [constellation, active]);
 
+  const name = isEnglish ? constellation.english : constellation.name;
+  const hint = isEnglish ? "Drag to rotate · Double-click to reset" : "拖动旋转 · 双击复位";
   return (
-    <div ref={root} className="chat-particles" aria-hidden="true" data-active={active}>
-      {[0, 1].map(side => (
-        <div className={`chat-particle-band is-${side === 0 ? "left" : "right"}`} key={side}>
-          {POINTS.map((point, index) => (
-            <span className="chat-particle" key={index} style={{
-              left: `${side === 0 ? point.x : 100 - point.x}%`,
-              top: `${side === 0 ? point.y : 100 - point.y}%`,
-              "--particle-size": `${point.size}px`,
-              opacity: point.opacity,
-            } as CSSProperties} />
-          ))}
-        </div>
-      ))}
+    <div ref={root} className="constellation-field" role="group" tabIndex={active ? 0 : -1}
+      aria-label={`${name} · ${hint}${isEnglish ? ". Arrow keys rotate; Home resets." : "。方向键旋转，Home 复位。"}`}>
+      <svg viewBox="0 0 240 160" aria-hidden="true">
+        <g className="constellation-lines">
+          {constellation.edges.map(([from, to], index) => {
+            const a = projectStar(constellation.stars[from], 0, 0), b = projectStar(constellation.stars[to], 0, 0);
+            return <line key={index} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />;
+          })}
+        </g>
+        {[...constellation.stars, ...DUST].map((point, index) => {
+          const position = projectStar(point, 0, 0);
+          const main = index < constellation.stars.length;
+          return <g key={index} className={`constellation-dot ${main ? "is-star" : "is-dust"}`} transform={`translate(${position.x} ${position.y})`}>
+            {main && <circle r={5} className="star-halo" />}
+            <circle r={main ? (index % 3 === 0 ? 1.8 : 1.35) : 0.55 + (index % 3) * 0.18} opacity={main ? 1 : 0.3 + (index % 4) * 0.12} />
+          </g>;
+        })}
+      </svg>
+      <span className="constellation-caption"><span>{name}</span><span aria-hidden="true">↔</span></span>
+      <span className="constellation-hint" aria-hidden="true">{hint}</span>
     </div>
   );
+}
+
+function ChatParticles({ active }: { active: boolean }) {
+  return <div className="chat-particles" data-active={active} aria-hidden={!active} inert={!active}>
+    {[0, 1].map(side => <div className={`chat-particle-band is-${side === 0 ? "left" : "right"}`} key={side}>
+      {CONSTELLATIONS.slice(side * 2, side * 2 + 2).map(constellation => <StarField key={constellation.name} constellation={constellation} active={active} />)}
+    </div>)}
+  </div>;
 }
 
 export default memo(ChatParticles);

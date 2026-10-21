@@ -44,7 +44,9 @@ export default function PortalHome() {
   const reveal = chatReveal(zoom);
   const chatHidden = reveal < 0.04;
   useEffect(() => {
-    if (chatHidden && chatPanel.current?.contains(document.activeElement)) viewButton.current?.focus({ preventScroll: true });
+    if (chatHidden && (chatPanel.current?.contains(document.activeElement) || document.activeElement?.closest(".chat-particles"))) {
+      viewButton.current?.focus({ preventScroll: true });
+    }
   }, [chatHidden]);
   const dialog = useRef<HTMLDialogElement>(null);
   const openButton = useRef<HTMLButtonElement>(null);
