@@ -297,6 +297,60 @@
       "visibility": "public"
     },
     {
+      "id": "lumen",
+      "slug": "lumen",
+      "name": "lumen",
+      "subtitle": "Autonomous mathematics research agent — billing and budget subsystem",
+      "role": "Team project · owned the billing and budget subsystem",
+      "period": {
+        "start": "2026.09",
+        "end": "2026.10"
+      },
+      "summary": "An agent that does mathematics research on its own: a lead splits the work among readers, real computation runs in a sandbox, and every step and its cost streams live and can be steered. I owned the layer that makes that spending accountable.",
+      "highlights": [
+        "The project (team-built): readers search arXiv, OpenAlex and the OEIS in parallel and run real computation in a network-less Docker sandbox with Python (NumPy, SymPy, NetworkX, Matplotlib). Every step and its cost streams to the browser live, and you can message a running task, stop it, or edit your last message and run it again.",
+        "I owned the server-side billing module: a wallet ledger with atomic per-task expenses, an ordered budget responsibility chain, a default per-account cap with an approval flow, Stripe test-mode top-ups with receipts, authenticated encryption for user-supplied API keys, and staff account administration with actor checks.",
+        "Why that layer matters: this agent calls models and runs computation on its own, which means it spends money on its own. A budget has to be able to refuse an action before it runs, refusals have to leave a trail, approvals have to be attributable, and ledger ownership has to survive account deletion.",
+        "Every feature commit ships with its own test file — ledger, budget chain, Stripe, key encryption, approval lifecycle and HTTP boundaries. Keeping that discipline inside a codebase someone else leads is what I took away from this project.",
+        "Attribution: the project is led by ziyangliu-666 (170 commits); I am the second contributor with 32 of about 227. Parallel scheduling, literature search and sandboxed execution were other members’ work."
+      ],
+      "metrics": [
+        {
+          "value": "32 / 227",
+          "label": "My commits / project total",
+          "qualifier": "Second contributor; scope limited to the billing module"
+        },
+        {
+          "value": "8",
+          "label": "Dedicated test files",
+          "qualifier": "Ledger, budget chain, Stripe, keys, approvals, HTTP boundaries"
+        }
+      ],
+      "links": [
+        {
+          "kind": "internal",
+          "label": "Project detail",
+          "url": "/projects/lumen",
+          "status": "active"
+        },
+        {
+          "kind": "repository",
+          "label": "GitHub",
+          "url": "https://github.com/ziyangliu-666/lumen-next",
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "TypeScript",
+        "Agents",
+        "Billing and budgets",
+        "Stripe",
+        "Authenticated encryption",
+        "Testing"
+      ],
+      "visibility": "public"
+    },
+    {
       "id": "bodycraft-oss",
       "slug": "bodycraft-oss",
       "name": "bodycraft-oss",

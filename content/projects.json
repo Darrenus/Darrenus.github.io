@@ -174,6 +174,60 @@
     "visibility": "public"
   },
   {
+    "id": "lumen",
+    "slug": "lumen",
+    "name": "lumen",
+    "subtitle": "自主数学研究智能体 · 计费与预算子系统",
+    "role": "团队项目 · 负责计费与预算子系统",
+    "period": {
+      "start": "2026.09",
+      "end": "2026.10"
+    },
+    "summary": "一个自己做数学研究的智能体：拆题给多个 reader 并行读论文、在无网络沙箱里跑真实计算，过程与花费实时可见、可干预。我负责其中让花费可核算、可审批、可追责的那一层。",
+    "highlights": [
+      "项目本体（团队）：多个 reader 并行检索 arXiv、OpenAlex 与 OEIS，在无网络的 Docker 沙箱中用 Python（NumPy、SymPy、NetworkX、Matplotlib）做真实计算；每一步与花费实时流到浏览器，可中途发消息干预、停止或改写上一条重跑。",
+      "我负责服务端 billing 模块：钱包账本与任务级原子扣费、有序预算责任链、账户默认上限与超限审批流、Stripe 测试模式充值与收据、用户自带 API key 的认证加密存储，以及带操作者校验的员工端账户管理。",
+      "为什么这层要紧：这个智能体会自己调模型、自己跑计算，也就是会自己花钱。预算必须在动作执行前就能拒绝，拒绝要留痕，审批要能追到人，账户删除后账本所有者仍需可追溯。",
+      "每个功能提交都配独立测试文件——账本、预算责任链、Stripe、密钥加密、审批生命周期、HTTP 边界各一份。在别人主导的代码库里保持这个纪律，是我从这个项目里带走的东西。",
+      "归属：项目由 ziyangliu-666 主导（170 次提交），我是第二贡献者（32 次，共约 227 次）。并行调度、文献检索与沙箱执行由其他成员负责。"
+    ],
+    "metrics": [
+      {
+        "value": "32 / 227",
+        "label": "本人提交 / 项目总提交",
+        "qualifier": "第二贡献者，范围限 billing 模块"
+      },
+      {
+        "value": "8",
+        "label": "独立测试文件",
+        "qualifier": "账本、预算链、Stripe、密钥、审批、HTTP 边界"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "项目详情",
+        "url": "/projects/lumen",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/ziyangliu-666/lumen-next",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "TypeScript",
+      "Agent",
+      "计费与预算",
+      "Stripe",
+      "认证加密",
+      "测试"
+    ],
+    "visibility": "public"
+  },
+  {
     "id": "tickwitness",
     "slug": "tickwitness",
     "name": "tickwitness",
