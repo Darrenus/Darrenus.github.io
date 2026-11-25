@@ -53,7 +53,9 @@ for(const width of [320,375,390,768,1440]) {
 console.log('Language routes, unchanged records, English copy, assets and globe callouts passed');
 
 // The approved website catalog extends the CV selection without changing it.
-const approvedAdditions = ['supplier-compare-agent', 'no-buzzwords', 'hrti'];
+const approvedAdditions = ['supplier-compare-agent', 'no-buzzwords', 'prompt-router', 'tickwitness', 'openhands-research'];
+// 2026-11-25: hrti removed and prompt-router / tickwitness / openhands-research added, per the
+// item-by-item decisions recorded in campaign-2027/11-经历与项目总表.md.
 assert.deepEqual(projectsZh.filter(p=>!zh.projects.some(cv=>cv.id===p.id)).map(p=>p.id), approvedAdditions);
 assert.deepEqual(projectsEn.map(p=>p.id), projectsZh.map(p=>p.id));
 assert.equal(new Set(projectsZh.map(p=>p.slug)).size, projectsZh.length);

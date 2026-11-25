@@ -109,7 +109,22 @@ const places: EarthPlace[] = [
     longitude: -74.01, latitude: 40.71, recordIds: [], labelSide: "left", labelRise: 0,
     reflection: { period: "2018年", visited: ["哥伦比亚大学"], note: "2018年的美国之行，让我体会到不同文化之间的差异。参访这些大学，也在心里种下了求学的种子。" },
   },
+  {
+    // KAIST 本科助教（2024.08–2025.02），与 kaist 教育点位同在大田校区；
+    // 地点相同性质不同，故分成两个点位，用 labelRise 把两条标注错开。
+    // 放在数组末尾：标注布局测试按索引生成合成坐标，插在中间会移位既有点位。
+    id: "daejeon",
+    kind: "experience",
+    label: "大田",
+    city: "大田",
+    longitude: 127.36,
+    latitude: 36.37,
+    recordIds: ["kaist-ta"],
+    labelSide: "right",
+    labelRise: 30,
+  },
 ];
+
 
 
 const englishPlaces: Record<string, Partial<EarthPlace>> = {
@@ -120,6 +135,10 @@ const englishPlaces: Record<string, Partial<EarthPlace>> = {
   "zhengzhou": {
     "label": "Zhengzhou",
     "city": "Zhengzhou"
+  },
+  "daejeon": {
+    "label": "Daejeon",
+    "city": "Daejeon"
   },
   "kaist": {
     "label": "Korea Advanced Institute of Science and Technology",

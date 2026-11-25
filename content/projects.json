@@ -84,53 +84,38 @@
     "visibility": "public"
   },
   {
-    "id": "hrti",
-    "slug": "hrti",
-    "name": "HRTI",
-    "subtitle": "人类可替代性类型指标",
-    "role": "个人交互工具",
+    "id": "prompt-router",
+    "slug": "prompt-router",
+    "name": "prompt-router",
+    "subtitle": "面向 Agent 的提示设计 skill",
+    "role": "个人开发工具",
     "period": {
-      "start": "2026",
-      "end": "2026"
+      "start": "2026.11",
+      "end": "至今"
     },
-    "summary": "一个关于工作任务的自我评估实验：用问卷梳理工作的重复性、知识特征、责任与在场要求，帮助重新审视人与 AI 的分工。",
+    "summary": "按任务、领域与模型差异组织提示设计的 skill，覆盖 Agent、搜索/广告/推荐、基础模型研究与媒体工作流四类场景。",
     "highlights": [
-      "通过 28 道题目，从任务常规性、知识可编码性、结果责任与身体在场四个维度组合出 16 种类型。",
-      "加入反向题，并将反馈闭环与议价位置作为额外观察标签，不直接改变类型划分。",
-      "使用原生 HTML、JavaScript 与 Canvas 完成问卷、浏览器内计算和结果图片生成，无需后端即可运行。",
-      "匿名遥测接口默认关闭；评估结果不是经过验证的替代概率，也不作为职业预测。"
-    ],
-    "metrics": [
-      {
-        "value": "28",
-        "label": "问卷题目",
-        "qualifier": "自我评估"
-      },
-      {
-        "value": "16",
-        "label": "结果类型",
-        "qualifier": "四个维度组合"
-      }
+      "把「这个任务该怎么写提示」拆成任务类型、领域约束与模型差异三层，而不是维护一份通用模板。",
+      "项目处于早期：目前只有初始提交，规则集与评测都还在成形，不宜当成成品工具使用。"
     ],
     "links": [
       {
         "kind": "internal",
         "label": "项目详情",
-        "url": "/projects/hrti",
+        "url": "/projects/prompt-router",
         "status": "active"
       },
       {
         "kind": "repository",
         "label": "GitHub",
-        "url": "https://github.com/Darrenus/hrti",
+        "url": "https://github.com/Darrenus/prompt-router",
         "status": "active"
       }
     ],
     "tags": [
-      "JavaScript",
-      "HTML",
-      "Canvas",
-      "Interaction Design"
+      "Skill",
+      "Prompt Engineering",
+      "Agent"
     ],
     "visibility": "public"
   },
@@ -141,26 +126,26 @@
     "subtitle": "从零构建终端编程智能体",
     "role": "个人开源项目",
     "period": {
-      "start": "2026.09",
+      "start": "2026.10",
       "end": "至今"
     },
     "summary": "不依赖智能体框架，从零实现命令行编程助手，以仓库地图、沙箱逃逸测试与 A/A 对照实验检验每个设计决策。",
     "highlights": [
-      "原生工具调用的 ReAct 主循环与七个工具；SEARCH/REPLACE 增量编辑采用四级匹配策略链，处理行尾空白与半行截断偏差。shell 由 macOS Seatbelt 策略约束，以逃逸测试验证边界。核心代码约 1,300 行，52 个测试，其中九个针对沙箱逃逸。",
+      "原生工具调用的 ReAct 主循环与七个工具；SEARCH/REPLACE 增量编辑采用四级匹配策略链，处理行尾空白与半行截断偏差。shell 由 macOS Seatbelt 策略约束，以逃逸测试验证边界。核心代码约 1,140 行，60 个测试，其中 12 个针对沙箱策略边界。",
       "仓库地图以 tree-sitter 抽取符号定义与引用，通过个性化 PageRank 为当前任务排序；用真实 Python 导入关系约束边，使边精确率从 32% 提升到 100%，且未丢失真边。通过 IDF 加权种子提取改善查询理解。",
-      "在 112 个文件的仓库上，仓库地图使任务步数下降 21%、输入 token 下降 33%；这些数字对应该实验场景，不是对所有仓库的性能承诺。",
-      "评测默认带 A/A 对照组，将效应与自身噪声并列展示，并据此撤回此前的一个结论。实测发现，在该架构下工具输出封顶后历史压缩无必要；子智能体隔离多消耗 42% 总 token，仅减少主循环上下文 22%，完成率与正确率均无改善。原始轨迹全部提交，数字可重新推导。"
+      "在 112 个文件的仓库上，仓库地图使任务步数下降 21%、输入 token 下降 33%。需要同时看噪声：A/A 对照测出输入 token 的底噪约 26%，所以 33% 只比底噪高一点，n=1 时甚至是 +6%；这个数字对应该实验场景，不是性能承诺。",
+      "评测默认带 A/A 对照组，将效应与自身噪声并列展示，并据此撤回此前的一个结论。实测发现，在该架构下工具输出封顶后历史压缩无必要；子智能体隔离多消耗 71% 总 token（委派组 184,130 对不委派组 107,466，即 1.71 倍），仅减少主循环上下文 22%，完成率与正确率均无改善。原始轨迹全部提交，数字可重新推导。"
     ],
     "metrics": [
       {
-        "value": "52",
+        "value": "60",
         "label": "自动化测试",
-        "qualifier": "含 9 项沙箱逃逸测试"
+        "qualifier": "含 12 项沙箱策略测试"
       },
       {
-        "value": "33%",
-        "label": "输入 token 降幅",
-        "qualifier": "112 文件仓库的对照实验"
+        "value": "71%",
+        "label": "子智能体多耗 token",
+        "qualifier": "换来主上下文少 22%，完成率无改善"
       }
     ],
     "links": [
@@ -189,21 +174,74 @@
     "visibility": "public"
   },
   {
+    "id": "tickwitness",
+    "slug": "tickwitness",
+    "name": "tickwitness",
+    "subtitle": "量化研究声明的可复现验证工具",
+    "role": "个人开源项目",
+    "period": {
+      "start": "2026.10",
+      "end": "至今"
+    },
+    "summary": "把一个限定范围的量化研究实验冻结下来，审计它的回放记账，再导出可被独立离线复核的证据。",
+    "highlights": [
+      "冻结研究声明、数据绑定与执行假设后才允许回放，产出的证据包可以在不装回放引擎的情况下离线复核。",
+      "协调器独占研究写权限：原始额度、重试与确认各自留痕，已提交的结论可在不重新执行的前提下复验。",
+      "当前信任边界是 M0（可信单一所有者），不执行注册的 Python 源码；M1 受限隔离尚未实现，进程监控与哈希不构成恶意代码沙箱。",
+      "README 写明两条边界：外部人工复现仍为 0 / PENDING；有界搜索没找到反例不等于稳健性证明。"
+    ],
+    "metrics": [
+      {
+        "value": "213",
+        "label": "提交",
+        "qualifier": "全部本人，活跃至 2026-11"
+      },
+      {
+        "value": "0.2.0.dev0",
+        "label": "版本",
+        "qualifier": "预发布；外部复现 0 / PENDING"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "项目详情",
+        "url": "/projects/tickwitness",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/tickwitness",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Python",
+      "CLI",
+      "SDK",
+      "可复现性",
+      "审计",
+      "量化研究"
+    ],
+    "visibility": "public"
+  },
+  {
     "id": "bodycraft-oss",
     "slug": "bodycraft-oss",
     "name": "bodycraft-oss",
     "subtitle": "多路检索引擎",
     "role": "个人开源项目",
     "period": {
-      "start": "2026.04",
-      "end": "2026.07"
+      "start": "2026.09",
+      "end": "至今"
     },
-    "summary": "文件名与路径、章节标题、SQLite FTS5、稠密向量、实体图谱五路并行召回，公开各路径得分，以排序质量和独立重复实验选择权重。",
+    "summary": "把我在上汽负责的五路检索以开源方式重写，公开每条路径的得分明细，并把权重当成可测量的排序问题而不是口味问题。设计完成，实现进行中。",
     "highlights": [
-      "五条检索路径并行运行，由四套相互独立的权重策略分别打分后按文件归并，并返回每条路径的得分明细。",
-      "将评分公式中的硬编码参数提取为可热加载配置；相关性标签取自模型实际展开的文件，属于弱监督，并记录来源以区别于人工标注。",
-      "以 NDCG 为优化目标，避免比值型指标通过压低其他路径权重而虚增；先网格搜索范围，再多轮独立运行遗传算法，通过轮次间离散程度区分提升与噪声。",
-      "索引结构、配置格式与排序指标已在 17 个测试下建成，全流程无需 API key 即可离线运行。"
+      "五条检索路径并行运行：文件名与路径、章节标题、SQLite FTS5 全文、稠密向量、实体图；结果按文件归并，并返回每条路径的得分明细。",
+      "将评分公式中的硬编码参数提取为可热加载配置，使权重可以在带标注的评测集上搜索，而不是写死在代码里。",
+      "索引结构、配置格式与排序指标（NDCG、MRR、Hit@K）已在 17 个测试下建成，全流程无需 API key 即可离线运行。",
+      "README 逐条标注 [design] 与 [built]：**benchmark 尚未运行**，所以仓库里没有任何实测排序结论。上汽原版的权重搜索方法与实测数字属于原版团队，不在本仓库范围内。"
     ],
     "metrics": [
       {
@@ -214,7 +252,7 @@
       {
         "value": "17",
         "label": "自动化测试",
-        "qualifier": "离线运行，无需 API key"
+        "qualifier": "离线运行，benchmark 未跑"
       }
     ],
     "links": [
@@ -247,17 +285,17 @@
     "slug": "spreadsheet-qa",
     "name": "内部表格问答平台",
     "subtitle": "对话式表格分析平台",
-    "role": "负责人 · 上汽内部项目",
+    "role": "后端开发 · 专利发明人（上汽团队平台）",
     "period": {
       "start": "2026.02",
-      "end": "2026.04"
+      "end": "2026.05"
     },
     "summary": "将用户对上传表格提出的自然语言问题转化为经校验的 SQL、结果表与图表；以结构化规划、白名单执行和按组织与角色的数据隔离控制执行边界。",
     "highlights": [
-      "FastAPI + SQLAlchemy 后端含 76 个模块、23,331 行代码、56 个测试文件，依赖 MySQL、Redis、MinIO 与通义千问；React 19 前端约 7,487 行，经 SSE 流式返回。上线 20+ 内部试用用户，据用户反馈估算，人均每天减少约 2 小时手工表格工作。",
-      "Planner–Executor 重构：规划器只输出意图、目标字段、动作序列、约束与失败策略等结构化计划；执行器只执行白名单动作，运行在带表级、字段级、权限级白名单的只读 SQL 层之上。",
-      "会话上下文、已生成 SQL 与图表配置持久化，使追问能承接此前轮次；数据以组织和角色为边界隔离。",
-      "合著相关专利技术交底书，2026 年 6 月申请，审查中；执行前的门控指标为 S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R，访问合规度 A 为硬性门槛。随后将核心能力重写为开源智能体运行时的原生工具，模型只看到受控的 clarify / result_table / result_chart 协议。"
+      "团队平台：FastAPI + SQLAlchemy 后端，依赖 MySQL、Redis、MinIO 与通义千问；React 前端经 SSE 流式返回。上线 20+ 内部试用用户，据用户反馈估算，人均每天减少约 2 小时手工表格工作。",
+      "我负责的范围是存储与异步链路：文件存 MinIO、表元数据存 MySQL，基于 Redis 的任务队列配合调度器与 Worker 处理导入，以及 Redis 缓存。",
+      "参与设计并实现 Planner–Executor 重构：规划器只输出意图、目标字段、动作序列、约束与失败策略等结构化计划；执行器只执行白名单动作，运行在带表级、字段级、角色级白名单的只读 SQL 层之上。重构第二阶段由团队其他成员负责。",
+      "作为发明人之一合著专利技术交底书，2026 年 6 月申请、审查中；方法的要点是执行前做门控评分，其中访问合规度为硬性门槛。随后把核心能力重写为开源智能体运行时的原生工具，模型只看到受控的 clarify / result_table / result_chart 协议。"
     ],
     "metrics": [
       {
@@ -292,6 +330,42 @@
     "detail": {
       "confidentialityNote": "内部项目使用通用公开名称，仅展示可公开的架构与成果，不提供内部代码、文档或客户数据。"
     }
+  },
+  {
+    "id": "openhands-research",
+    "slug": "openhands-research",
+    "name": "openhands-research",
+    "subtitle": "OpenHands 源码阅读笔记",
+    "role": "学习笔记",
+    "period": {
+      "start": "2026.09",
+      "end": "2026.10"
+    },
+    "summary": "系统阅读 OpenHands 这个开源 coding agent 的实现并记录笔记；上游代码以 submodule 引入，不复制他人代码。",
+    "highlights": [
+      "按模块记录其 agent 主循环、工具层与运行时沙箱的实现选择，以及这些选择解决的具体问题。",
+      "与我自己从零写的 coding agent 逐点对照，用来判断哪些做法是必要的、哪些只是惯例。"
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "项目详情",
+        "url": "/projects/openhands-research",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/openhands-research",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Coding Agent",
+      "源码阅读",
+      "沙箱"
+    ],
+    "visibility": "public"
   },
   {
     "id": "hybrid-uav",

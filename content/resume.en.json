@@ -85,29 +85,30 @@
     {
       "id": "saic-im-ai",
       "organization": "SAIC Motor",
-      "role": "AI Agent Developer · Intern",
+      "role": "AI Agent Developer · Data group lead · Intern",
       "period": {
         "start": "2026.02",
         "end": "2026.07"
       },
-      "summary": "Delivered four agents for engineering, product planning and project management teams in Shanghai, serving around 500 internal users in total.",
+      "summary": "Worked to cost-reduction briefs from engineering, product planning and project management in Shanghai from February to July 2026, and led a ~20-person data group from April.",
       "highlights": [
-        "Built agents for connector selection, competitive analysis, PRD generation and review, and black-box testing, addressing cost-reduction briefs from three departments.",
-        "Connector selection: an 8.5k-line Python system using Flask, LangChain and MongoDB. An LLM decomposes requests into exact, fuzzy and range queries across five product collections with automatic field mapping. Engineer-confirmed results become reusable knowledge-base templates. Shipped eight releases, including a dataset migration and a simpler fallback path.",
-        "Competitive analysis: an LLM-driven crawler collects public vehicle-owner reviews into MongoDB. Six chapter-level agents form a pipeline that produces a structured, evidence-backed report.",
-        "AUT: a 3.1k-line Python black-box testing tool. Playwright locates the chat interface, captures live API calls and produces replayable request templates, with manual handoff for CAPTCHA, SSO and MFA. Staged load tests stop on success-rate, error-rate and p95 thresholds; probes check prompt injection, cross-session leakage and output stability.",
-        "Measured the connector agent at 100% success and 14.2-second p95 with 20 concurrent users. At 500 concurrent users, success fell to 94.9%, with 51 of 1,000 responses empty or malformed. These measurements identify a degradation point, not a universal performance guarantee."
+        "Team lead: led the AI enablement team’s data group of about 20 from April 2026 — daily stand-ups, an owner and a product manager paired to every business request, delivery tracked through acceptance, and the team’s shared LLM budget and API keys.",
+        "Connector selection agent: in production with the vehicle-architecture team. The company’s rollout poster credits it with cutting a selection from 10–15 minutes of manual lookup, or up to 48 hours waiting on suppliers, to 2–3 minutes, across five product collections and 143 part specifications. I took over a 1.6k-line prototype and owned development through four iterations, growing it into an 8.5k-line Flask, LangChain and MongoDB system.",
+        "The decision worth describing: removing the LLM call that wrote the database query. The model only parses one sentence into exact, fuzzy and range filters on a fixed JSON schema, and the query is built by deterministic code — so a wrong answer localises immediately to either parsing or rules.",
+        "PRD review agent: multimodal input (one-liners, links, audio and video, drafts) with completeness diagnosis, Mermaid flowcharts and write-back to Feishu docs. In use on Dify, with a LangChain port beginning at handover.",
+        "Retrieval and reuse: built the five-path retrieval of BodyCraft, an engineering-document search system used by about 100 body engineers, and co-built the team’s skill-asset platform with two colleagues, designing its unified MCP calling interface.",
+        "Also contributed to the team’s conversational spreadsheet-analysis platform (see Projects), owning its backend storage and async layer and joining the patent filing as one of the inventors."
       ],
       "metrics": [
         {
-          "value": "~500",
-          "label": "Internal users",
-          "qualifier": "Across the four agents"
+          "value": "~20",
+          "label": "Data group led",
+          "qualifier": "From April 2026"
         },
         {
-          "value": "14.2 s",
-          "label": "p95 response time",
-          "qualifier": "Connector agent · 20 concurrent users"
+          "value": "2–3 min",
+          "label": "Per selection",
+          "qualifier": "From 10–15 min manual lookup or up to 48 h on suppliers (company rollout poster)"
         }
       ],
       "links": [
@@ -137,9 +138,9 @@
         "start": "2025.09",
         "end": "2026.01"
       },
-      "summary": "Built vision algorithms for a special-operations competency examination system in Zhengzhou, owning deployment across three production lines.",
+      "summary": "Built the vision models for a special-operations competency examination system in Zhengzhou, run with the municipal emergency-management bureau, owning three examination scenarios across two trades.",
       "highlights": [
-        "Worked on an examination system with the municipal emergency-management bureau. Four to five synchronized cameras assess procedural compliance and completeness. The system ran live exams every working day for over a month; I owned three production lines and defined annotation standards with the data team.",
+        "Worked on an examination system with the municipal emergency-management bureau. Four to five synchronized cameras assess procedural compliance and completeness. The system ran live exams every working day for over a month; I owned three examination scenarios across two trades and set the annotation specification with the data department.",
         "Replaced YOLO detection plus hand-written rules with graph-based scoring. YOLOv8 extracts component centres, sizes, angles and classes; assembly constraints connect them into a graph, and a graph convolutional network predicts installation and step-completion states.",
         "Models reached around 90% accuracy in internal acceptance testing. Human co-invigilation and tablet scoring provided a fallback so an algorithm failure would not interrupt an exam."
       ],
@@ -151,8 +152,8 @@
         },
         {
           "value": "3",
-          "label": "Production lines",
-          "qualifier": "Live examination deployment"
+          "label": "Examination scenarios",
+          "qualifier": "Across two trades; live exams"
         }
       ],
       "links": [
@@ -169,6 +170,24 @@
         "Industrial vision",
         "Annotation standards",
         "Fallback design"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "kaist-ta",
+      "organization": "Korea Advanced Institute of Science and Technology",
+      "role": "Undergraduate Teaching Assistant · Seasonal",
+      "period": {
+        "start": "2024.08",
+        "end": "2025.02"
+      },
+      "summary": "Served as an undergraduate teaching assistant at KAIST for seven months, from August 2024 to February 2025, on campus.",
+      "highlights": [
+        "Teaching-assistant work for an undergraduate course, supporting sessions on campus."
+      ],
+      "links": [],
+      "tags": [
+        "Teaching"
       ],
       "visibility": "public"
     },
@@ -230,26 +249,26 @@
       "subtitle": "A terminal coding agent, built from first principles",
       "role": "Independent open-source project",
       "period": {
-        "start": "2026.09",
+        "start": "2026.10",
         "end": "Present"
       },
       "summary": "A command-line coding assistant built without an agent framework. Repository maps, sandbox escape tests and A/A controls put each design decision to the test.",
       "highlights": [
-        "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests: about 1,300 lines of core code and 52 tests, including nine escape tests.",
+        "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests. About 1,140 lines of core code under 60 tests, 12 of them on sandbox policy.",
         "The repository map uses tree-sitter definitions and references to build a file graph, then personalized PageRank to rank context for the task. Constraining edges by actual Python imports raised edge precision from 32% to 100% without dropping a true edge. IDF-weighted seeds addressed query understanding.",
-        "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. These figures describe that controlled experiment, not a guarantee across repositories.",
-        "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 42% more total tokens for 22% less main-loop context, without improving completion or correctness. Committed traces make the measurements reproducible."
+        "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. Read that next to its noise: an A/A arm put the input-token noise floor at about 26%, so the 33% sits only just above it, and at n=1 the figure was +6%. It describes that controlled experiment, not a guarantee.",
+        "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 71% more total tokens (184,130 delegated against 107,466 not delegated, a 1.71x ratio) for 22% less main-loop context, with no gain in completion or correctness. Raw traces are committed."
       ],
       "metrics": [
         {
-          "value": "52",
+          "value": "60",
           "label": "Automated tests",
-          "qualifier": "Including 9 sandbox escape tests"
+          "qualifier": "12 of them on sandbox policy"
         },
         {
-          "value": "33%",
-          "label": "Fewer input tokens",
-          "qualifier": "Controlled trial · 112-file repository"
+          "value": "71%",
+          "label": "More tokens when delegating",
+          "qualifier": "For 22% less main-loop context, no gain"
         }
       ],
       "links": [
@@ -284,15 +303,15 @@
       "subtitle": "Multi-path retrieval with measured scoring weights",
       "role": "Independent open-source project",
       "period": {
-        "start": "2026.04",
-        "end": "2026.07"
+        "start": "2026.09",
+        "end": "Present"
       },
-      "summary": "Five retrieval paths, visible score breakdowns and repeatable experiments replace opaque weighting with a measurable ranking problem.",
+      "summary": "An open-source re-implementation of the five-path retrieval I built at SAIC, with per-path score breakdowns and weights treated as a measurable ranking problem rather than a matter of taste. Design complete, implementation in progress.",
       "highlights": [
-        "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Four independent weighting strategies score the results, which merge per file with per-path scores exposed.",
-        "Moves hard-coded scoring parameters into hot-reloadable configuration. Files the model actually opens provide weak relevance labels, with provenance recorded so they are not mistaken for human annotations.",
-        "Optimizes NDCG rather than ratio-style metrics that can improve by collapsing weight onto a single path while the ranking worsens. Grid search maps the space; repeated independent genetic-algorithm runs separate gains from noise.",
-        "Index schemas, configuration and ranking metrics are covered by 17 tests. The pipeline runs offline without an API key."
+        "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Results merge per file with per-path scores exposed.",
+        "Moves hard-coded scoring parameters into hot-reloadable configuration, so weights can be searched against a labelled evaluation set instead of being fixed in code.",
+        "Index schemas, configuration and ranking metrics (NDCG, MRR, Hit@K) are covered by 17 tests. The pipeline runs offline without an API key.",
+        "The README labels every claim [design] or [built]: no benchmark has run, so this repository reports no measured ranking results. The weight-search method and measured figures from the internal SAIC version belong to that team and are out of scope here."
       ],
       "metrics": [
         {
@@ -303,7 +322,7 @@
         {
           "value": "17",
           "label": "Automated tests",
-          "qualifier": "Offline · No API key required"
+          "qualifier": "Offline; no benchmark run yet"
         }
       ],
       "links": [
@@ -330,17 +349,17 @@
       "slug": "spreadsheet-qa",
       "name": "Internal spreadsheet Q&A platform",
       "subtitle": "Conversational spreadsheet analysis",
-      "role": "Project owner · SAIC internal project",
+      "role": "Backend contributor · patent co-inventor — SAIC team platform",
       "period": {
         "start": "2026.02",
-        "end": "2026.04"
+        "end": "2026.05"
       },
       "summary": "Turns natural-language questions over uploaded spreadsheets into verified SQL, result tables and charts. Structured plans, whitelisted actions and role-based isolation define what the system can execute.",
       "highlights": [
-        "A FastAPI and SQLAlchemy backend spans 76 modules, 23,331 lines and 56 test files, using MySQL, Redis, MinIO and Qwen. A 7,487-line React 19 front end streams over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated roughly two hours of manual work saved per person per day.",
-        "Refactored a fixed LLM workflow into a Planner–Executor design. The planner emits only a structured plan: intent, target fields, actions, constraints and failure policy. The executor runs whitelisted actions over read-only SQL with table, field and permission checks.",
-        "Persists session context, generated SQL and chart configuration so follow-up questions can refer to earlier turns. Data isolation follows organization and role boundaries.",
-        "Co-authored the invention disclosure, filed in June 2026 and under examination. The pre-execution gate is S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R, with access compliance A a hard gate. Later rebuilt the core as a native tool in an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
+        "A team platform: FastAPI and SQLAlchemy backend on MySQL, Redis, MinIO and Qwen, with a React front end streaming over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated about two hours of manual work saved per person per day.",
+        "My scope was the storage and async layer: uploads to MinIO with table metadata in MySQL, a Redis-backed task queue with scheduler and worker processes for ingestion, and Redis caching.",
+        "Co-designed and helped build the Planner–Executor refactor. The planner emits only a structured plan — intent, target fields, actions, constraints and failure policy; the executor runs whitelisted actions over a read-only SQL layer with table-, field- and role-level whitelists. The second phase of the refactor was led by other team members.",
+        "Co-authored the invention disclosure as one of the inventors, filed June 2026 and under examination; the method gates execution on a pre-execution score in which access compliance is a hard gate. The core was later rebuilt as a native tool inside an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
       ],
       "metrics": [
         {
@@ -479,29 +498,11 @@
   ],
   "patents": [
     {
-      "id": "patent-scaffold-perception",
-      "title": "Component perception for double-row steel-tube scaffolding using YOLOv8-OBB and graph convolutional networks",
-      "submittedAt": "2025.12",
-      "status": "under-examination",
-      "statusLabel": "Under examination",
-      "links": [],
-      "visibility": "public"
-    },
-    {
-      "id": "patent-pantograph-contact",
-      "title": "Contact recognition in pantograph maintenance using point-cloud and 2D-image fusion",
-      "submittedAt": "2025.10",
-      "status": "under-examination",
-      "statusLabel": "Under examination",
-      "links": [],
-      "visibility": "public"
-    },
-    {
       "id": "patent-auditable-spreadsheet-qa",
       "title": "An auditable planning-and-execution method and system for natural-language querying of spreadsheets",
       "submittedAt": "2026.06.08",
       "status": "under-examination",
-      "statusLabel": "Second inventor · Filed and accepted · Under examination · Not yet published",
+      "statusLabel": "Co-inventor · filed and under examination, not yet published",
       "links": [],
       "visibility": "public"
     }

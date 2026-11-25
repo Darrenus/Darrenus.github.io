@@ -84,53 +84,38 @@
     "visibility": "public"
   },
   {
-    "id": "hrti",
-    "slug": "hrti",
-    "name": "HRTI",
-    "subtitle": "Human Replaceability Type Indicator",
-    "role": "Personal interactive tool",
+    "id": "prompt-router",
+    "slug": "prompt-router",
+    "name": "prompt-router",
+    "subtitle": "A prompt-design skill for agents",
+    "role": "Personal developer tool",
     "period": {
-      "start": "2026",
-      "end": "2026"
+      "start": "2026.11",
+      "end": "Present"
     },
-    "summary": "A self-assessment experiment about work tasks. It examines routine, knowledge, responsibility and physical presence to help people reflect on the division of work between humans and AI.",
+    "summary": "A task-, domain- and model-aware prompt-design skill, covering agents, search/ads/recommendation, foundation-model research and media workflows.",
     "highlights": [
-      "Uses 28 questions across four axes: task routine, knowledge codifiability, responsibility for consequences, and embodied presence. Their combinations produce 16 types.",
-      "Includes reverse-scored questions, with feedback loops and bargaining position recorded as additional labels rather than determinants of the type.",
-      "Built with native HTML, JavaScript and Canvas. The questionnaire, scoring and result-image generation run in the browser without a backend.",
-      "Anonymous telemetry is disabled by default. Results are not validated probabilities of replacement or career predictions."
-    ],
-    "metrics": [
-      {
-        "value": "28",
-        "label": "Questions",
-        "qualifier": "Self-assessment"
-      },
-      {
-        "value": "16",
-        "label": "Result types",
-        "qualifier": "Four-axis combinations"
-      }
+      "Separates \"how should this prompt be written\" into three layers — task type, domain constraints and model differences — rather than maintaining one general template.",
+      "Early stage: only the initial commit exists so far, with the rule set and its evaluation still taking shape. Not yet a finished tool."
     ],
     "links": [
       {
         "kind": "internal",
-        "label": "Project details",
-        "url": "/projects/hrti",
+        "label": "Project detail",
+        "url": "/projects/prompt-router",
         "status": "active"
       },
       {
         "kind": "repository",
         "label": "GitHub",
-        "url": "https://github.com/Darrenus/hrti",
+        "url": "https://github.com/Darrenus/prompt-router",
         "status": "active"
       }
     ],
     "tags": [
-      "JavaScript",
-      "HTML",
-      "Canvas",
-      "Interaction Design"
+      "Skill",
+      "Prompt engineering",
+      "Agents"
     ],
     "visibility": "public"
   },
@@ -141,26 +126,26 @@
     "subtitle": "A terminal coding agent, built from first principles",
     "role": "Independent open-source project",
     "period": {
-      "start": "2026.09",
+      "start": "2026.10",
       "end": "Present"
     },
     "summary": "A command-line coding assistant built without an agent framework. Repository maps, sandbox escape tests and A/A controls put each design decision to the test.",
     "highlights": [
-      "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests: about 1,300 lines of core code and 52 tests, including nine escape tests.",
+      "A native tool-calling ReAct loop with seven tools. SEARCH/REPLACE editing uses a four-tier matching chain to handle whitespace and partial-line drift. Shell commands run inside macOS Seatbelt, with boundaries verified by escape tests. About 1,140 lines of core code under 60 tests, 12 of them on sandbox policy.",
       "The repository map uses tree-sitter definitions and references to build a file graph, then personalized PageRank to rank context for the task. Constraining edges by actual Python imports raised edge precision from 32% to 100% without dropping a true edge. IDF-weighted seeds addressed query understanding.",
-      "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. These figures describe that controlled experiment, not a guarantee across repositories.",
-      "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 42% more total tokens for 22% less main-loop context, without improving completion or correctness. Committed traces make the measurements reproducible."
+      "On a 112-file repository, the map reduced task steps by 21% and input tokens by 33%. Read that next to its noise: an A/A arm put the input-token noise floor at about 26%, so the 33% sits only just above it, and at n=1 the figure was +6%. It describes that controlled experiment, not a guarantee.",
+      "The evaluation harness runs an A/A arm by default, putting effects beside their noise floor; this led me to retract an earlier claim. In this architecture, output caps made history compression unnecessary. Sub-agent isolation used 71% more total tokens (184,130 delegated against 107,466 not delegated, a 1.71x ratio) for 22% less main-loop context, with no gain in completion or correctness. Raw traces are committed."
     ],
     "metrics": [
       {
-        "value": "52",
+        "value": "60",
         "label": "Automated tests",
-        "qualifier": "Including 9 sandbox escape tests"
+        "qualifier": "12 of them on sandbox policy"
       },
       {
-        "value": "33%",
-        "label": "Fewer input tokens",
-        "qualifier": "Controlled trial · 112-file repository"
+        "value": "71%",
+        "label": "More tokens when delegating",
+        "qualifier": "For 22% less main-loop context, no gain"
       }
     ],
     "links": [
@@ -189,21 +174,74 @@
     "visibility": "public"
   },
   {
+    "id": "tickwitness",
+    "slug": "tickwitness",
+    "name": "tickwitness",
+    "subtitle": "Reproducible verification for quantitative research claims",
+    "role": "Independent open-source project",
+    "period": {
+      "start": "2026.10",
+      "end": "Present"
+    },
+    "summary": "Freeze a scoped quantitative research experiment, audit its replay accounting, and export independently verifiable evidence.",
+    "highlights": [
+      "A research claim, its data binding and its execution assumptions are frozen before any replay is allowed, and the resulting evidence bundle can be re-audited offline without installing the replay engine.",
+      "The coordinator holds sole research-write authority: original budgets, retries and acknowledgements each leave a trail, and committed outcomes can be reverified without re-execution.",
+      "The current trust boundary is M0, a trusted single owner; registered Python source is not executed. M1 restricted isolation is unimplemented, and process supervision and hashes do not constitute a malicious-code sandbox.",
+      "The README states two limits plainly: external human reproduction stands at 0 / PENDING, and a bounded search that finds no counterexample is not a proof of robustness."
+    ],
+    "metrics": [
+      {
+        "value": "213",
+        "label": "Commits",
+        "qualifier": "All my own; active through Nov 2026"
+      },
+      {
+        "value": "0.2.0.dev0",
+        "label": "Version",
+        "qualifier": "Pre-release; external reproduction 0 / PENDING"
+      }
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project detail",
+        "url": "/projects/tickwitness",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/tickwitness",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Python",
+      "CLI",
+      "SDK",
+      "Reproducibility",
+      "Auditing",
+      "Quant research"
+    ],
+    "visibility": "public"
+  },
+  {
     "id": "bodycraft-oss",
     "slug": "bodycraft-oss",
     "name": "bodycraft-oss",
     "subtitle": "Multi-path retrieval with measured scoring weights",
     "role": "Independent open-source project",
     "period": {
-      "start": "2026.04",
-      "end": "2026.07"
+      "start": "2026.09",
+      "end": "Present"
     },
-    "summary": "Five retrieval paths, visible score breakdowns and repeatable experiments replace opaque weighting with a measurable ranking problem.",
+    "summary": "An open-source re-implementation of the five-path retrieval I built at SAIC, with per-path score breakdowns and weights treated as a measurable ranking problem rather than a matter of taste. Design complete, implementation in progress.",
     "highlights": [
-      "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Four independent weighting strategies score the results, which merge per file with per-path scores exposed.",
-      "Moves hard-coded scoring parameters into hot-reloadable configuration. Files the model actually opens provide weak relevance labels, with provenance recorded so they are not mistaken for human annotations.",
-      "Optimizes NDCG rather than ratio-style metrics that can improve by collapsing weight onto a single path while the ranking worsens. Grid search maps the space; repeated independent genetic-algorithm runs separate gains from noise.",
-      "Index schemas, configuration and ranking metrics are covered by 17 tests. The pipeline runs offline without an API key."
+      "Runs filename and path, section title, SQLite FTS5, dense-vector and entity-graph retrieval in parallel. Results merge per file with per-path scores exposed.",
+      "Moves hard-coded scoring parameters into hot-reloadable configuration, so weights can be searched against a labelled evaluation set instead of being fixed in code.",
+      "Index schemas, configuration and ranking metrics (NDCG, MRR, Hit@K) are covered by 17 tests. The pipeline runs offline without an API key.",
+      "The README labels every claim [design] or [built]: no benchmark has run, so this repository reports no measured ranking results. The weight-search method and measured figures from the internal SAIC version belong to that team and are out of scope here."
     ],
     "metrics": [
       {
@@ -214,7 +252,7 @@
       {
         "value": "17",
         "label": "Automated tests",
-        "qualifier": "Offline · No API key required"
+        "qualifier": "Offline; no benchmark run yet"
       }
     ],
     "links": [
@@ -247,17 +285,17 @@
     "slug": "spreadsheet-qa",
     "name": "Internal spreadsheet Q&A platform",
     "subtitle": "Conversational spreadsheet analysis",
-    "role": "Project owner · SAIC internal project",
+    "role": "Backend contributor · patent co-inventor — SAIC team platform",
     "period": {
       "start": "2026.02",
-      "end": "2026.04"
+      "end": "2026.05"
     },
     "summary": "Turns natural-language questions over uploaded spreadsheets into verified SQL, result tables and charts. Structured plans, whitelisted actions and role-based isolation define what the system can execute.",
     "highlights": [
-      "A FastAPI and SQLAlchemy backend spans 76 modules, 23,331 lines and 56 test files, using MySQL, Redis, MinIO and Qwen. A 7,487-line React 19 front end streams over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated roughly two hours of manual work saved per person per day.",
-      "Refactored a fixed LLM workflow into a Planner–Executor design. The planner emits only a structured plan: intent, target fields, actions, constraints and failure policy. The executor runs whitelisted actions over read-only SQL with table, field and permission checks.",
-      "Persists session context, generated SQL and chart configuration so follow-up questions can refer to earlier turns. Data isolation follows organization and role boundaries.",
-      "Co-authored the invention disclosure, filed in June 2026 and under examination. The pre-execution gate is S = 0.35F + 0.25A + 0.20C + 0.10P + 0.10R, with access compliance A a hard gate. Later rebuilt the core as a native tool in an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
+      "A team platform: FastAPI and SQLAlchemy backend on MySQL, Redis, MinIO and Qwen, with a React front end streaming over SSE. Rolled out to 20+ internal pilot users, whose trial feedback estimated about two hours of manual work saved per person per day.",
+      "My scope was the storage and async layer: uploads to MinIO with table metadata in MySQL, a Redis-backed task queue with scheduler and worker processes for ingestion, and Redis caching.",
+      "Co-designed and helped build the Planner–Executor refactor. The planner emits only a structured plan — intent, target fields, actions, constraints and failure policy; the executor runs whitelisted actions over a read-only SQL layer with table-, field- and role-level whitelists. The second phase of the refactor was led by other team members.",
+      "Co-authored the invention disclosure as one of the inventors, filed June 2026 and under examination; the method gates execution on a pre-execution score in which access compliance is a hard gate. The core was later rebuilt as a native tool inside an open-source agent runtime, exposing only a controlled clarify / result_table / result_chart protocol."
     ],
     "metrics": [
       {
@@ -292,6 +330,42 @@
     "detail": {
       "confidentialityNote": "This internal project is described under a generic public name. Only approved architecture and results are shown; internal code, documents and customer data are not published."
     }
+  },
+  {
+    "id": "openhands-research",
+    "slug": "openhands-research",
+    "name": "openhands-research",
+    "subtitle": "Reading notes on the OpenHands implementation",
+    "role": "Study notes",
+    "period": {
+      "start": "2026.09",
+      "end": "2026.10"
+    },
+    "summary": "Systematic notes from reading the OpenHands open-source coding agent. Upstream code is pulled in as a submodule rather than copied.",
+    "highlights": [
+      "Module-by-module notes on its agent loop, tool layer and runtime sandbox, and on the specific problems each choice solves.",
+      "Compared point by point against the coding agent I wrote from scratch, to tell which practices are necessary and which are merely conventional."
+    ],
+    "links": [
+      {
+        "kind": "internal",
+        "label": "Project detail",
+        "url": "/projects/openhands-research",
+        "status": "active"
+      },
+      {
+        "kind": "repository",
+        "label": "GitHub",
+        "url": "https://github.com/Darrenus/openhands-research",
+        "status": "active"
+      }
+    ],
+    "tags": [
+      "Coding agents",
+      "Source reading",
+      "Sandboxing"
+    ],
+    "visibility": "public"
   },
   {
     "id": "hybrid-uav",
